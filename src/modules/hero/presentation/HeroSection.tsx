@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { TrendingEstrenos } from '@/modules/catalog/presentation/components/TrendingEstrenos';
 import videoSource from '../../../../resources/All Streaming Services Originals Intro Effects.mp4';
@@ -13,6 +13,13 @@ const MARQUEE_BRANDS = [
 ];
 
 export const HeroSection: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.currentTime >= 51) {
+      videoRef.current.currentTime = 0;
+    }
+  };
 
   return (
     <section className="relative pt-8 pb-0 overflow-hidden bg-[#F8FAFC]">
@@ -32,12 +39,13 @@ export const HeroSection: React.FC = () => {
         <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden bg-black border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.12)]">
           <div className="aspect-[21/9] w-full overflow-hidden relative bg-black rounded-3xl">
             <video
+              ref={videoRef}
               src={videoSource}
               autoPlay
-              loop
               muted
               playsInline
               preload="auto"
+              onTimeUpdate={handleTimeUpdate}
               className="w-full h-full object-cover rounded-3xl bg-black"
             />
           </div>
