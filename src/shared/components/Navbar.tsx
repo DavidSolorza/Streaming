@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { MessageCircle, ShoppingBag, ShieldCheck } from 'lucide-react';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { AdminRepository } from '@/modules/admin/infrastructure/adminRepository';
+import { PaymentConfig } from '@/modules/admin/domain/entities/AdminConfig';
 import { eventBus } from '@/core/bus/eventBus';
 
 export const Navbar: React.FC = () => {
   const totalItems = useCartStore(state => state.items.reduce((sum, i) => sum + i.quantity, 0));
-  const [whatsappPhone, setWhatsappPhone] = useState<string>(() => AdminRepository.getPaymentConfig().whatsappNumber);
+  const [config, setConfig] = useState<PaymentConfig>(() => AdminRepository.getPaymentConfig());
 
   useEffect(() => {
     const unsub = eventBus.on('ADMIN:CONFIG_CHANGED', (newConfig) => {
-      setWhatsappPhone(newConfig.whatsappNumber);
+      setConfig(newConfig);
     });
     return unsub;
   }, []);
@@ -23,7 +24,7 @@ export const Navbar: React.FC = () => {
     window.location.hash = '#admin';
   };
 
-  const cleanPhone = whatsappPhone.replace(/\D/g, '');
+  const cleanPhone = config.whatsappNumber.replace(/\D/g, '');
 
   return (
     <header className="sticky top-3 z-40 mx-4 max-w-7xl md:mx-auto transition-all">
@@ -39,12 +40,12 @@ export const Navbar: React.FC = () => {
             }
           }}
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 text-white font-extrabold text-sm">
-            4S
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 text-white font-extrabold text-sm uppercase">
+            {config.storeName.substring(0, 2) || '4S'}
           </div>
           <div>
-            <span className="font-extrabold text-base tracking-tight text-slate-900 block leading-none">Cuentas Stream</span>
-            <span className="text-[9px] text-blue-700 font-bold uppercase tracking-wider block mt-0.5">Multiplataformas</span>
+            <span className="font-extrabold text-base tracking-tight text-slate-900 block leading-none">{config.storeName}</span>
+            <span className="text-[9px] text-blue-700 font-bold uppercase tracking-wider block mt-0.5">{config.storeSubtitle}</span>
           </div>
         </div>
 

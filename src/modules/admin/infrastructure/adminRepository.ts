@@ -6,6 +6,9 @@ const ADMIN_PASS_KEY = 'cuentas_stream_admin_pass_v1';
 const ADMIN_SESSION_KEY = 'cuentas_stream_admin_session';
 
 export const defaultPaymentConfig: PaymentConfig = {
+  storeName: 'Cuentas Stream',
+  storeSubtitle: 'Multiplataformas',
+  announcementText: '⚡ ENTREGAS INMEDIATAS LAS 24 HORAS EN TODOS LOS SERVICIOS DE STREAMING - SOPORTE 100% GARANTIZADO',
   whatsappNumber: '573214465418',
   nequiNumber: '321 446 5418',
   nequiHolder: 'David Solorza',

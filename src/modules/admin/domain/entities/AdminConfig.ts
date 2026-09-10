@@ -1,4 +1,7 @@
 export interface PaymentConfig {
+  storeName: string;
+  storeSubtitle: string;
+  announcementText: string;
   whatsappNumber: string;
   nequiNumber: string;
   nequiHolder: string;
