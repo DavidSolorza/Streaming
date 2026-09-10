@@ -60,34 +60,19 @@ export const HeroSection: React.FC = () => {
         </div>
 
         {/* Widescreen Video Frame Limpio */}
-        <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden bg-slate-900 border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.12)]">
-          <div className="aspect-[21/9] w-full overflow-hidden relative">
+        <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden bg-black border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.12)]">
+          <div className="aspect-[21/9] w-full overflow-hidden relative bg-black">
             <video
               src={videoSource}
               autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
-              className="w-full h-full object-cover rounded-3xl"
+              preload="auto"
+              style={{ backgroundColor: '#000000' }}
+              className="w-full h-full object-cover rounded-3xl bg-black"
             />
           </div>
-        </div>
-
-        {/* Botones de Acción Debajo del Video */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button variant="primary" size="lg" onClick={scrollToCatalog}>
-            <span className="flex items-center gap-2 font-black">
-              <Zap className="w-4 h-4 text-white fill-white" />
-              Ver Planes y Precios
-            </span>
-          </Button>
-          <Button variant="secondary" size="lg" onClick={scrollToCatalog}>
-            <span className="flex items-center gap-2 font-black">
-              <Zap className="w-4 h-4 text-amber-500 fill-amber-400" />
-              Arma tu Paquete
-            </span>
-          </Button>
         </div>
 
         {/* Carrusel "ESTRENOS DEL MES EN TENDENCIA" */}
