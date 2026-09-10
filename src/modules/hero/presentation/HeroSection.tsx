@@ -25,12 +25,12 @@ export const HeroSection: React.FC = () => {
     <section className="relative pt-8 pb-0 overflow-hidden bg-[#F8FAFC]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Título Principal Idéntico al Mockup */}
+        {/* Título Principal Opción B */}
         <div className="text-center max-w-4xl mx-auto mb-8">
           <h1 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-tight">
-            Tus plataformas favoritas al{' '}
+            Todo lo que quieres ver,{' '}
             <span className="text-blue-600 block sm:inline">
-              mejor precio de Colombia
+              en un solo lugar y al instante.
             </span>
           </h1>
         </div>
