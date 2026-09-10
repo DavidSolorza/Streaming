@@ -1,8 +1,34 @@
 import React from 'react';
-import { Zap, ShieldCheck, Star, ShoppingBag, Flame, Lock, CreditCard, MessageCircle } from 'lucide-react';
+import { Icon } from '@iconify/react';
+import { Flame, Zap, Layers } from 'lucide-react';
 import { Button } from '@/shared/components/Button';
-import { Badge } from '@/shared/components/Badge';
 import videoSource from '../../../../resources/All Streaming Services Originals Intro Effects.mp4';
+
+interface PremiereItem {
+  id: string;
+  title: string;
+  platform: string;
+  icon: string;
+  searchTag: string;
+}
+
+const PREMIERES: PremiereItem[] = [
+  { id: '1', title: 'La Casa del Dragón', platform: 'Disponible en Max', icon: 'simple-icons:max', searchTag: 'max' },
+  { id: '2', title: 'Stranger Things 5', platform: 'Disponible en Netflix', icon: 'logos:netflix-icon', searchTag: 'netflix' },
+  { id: '3', title: 'Deadpool & Wolverine', platform: 'Disponible en Disney+', icon: 'logos:disney-plus', searchTag: 'disney' },
+  { id: '4', title: 'The Boys T4', platform: 'Disponible en Prime Video', icon: 'simple-icons:amazonprime', searchTag: 'prime' },
+  { id: '5', title: 'Champions League ESPN', platform: 'Disponible en Disney+', icon: 'logos:disney-plus', searchTag: 'espn' },
+  { id: '6', title: 'Dragon Ball DAIMA', platform: 'Disponible en Crunchyroll', icon: 'simple-icons:crunchyroll', searchTag: 'crunchyroll' },
+];
+
+const MARQUEE_BRANDS = [
+  { name: 'DISNEY+', color: 'text-sky-600', icon: 'logos:disney-plus' },
+  { name: 'PRIME VIDEO', color: 'text-cyan-600', icon: 'simple-icons:amazonprime' },
+  { name: 'CRUNCHYROLL', color: 'text-orange-500', icon: 'simple-icons:crunchyroll' },
+  { name: 'SPOTIFY', color: 'text-emerald-600', icon: 'logos:spotify-icon' },
+  { name: 'NETFLIX', color: 'text-red-600', icon: 'logos:netflix-icon' },
+  { name: 'MAX (HBO)', color: 'text-blue-600', icon: 'simple-icons:max' },
+];
 
 export const HeroSection: React.FC = () => {
   const scrollToCatalog = () => {
@@ -19,48 +45,30 @@ export const HeroSection: React.FC = () => {
     }
   };
 
+  const handlePremiereClick = (tag: string) => {
+    const catalogEl = document.getElementById('catalog');
+    if (catalogEl) {
+      catalogEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="relative pt-6 pb-12 overflow-hidden bg-[#F8FAFC]">
+    <section className="relative pt-8 pb-0 overflow-hidden bg-[#F8FAFC]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header Text & Badges con Lucide Icons */}
-        <div className="text-center max-w-3xl mx-auto mb-8 space-y-4">
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="emerald">
-              <span className="flex items-center gap-1">
-                <Zap className="w-3.5 h-3.5 text-emerald-600" />
-                Entrega Automática Inmediata
-              </span>
-            </Badge>
-            <Badge variant="blue">
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
-                Cuentas 100% Garantizadas
-              </span>
-            </Badge>
-            <Badge variant="neutral">
-              <span className="flex items-center gap-1">
-                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
-                4.9/5 Reputación
-              </span>
-            </Badge>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Plataformas de Streaming Premium al{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-emerald-600">
-              Mejor Precio de Colombia
+        {/* Título Principal Idéntico al Mockup */}
+        <div className="text-center max-w-4xl mx-auto mb-8">
+          <h1 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+            Tus plataformas favoritas al{' '}
+            <span className="text-blue-600 block sm:inline">
+              mejor precio de Colombia
             </span>
           </h1>
-
-          <p className="text-slate-600 text-sm sm:text-base font-medium max-w-2xl mx-auto">
-            Disfruta de Netflix, Disney+, Max, Prime Video, Spotify y Paramount+ con entrega inmediata a tu WhatsApp. Sin cláusulas ni tarjetas internacionales.
-          </p>
         </div>
 
-        {/* Hero Widescreen Video Frame Limpio */}
-        <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden bg-slate-900 border border-slate-900/[0.08] shadow-[0_10px_30px_-5px_rgba(15,23,42,0.08)]">
-          <div className="aspect-[21/9] sm:aspect-[21/9] w-full overflow-hidden relative">
+        {/* Widescreen Video Frame Limpio */}
+        <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden bg-slate-900 border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.12)]">
+          <div className="aspect-[21/9] w-full overflow-hidden relative">
             <video
               src={videoSource}
               autoPlay
@@ -73,57 +81,70 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Botones Estratégicos Debajo del Video */}
+        {/* Botones de Acción Debajo del Video */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button variant="primary" size="lg" onClick={scrollToCatalog}>
-            <span className="flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4" />
-              Explorar Catálogo de Cuentas
+            <span className="flex items-center gap-2 font-black">
+              <Zap className="w-4 h-4 text-white fill-white" />
+              Ver Planes y Precios
             </span>
           </Button>
           <Button variant="secondary" size="lg" onClick={scrollToCombos}>
-            <span className="flex items-center gap-2">
-              <Flame className="w-4 h-4 text-amber-500" />
-              Ver Combos con Descuento
+            <span className="flex items-center gap-2 font-black">
+              <Zap className="w-4 h-4 text-amber-500 fill-amber-400" />
+              Arma tu Paquete
             </span>
           </Button>
         </div>
 
-        {/* Feature Badges Grid */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white border border-slate-900/[0.08] p-4 rounded-2xl text-center shadow-sm flex flex-col items-center">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
-              <Zap className="w-5 h-5" />
+        {/* Carrusel "ESTRENOS DEL MES EN TENDENCIA" */}
+        <div id="premieres" className="mt-12 mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-800">
+              <Flame className="w-4 h-4 text-amber-500 fill-amber-400" />
+              <span>Estrenos del Mes en Tendencia</span>
             </div>
-            <h4 className="text-xs font-black text-slate-900">Activación Express</h4>
-            <p className="text-[11px] text-slate-500 font-medium">Recibe tu cuenta en menos de 5 min</p>
+            <span className="text-[11px] font-bold text-slate-400">Haz clic para filtrar</span>
           </div>
 
-          <div className="bg-white border border-slate-900/[0.08] p-4 rounded-2xl text-center shadow-sm flex flex-col items-center">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
-              <Lock className="w-5 h-5" />
-            </div>
-            <h4 className="text-xs font-black text-slate-900">Garantía Total</h4>
-            <p className="text-[11px] text-slate-500 font-medium">Soporte y reemplazo inmediato</p>
-          </div>
-
-          <div className="bg-white border border-slate-900/[0.08] p-4 rounded-2xl text-center shadow-sm flex flex-col items-center">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2">
-              <CreditCard className="w-5 h-5" />
-            </div>
-            <h4 className="text-xs font-black text-slate-900">Nequi & Daviplata</h4>
-            <p className="text-[11px] text-slate-500 font-medium">Pagos locales en pesos colombianos</p>
-          </div>
-
-          <div className="bg-white border border-slate-900/[0.08] p-4 rounded-2xl text-center shadow-sm flex flex-col items-center">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-2">
-              <MessageCircle className="w-5 h-5" />
-            </div>
-            <h4 className="text-xs font-black text-slate-900">Atención WhatsApp</h4>
-            <p className="text-[11px] text-slate-500 font-medium">Asistencia personal 7 días a la semana</p>
+          <div className="flex gap-3 overflow-x-auto pb-3 pt-1 no-scrollbar scroll-smooth">
+            {PREMIERES.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handlePremiereClick(item.searchTag)}
+                className="bg-white border border-slate-900/[0.08] rounded-2xl p-3 shadow-sm hover:shadow-md hover:border-blue-500 transition-all flex items-center gap-3 shrink-0 min-w-[210px] text-left group"
+              >
+                <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-900/[0.06] flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                  <Icon icon={item.icon} className="w-5 h-5" />
+                </div>
+                <div className="overflow-hidden">
+                  <h4 className="text-xs font-black text-slate-900 truncate group-hover:text-blue-700 transition">
+                    {item.title}
+                  </h4>
+                  <span className="text-[10px] font-semibold text-slate-400 block truncate">
+                    {item.platform}
+                  </span>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
 
+      </div>
+
+      {/* Ticker Infinito de Marcas (Full Width al Fondo del Hero) */}
+      <div className="w-full bg-white border-y border-slate-900/[0.08] py-4 overflow-hidden shadow-xs mt-6">
+        <div className="animate-marquee flex items-center gap-8 text-xs font-black uppercase tracking-widest whitespace-nowrap">
+          {[...MARQUEE_BRANDS, ...MARQUEE_BRANDS, ...MARQUEE_BRANDS, ...MARQUEE_BRANDS].map((brand, i) => (
+            <div key={i} className="flex items-center gap-8 shrink-0">
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-2">
+                <Icon icon={brand.icon} className="w-4 h-4" />
+                <span className={brand.color}>{brand.name}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

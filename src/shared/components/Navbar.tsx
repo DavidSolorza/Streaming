@@ -18,8 +18,8 @@ export const Navbar: React.FC = () => {
           className="flex items-center space-x-3 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 text-white">
-            <Tv className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 text-white font-extrabold text-sm">
+            4S
           </div>
           <div>
             <span className="font-extrabold text-base tracking-tight text-slate-900 block leading-none">Cuentas Stream</span>
@@ -27,9 +27,10 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Menú Central */}
+        {/* Menú Central Identico al Mockup */}
         <nav className="hidden md:flex items-center space-x-8 text-xs font-bold text-slate-600">
           <a href="#catalog" className="hover:text-blue-700 transition">Catálogo</a>
+          <a href="#premieres" className="hover:text-blue-700 transition">Estrenos</a>
           <a href="#combos" className="hover:text-blue-700 transition">Arma tu Combo</a>
           <a href="#faq" className="hover:text-blue-700 transition">Garantía & FAQ</a>
         </nav>
