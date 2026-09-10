@@ -8,14 +8,14 @@ interface TrendingEstrenosProps {
 }
 
 export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlatform }) => {
-  const [estrenos, setEstrenos] = useState<TrendingItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [estrenos, setEstrenos] = useState<TrendingItem[]>(() => TrendingRepository.getInitialData());
+  const [loading, setLoading] = useState<boolean>(() => estrenos.length === 0);
 
   useEffect(() => {
     let isMounted = true;
 
     TrendingRepository.getTrending().then((data) => {
-      if (isMounted) {
+      if (isMounted && data && data.length > 0) {
         setEstrenos(data);
         setLoading(false);
       }

@@ -73,15 +73,30 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
 ];
 
 export class TrendingRepository {
-  static async getTrending(): Promise<TrendingItem[]> {
-    // Limpiar claves de caché antiguas si existen
+  /**
+   * Obtiene datos iniciales de forma SÍNCRONA para 0ms de retardo al cargar la página
+   */
+  static getInitialData(): TrendingItem[] {
     try {
-      localStorage.removeItem('trending_estrenos_cache');
-      localStorage.removeItem('trending_estrenos_timestamp');
-    } catch (e) {
-      // Ignorar errores de limpieza
-    }
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
 
+      if (cachedData && cachedTime) {
+        const isStillFresh = Date.now() - parseInt(cachedTime, 10) < ONE_DAY_MS;
+        if (isStillFresh) {
+          const parsed: TrendingItem[] = JSON.parse(cachedData);
+          if (Array.isArray(parsed) && parsed.length >= 4) {
+            return parsed;
+          }
+        }
+      }
+    } catch (e) {
+      // Ignorar errores
+    }
+    return FALLBACK_ESTRENOS;
+  }
+
+  static async getTrending(): Promise<TrendingItem[]> {
     // 1. Revisar si tenemos datos frescos en caché v2 (< 24 horas)
     try {
       const cachedData = localStorage.getItem(CACHE_KEY);

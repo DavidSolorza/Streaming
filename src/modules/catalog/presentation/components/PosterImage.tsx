@@ -17,6 +17,12 @@ export const PosterImage: React.FC<PosterImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
+  const handleImageRef = (img: HTMLImageElement | null) => {
+    if (img && img.complete && img.naturalWidth > 0 && !isLoaded) {
+      setIsLoaded(true);
+    }
+  };
+
   if (hasError || !src) {
     return (
       <div className={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-slate-800 to-slate-950 p-4 text-center ${className}`}>
@@ -36,12 +42,13 @@ export const PosterImage: React.FC<PosterImageProps> = ({
         </div>
       )}
       <img
+        ref={handleImageRef}
         src={src}
         alt={alt}
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
-        loading="lazy"
-        className={`w-full h-full object-cover transition-all duration-500 ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} ${className}`}
+        loading="eager"
+        className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className}`}
       />
     </div>
   );
