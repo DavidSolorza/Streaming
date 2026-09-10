@@ -1,0 +1,2875 @@
+[
+  {
+    "id": 1,
+    "name": "Netflix único",
+    "brand": "Netflix",
+    "category": "cine",
+    "brandGlow": "brand-glow-netflix",
+    "iconName": "logos:netflix-icon",
+    "logoBg": "bg-red-500/10 text-red-500 border-red-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "netflix único",
+      "netflix",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 29000,
+          "3m": 78000,
+          "6m": 145000
+        },
+        "regularPrices": {
+          "1m": 39000,
+          "3m": 116000,
+          "6m": 217000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 66000,
+          "3m": 174000,
+          "6m": 319000
+        },
+        "regularPrices": {
+          "1m": 101000,
+          "3m": 246000,
+          "6m": 435000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Netflix original",
+    "brand": "Netflix",
+    "category": "cine",
+    "brandGlow": "brand-glow-netflix",
+    "iconName": "logos:netflix-icon",
+    "logoBg": "bg-red-500/10 text-red-500 border-red-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "netflix original",
+      "netflix",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 17000,
+          "3m": 45000,
+          "6m": 85000
+        },
+        "regularPrices": {
+          "1m": 27000,
+          "3m": 68000,
+          "6m": 127000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 39000,
+          "3m": 102000,
+          "6m": 187000
+        },
+        "regularPrices": {
+          "1m": 59000,
+          "3m": 144000,
+          "6m": 255000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Disney premium",
+    "brand": "Disney+",
+    "category": "cine",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-sky-500/10 text-sky-400 border-sky-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "disney premium",
+      "disney+",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 16000,
+          "3m": 43000,
+          "6m": 80000
+        },
+        "regularPrices": {
+          "1m": 26000,
+          "3m": 64000,
+          "6m": 120000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 36000,
+          "3m": 96000,
+          "6m": 176000
+        },
+        "regularPrices": {
+          "1m": 56000,
+          "3m": 136000,
+          "6m": 240000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Max",
+    "brand": "Max",
+    "category": "cine",
+    "brandGlow": "brand-glow-max",
+    "iconName": "simple-icons:max",
+    "logoBg": "bg-blue-600/10 text-blue-500 border-blue-600/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "max",
+      "max",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 10000,
+          "3m": 27000,
+          "6m": 50000
+        },
+        "regularPrices": {
+          "1m": 20000,
+          "3m": 40000,
+          "6m": 75000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 23000,
+          "3m": 60000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 35000,
+          "3m": 85000,
+          "6m": 150000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Prime video",
+    "brand": "Prime Video",
+    "category": "cine",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:amazonprime",
+    "logoBg": "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "prime video",
+      "prime video",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 11000,
+          "3m": 29000,
+          "6m": 55000
+        },
+        "regularPrices": {
+          "1m": 21000,
+          "3m": 44000,
+          "6m": 82000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 25000,
+          "3m": 66000,
+          "6m": 121000
+        },
+        "regularPrices": {
+          "1m": 38000,
+          "3m": 93000,
+          "6m": 165000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Paramount",
+    "brand": "Paramount+",
+    "category": "cine",
+    "brandGlow": "brand-glow-max",
+    "iconName": "simple-icons:paramountplus",
+    "logoBg": "bg-blue-800/10 text-blue-700 border-blue-800/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "paramount",
+      "paramount+",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 15000,
+          "3m": 40000,
+          "6m": 75000
+        },
+        "regularPrices": {
+          "1m": 25000,
+          "3m": 60000,
+          "6m": 112000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 34000,
+          "3m": 90000,
+          "6m": 165000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 127000,
+          "6m": 225000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Crunchyroll",
+    "brand": "Crunchyroll",
+    "category": "cine",
+    "brandGlow": "brand-glow-crunchyroll",
+    "iconName": "simple-icons:crunchyroll",
+    "logoBg": "bg-orange-500/10 text-orange-500 border-orange-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "crunchyroll",
+      "crunchyroll",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 10000,
+          "3m": 27000,
+          "6m": 50000
+        },
+        "regularPrices": {
+          "1m": 20000,
+          "3m": 40000,
+          "6m": 75000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 23000,
+          "3m": 60000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 35000,
+          "3m": 85000,
+          "6m": 150000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Plex",
+    "brand": "IPTV & Media",
+    "category": "cine",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:plex",
+    "logoBg": "bg-amber-500/10 text-amber-600 border-amber-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "plex",
+      "iptv & media",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 10000,
+          "3m": 27000,
+          "6m": 50000
+        },
+        "regularPrices": {
+          "1m": 20000,
+          "3m": 40000,
+          "6m": 75000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 23000,
+          "3m": 60000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 35000,
+          "3m": 85000,
+          "6m": 150000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Vix",
+    "brand": "Vix Premium",
+    "category": "cine",
+    "brandGlow": "brand-glow-crunchyroll",
+    "iconName": "simple-icons:vix",
+    "logoBg": "bg-orange-600/10 text-orange-600 border-orange-600/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "vix",
+      "vix premium",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 11000,
+          "3m": 29000,
+          "6m": 55000
+        },
+        "regularPrices": {
+          "1m": 21000,
+          "3m": 44000,
+          "6m": 82000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 25000,
+          "3m": 66000,
+          "6m": 121000
+        },
+        "regularPrices": {
+          "1m": 38000,
+          "3m": 93000,
+          "6m": 165000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Canva 1 mes con correo del cliente",
+    "brand": "Canva Pro",
+    "category": "musica",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:canva",
+    "logoBg": "bg-teal-500/10 text-teal-600 border-teal-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "canva 1 mes con correo del cliente",
+      "canva pro",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 18000,
+          "3m": 48000,
+          "6m": 90000
+        },
+        "regularPrices": {
+          "1m": 28000,
+          "3m": 72000,
+          "6m": 135000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 41000,
+          "3m": 108000,
+          "6m": 198000
+        },
+        "regularPrices": {
+          "1m": 63000,
+          "3m": 153000,
+          "6m": 270000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Canva 1 mes",
+    "brand": "Canva Pro",
+    "category": "musica",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:canva",
+    "logoBg": "bg-teal-500/10 text-teal-600 border-teal-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "canva 1 mes",
+      "canva pro",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 15000,
+          "3m": 40000,
+          "6m": 75000
+        },
+        "regularPrices": {
+          "1m": 25000,
+          "3m": 60000,
+          "6m": 112000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 34000,
+          "3m": 90000,
+          "6m": 165000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 127000,
+          "6m": 225000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Canva 6 meses",
+    "brand": "Canva Pro",
+    "category": "musica",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:canva",
+    "logoBg": "bg-teal-500/10 text-teal-600 border-teal-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "canva 6 meses",
+      "canva pro",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 50000,
+          "3m": 135000,
+          "6m": 250000
+        },
+        "regularPrices": {
+          "1m": 60000,
+          "3m": 200000,
+          "6m": 375000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 114000,
+          "3m": 300000,
+          "6m": 550000
+        },
+        "regularPrices": {
+          "1m": 175000,
+          "3m": 425000,
+          "6m": 750000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Canva 12 meses",
+    "brand": "Canva Pro",
+    "category": "musica",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:canva",
+    "logoBg": "bg-teal-500/10 text-teal-600 border-teal-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "canva 12 meses",
+      "canva pro",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 80000,
+          "3m": 216000,
+          "6m": 400000
+        },
+        "regularPrices": {
+          "1m": 90000,
+          "3m": 320000,
+          "6m": 600000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 184000,
+          "3m": 480000,
+          "6m": 880000
+        },
+        "regularPrices": {
+          "1m": 280000,
+          "3m": 680000,
+          "6m": 1200000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Capcut",
+    "brand": "CapCut Pro",
+    "category": "musica",
+    "brandGlow": "brand-glow-netflix",
+    "iconName": "simple-icons:capcut",
+    "logoBg": "bg-slate-900/10 text-slate-800 border-slate-900/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "capcut",
+      "capcut pro",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 22000,
+          "3m": 59000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 32000,
+          "3m": 88000,
+          "6m": 165000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 50000,
+          "3m": 132000,
+          "6m": 242000
+        },
+        "regularPrices": {
+          "1m": 77000,
+          "3m": 187000,
+          "6m": 330000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Gemini",
+    "brand": "Gemini AI",
+    "category": "musica",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "simple-icons:googlegemini",
+    "logoBg": "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "gemini",
+      "gemini ai",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 18000,
+          "3m": 48000,
+          "6m": 90000
+        },
+        "regularPrices": {
+          "1m": 28000,
+          "3m": 72000,
+          "6m": 135000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 41000,
+          "3m": 108000,
+          "6m": 198000
+        },
+        "regularPrices": {
+          "1m": 63000,
+          "3m": 153000,
+          "6m": 270000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Jellyfin",
+    "brand": "IPTV & Media",
+    "category": "cine",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:plex",
+    "logoBg": "bg-amber-500/10 text-amber-600 border-amber-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "jellyfin",
+      "iptv & media",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 15000,
+          "3m": 40000,
+          "6m": 75000
+        },
+        "regularPrices": {
+          "1m": 25000,
+          "3m": 60000,
+          "6m": 112000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 34000,
+          "3m": 90000,
+          "6m": 165000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 127000,
+          "6m": 225000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Iptv",
+    "brand": "IPTV & Media",
+    "category": "cine",
+    "brandGlow": "brand-glow-prime",
+    "iconName": "simple-icons:plex",
+    "logoBg": "bg-amber-500/10 text-amber-600 border-amber-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "iptv",
+      "iptv & media",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 15000,
+          "3m": 40000,
+          "6m": 75000
+        },
+        "regularPrices": {
+          "1m": 25000,
+          "3m": 60000,
+          "6m": 112000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 34000,
+          "3m": 90000,
+          "6m": 165000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 127000,
+          "6m": 225000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Spotify 1 mes",
+    "brand": "Spotify",
+    "category": "musica",
+    "brandGlow": "brand-glow-spotify",
+    "iconName": "logos:spotify-icon",
+    "logoBg": "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Entrega Inmediata",
+      "Sin Anuncios",
+      "Renovable"
+    ],
+    "searchTags": [
+      "spotify 1 mes",
+      "spotify",
+      "musica"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 15000,
+          "3m": 40000,
+          "6m": 75000
+        },
+        "regularPrices": {
+          "1m": 25000,
+          "3m": 60000,
+          "6m": 112000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 34000,
+          "3m": 90000,
+          "6m": 165000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 127000,
+          "6m": 225000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Youtube 1 mes",
+    "brand": "YouTube",
+    "category": "cine",
+    "brandGlow": "brand-glow-netflix",
+    "iconName": "logos:youtube-icon",
+    "logoBg": "bg-rose-500/10 text-rose-600 border-rose-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Entrega Inmediata",
+      "4K UHD",
+      "Renovable"
+    ],
+    "searchTags": [
+      "youtube 1 mes",
+      "youtube",
+      "cine"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla / Perfil con PIN",
+        "devices": "1 Dispositivo simultáneo",
+        "quality": "4K Ultra HD + HDR",
+        "access": "Perfil privado con PIN de 4 dígitos",
+        "prices": {
+          "1m": 15000,
+          "3m": 40000,
+          "6m": 75000
+        },
+        "regularPrices": {
+          "1m": 25000,
+          "3m": 60000,
+          "6m": 112000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa (Hogar)",
+        "devices": "4 Dispositivos simultáneos",
+        "quality": "4K Ultra HD + Dolby",
+        "access": "Correo y clave propia renovable",
+        "prices": {
+          "1m": 34000,
+          "3m": 90000,
+          "6m": 165000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 127000,
+          "6m": 225000
+        }
+      }
+    },
+    "includes": [
+      "Acceso completo al catálogo oficial",
+      "Calidad de reproducción en alta definición / 4K UHD",
+      "Garantía total durante todo el periodo contratado"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Combo #1 (Netflix original + Disney premium)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 1",
+      "netflix original",
+      "disney premium"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 32000,
+          "3m": 86000,
+          "6m": 160000
+        },
+        "regularPrices": {
+          "1m": 47000,
+          "3m": 128000,
+          "6m": 240000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 70000,
+          "3m": 185000,
+          "6m": 352000
+        },
+        "regularPrices": {
+          "1m": 96000,
+          "3m": 256000,
+          "6m": 480000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Disney premium",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Combo #2 (Netflix original + Prime video)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 2",
+      "netflix original",
+      "prime video"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 23000,
+          "3m": 62000,
+          "6m": 115000
+        },
+        "regularPrices": {
+          "1m": 38000,
+          "3m": 92000,
+          "6m": 172000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 50000,
+          "3m": 133000,
+          "6m": 253000
+        },
+        "regularPrices": {
+          "1m": 69000,
+          "3m": 184000,
+          "6m": 345000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Prime video",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Combo #3 (Netflix original + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 3",
+      "netflix original",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 22000,
+          "3m": 59000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 37000,
+          "3m": 88000,
+          "6m": 165000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 48000,
+          "3m": 127000,
+          "6m": 242000
+        },
+        "regularPrices": {
+          "1m": 66000,
+          "3m": 176000,
+          "6m": 330000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Combo #4 (Netflix original + Crunchyroll)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 4",
+      "netflix original",
+      "crunchyroll"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 22000,
+          "3m": 59000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 37000,
+          "3m": 88000,
+          "6m": 165000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 48000,
+          "3m": 127000,
+          "6m": 242000
+        },
+        "regularPrices": {
+          "1m": 66000,
+          "3m": 176000,
+          "6m": 330000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Crunchyroll",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Combo #5 (Netflix original + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 5",
+      "netflix original",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 29000,
+          "3m": 78000,
+          "6m": 145000
+        },
+        "regularPrices": {
+          "1m": 44000,
+          "3m": 116000,
+          "6m": 217000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 63000,
+          "3m": 168000,
+          "6m": 319000
+        },
+        "regularPrices": {
+          "1m": 87000,
+          "3m": 232000,
+          "6m": 435000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Combo #6 (Disney premium + Prime video)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 6",
+      "disney premium",
+      "prime video"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 22000,
+          "3m": 59000,
+          "6m": 110000
+        },
+        "regularPrices": {
+          "1m": 37000,
+          "3m": 88000,
+          "6m": 165000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 48000,
+          "3m": 127000,
+          "6m": 242000
+        },
+        "regularPrices": {
+          "1m": 66000,
+          "3m": 176000,
+          "6m": 330000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Prime video",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Combo #7 (Disney premium + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 7",
+      "disney premium",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 21000,
+          "3m": 56000,
+          "6m": 105000
+        },
+        "regularPrices": {
+          "1m": 36000,
+          "3m": 84000,
+          "6m": 157000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 46000,
+          "3m": 121000,
+          "6m": 231000
+        },
+        "regularPrices": {
+          "1m": 63000,
+          "3m": 168000,
+          "6m": 315000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Combo #8 (Disney premium + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 8",
+      "disney premium",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 38000,
+          "3m": 102000,
+          "6m": 190000
+        },
+        "regularPrices": {
+          "1m": 53000,
+          "3m": 152000,
+          "6m": 285000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 83000,
+          "3m": 220000,
+          "6m": 418000
+        },
+        "regularPrices": {
+          "1m": 114000,
+          "3m": 304000,
+          "6m": 570000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Combo #9 (Prime video + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 9",
+      "prime video",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 12000,
+          "3m": 32000,
+          "6m": 60000
+        },
+        "regularPrices": {
+          "1m": 27000,
+          "3m": 48000,
+          "6m": 90000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 26000,
+          "3m": 69000,
+          "6m": 132000
+        },
+        "regularPrices": {
+          "1m": 36000,
+          "3m": 96000,
+          "6m": 180000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Prime video, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Combo #10 (Prime video + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 10",
+      "prime video",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 20000,
+          "3m": 54000,
+          "6m": 100000
+        },
+        "regularPrices": {
+          "1m": 35000,
+          "3m": 80000,
+          "6m": 150000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 44000,
+          "3m": 116000,
+          "6m": 220000
+        },
+        "regularPrices": {
+          "1m": 60000,
+          "3m": 160000,
+          "6m": 300000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Prime video, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Combo #11 (Max + Crunchyroll)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 2 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 11",
+      "max",
+      "crunchyroll"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 2 Plataformas",
+        "devices": "2 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 11000,
+          "3m": 29000,
+          "6m": 55000
+        },
+        "regularPrices": {
+          "1m": 26000,
+          "3m": 44000,
+          "6m": 82000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (2 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 24000,
+          "3m": 63000,
+          "6m": 121000
+        },
+        "regularPrices": {
+          "1m": 33000,
+          "3m": 88000,
+          "6m": 165000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Max, Crunchyroll",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Combo #12 (Netflix original + Disney premium + Prime video)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 12",
+      "netflix original",
+      "disney premium",
+      "prime video"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 39000,
+          "3m": 105000,
+          "6m": 195000
+        },
+        "regularPrices": {
+          "1m": 54000,
+          "3m": 156000,
+          "6m": 292000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 85000,
+          "3m": 226000,
+          "6m": 429000
+        },
+        "regularPrices": {
+          "1m": 117000,
+          "3m": 312000,
+          "6m": 585000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Disney premium, Prime video",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Combo #13 (Netflix original + Disney premium + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 13",
+      "netflix original",
+      "disney premium",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 37000,
+          "3m": 99000,
+          "6m": 185000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 148000,
+          "6m": 277000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 81000,
+          "3m": 214000,
+          "6m": 407000
+        },
+        "regularPrices": {
+          "1m": 111000,
+          "3m": 296000,
+          "6m": 555000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Disney premium, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Combo #14 (Netflix original + Disney premium + Crunchyroll)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 14",
+      "netflix original",
+      "disney premium",
+      "crunchyroll"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 37000,
+          "3m": 99000,
+          "6m": 185000
+        },
+        "regularPrices": {
+          "1m": 52000,
+          "3m": 148000,
+          "6m": 277000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 81000,
+          "3m": 214000,
+          "6m": 407000
+        },
+        "regularPrices": {
+          "1m": 111000,
+          "3m": 296000,
+          "6m": 555000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Disney premium, Crunchyroll",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Combo #15 (Netflix original + Prime video + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 15",
+      "netflix original",
+      "prime video",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 28000,
+          "3m": 75000,
+          "6m": 140000
+        },
+        "regularPrices": {
+          "1m": 43000,
+          "3m": 112000,
+          "6m": 210000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 61000,
+          "3m": 162000,
+          "6m": 308000
+        },
+        "regularPrices": {
+          "1m": 84000,
+          "3m": 224000,
+          "6m": 420000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Prime video, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Combo #16 (Netflix original + Prime video + Crunchyroll)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 16",
+      "netflix original",
+      "prime video",
+      "crunchyroll"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 28000,
+          "3m": 75000,
+          "6m": 140000
+        },
+        "regularPrices": {
+          "1m": 43000,
+          "3m": 112000,
+          "6m": 210000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 61000,
+          "3m": 162000,
+          "6m": 308000
+        },
+        "regularPrices": {
+          "1m": 84000,
+          "3m": 224000,
+          "6m": 420000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Prime video, Crunchyroll",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Combo #17 (Netflix original + Prime video + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 17",
+      "netflix original",
+      "prime video",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 35000,
+          "3m": 94000,
+          "6m": 175000
+        },
+        "regularPrices": {
+          "1m": 50000,
+          "3m": 140000,
+          "6m": 262000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 77000,
+          "3m": 203000,
+          "6m": 385000
+        },
+        "regularPrices": {
+          "1m": 105000,
+          "3m": 280000,
+          "6m": 525000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Prime video, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Combo #18 (Disney premium + Prime video + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 18",
+      "disney premium",
+      "prime video",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 27000,
+          "3m": 72000,
+          "6m": 135000
+        },
+        "regularPrices": {
+          "1m": 42000,
+          "3m": 108000,
+          "6m": 202000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 59000,
+          "3m": 156000,
+          "6m": 297000
+        },
+        "regularPrices": {
+          "1m": 81000,
+          "3m": 216000,
+          "6m": 405000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Prime video, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Combo #19 (Disney premium + Prime video + Crunchyroll)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 19",
+      "disney premium",
+      "prime video",
+      "crunchyroll"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 27000,
+          "3m": 72000,
+          "6m": 135000
+        },
+        "regularPrices": {
+          "1m": 42000,
+          "3m": 108000,
+          "6m": 202000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 59000,
+          "3m": 156000,
+          "6m": 297000
+        },
+        "regularPrices": {
+          "1m": 81000,
+          "3m": 216000,
+          "6m": 405000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Prime video, Crunchyroll",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Combo #20 (Disney premium + Max + Vix)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 20",
+      "disney premium",
+      "max",
+      "vix"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 29000,
+          "3m": 78000,
+          "6m": 145000
+        },
+        "regularPrices": {
+          "1m": 44000,
+          "3m": 116000,
+          "6m": 217000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 63000,
+          "3m": 168000,
+          "6m": 319000
+        },
+        "regularPrices": {
+          "1m": 87000,
+          "3m": 232000,
+          "6m": 435000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Max, Vix",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Combo #21 (Max + Vix + Prime video)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 3 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 21",
+      "max",
+      "vix",
+      "prime video"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 3 Plataformas",
+        "devices": "3 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 21000,
+          "3m": 56000,
+          "6m": 105000
+        },
+        "regularPrices": {
+          "1m": 36000,
+          "3m": 84000,
+          "6m": 157000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (3 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 46000,
+          "3m": 121000,
+          "6m": 231000
+        },
+        "regularPrices": {
+          "1m": 63000,
+          "3m": 168000,
+          "6m": 315000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Max, Vix, Prime video",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Combo #22 (Netflix original + Disney premium + Max + Prime video)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Combo 4 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 22",
+      "netflix original",
+      "disney premium",
+      "max",
+      "prime video"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 4 Plataformas",
+        "devices": "4 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 43000,
+          "3m": 116000,
+          "6m": 215000
+        },
+        "regularPrices": {
+          "1m": 58000,
+          "3m": 172000,
+          "6m": 322000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (4 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 94000,
+          "3m": 249000,
+          "6m": 473000
+        },
+        "regularPrices": {
+          "1m": 129000,
+          "3m": 344000,
+          "6m": 645000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Disney premium, Max, Prime video",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Combo #23 (Netflix original + Disney premium + Max + Vix)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 4 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 23",
+      "netflix original",
+      "disney premium",
+      "max",
+      "vix"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 4 Plataformas",
+        "devices": "4 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 44000,
+          "3m": 118000,
+          "6m": 220000
+        },
+        "regularPrices": {
+          "1m": 59000,
+          "3m": 176000,
+          "6m": 330000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (4 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 96000,
+          "3m": 255000,
+          "6m": 484000
+        },
+        "regularPrices": {
+          "1m": 132000,
+          "3m": 352000,
+          "6m": 660000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Disney premium, Max, Vix",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Combo #24 (Netflix original + Prime video + Max + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 4 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 24",
+      "netflix original",
+      "prime video",
+      "max",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 4 Plataformas",
+        "devices": "4 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 42000,
+          "3m": 113000,
+          "6m": 210000
+        },
+        "regularPrices": {
+          "1m": 57000,
+          "3m": 168000,
+          "6m": 315000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (4 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 92000,
+          "3m": 243000,
+          "6m": 462000
+        },
+        "regularPrices": {
+          "1m": 126000,
+          "3m": 336000,
+          "6m": 630000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Prime video, Max, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Combo #25 (Prime video + Disney premium + Vix + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 4 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 25",
+      "prime video",
+      "disney premium",
+      "vix",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 4 Plataformas",
+        "devices": "4 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 43000,
+          "3m": 116000,
+          "6m": 215000
+        },
+        "regularPrices": {
+          "1m": 58000,
+          "3m": 172000,
+          "6m": 322000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (4 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 94000,
+          "3m": 249000,
+          "6m": 473000
+        },
+        "regularPrices": {
+          "1m": 129000,
+          "3m": 344000,
+          "6m": 645000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Prime video, Disney premium, Vix, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Combo #26 (Disney premium + Max + Prime video + Crunchyroll)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 4 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 26",
+      "disney premium",
+      "max",
+      "prime video",
+      "crunchyroll"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 4 Plataformas",
+        "devices": "4 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 35000,
+          "3m": 94000,
+          "6m": 175000
+        },
+        "regularPrices": {
+          "1m": 50000,
+          "3m": 140000,
+          "6m": 262000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (4 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 77000,
+          "3m": 203000,
+          "6m": 385000
+        },
+        "regularPrices": {
+          "1m": 105000,
+          "3m": 280000,
+          "6m": 525000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Disney premium, Max, Prime video, Crunchyroll",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Combo #27 (Max + Vix + Prime video + Paramount)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": false,
+    "badges": [
+      "Combo 4 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 27",
+      "max",
+      "vix",
+      "prime video",
+      "paramount"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 4 Plataformas",
+        "devices": "4 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 35000,
+          "3m": 94000,
+          "6m": 175000
+        },
+        "regularPrices": {
+          "1m": 50000,
+          "3m": 140000,
+          "6m": 262000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (4 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 77000,
+          "3m": 203000,
+          "6m": 385000
+        },
+        "regularPrices": {
+          "1m": 105000,
+          "3m": 280000,
+          "6m": 525000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Max, Vix, Prime video, Paramount",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Combo #28 (Netflix original + Prime video + Paramount + Vix + Max)",
+    "brand": "Combo VIP",
+    "category": "combo",
+    "brandGlow": "brand-glow-disney",
+    "iconName": "logos:disney-plus",
+    "logoBg": "bg-gradient-to-tr from-blue-600/10 to-indigo-600/10 text-blue-600 border-blue-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Combo 5 en 1",
+      "Ahorro Especial",
+      "Entrega Inmediata"
+    ],
+    "searchTags": [
+      "combo",
+      "combo 28",
+      "netflix original",
+      "prime video",
+      "paramount",
+      "vix",
+      "max"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "Perfiles en 5 Plataformas",
+        "devices": "5 Servicios Activos",
+        "quality": "4K Ultra HD en todos los servicios",
+        "access": "Perfiles privados con PIN de seguridad",
+        "prices": {
+          "1m": 50000,
+          "3m": 135000,
+          "6m": 250000
+        },
+        "regularPrices": {
+          "1m": 65000,
+          "3m": 200000,
+          "6m": 375000
+        }
+      },
+      "cuenta": {
+        "label": "Cuentas Completas (5 Servicios)",
+        "devices": "Todos los dispositivos activados",
+        "quality": "4K Ultra HD + Dolby Atmos",
+        "access": "Acceso total a cuentas familiares",
+        "prices": {
+          "1m": 110000,
+          "3m": 290000,
+          "6m": 550000
+        },
+        "regularPrices": {
+          "1m": 150000,
+          "3m": 400000,
+          "6m": 750000
+        }
+      }
+    },
+    "includes": [
+      "Incluye los servicios de: Netflix original, Prime video, Paramount, Vix, Max",
+      "Acceso inmediato a catálogos completos",
+      "Soporte técnico directo y garantía por WhatsApp"
+    ]
+  }
+]
