@@ -1,5 +1,5 @@
 import React from 'react';
-import { Film, Layers, ShoppingBag, MessageCircle } from 'lucide-react';
+import { Film, HelpCircle, ShoppingBag, MessageCircle } from 'lucide-react';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { eventBus } from '@/core/bus/eventBus';
 
@@ -16,9 +16,9 @@ export const MobileBottomDock: React.FC = () => {
         <Film className="w-4 h-4 text-blue-700" />
         <span>Catálogo</span>
       </a>
-      <a href="#combos" className="flex flex-col items-center gap-1 hover:text-slate-900">
-        <Layers className="w-4 h-4 text-slate-600" />
-        <span>Combos</span>
+      <a href="#faq" className="flex flex-col items-center gap-1 hover:text-slate-900">
+        <HelpCircle className="w-4 h-4 text-slate-600" />
+        <span>Garantía</span>
       </a>
       <button onClick={handleOpenCart} className="flex flex-col items-center gap-1 relative hover:text-slate-900">
         <ShoppingBag className="w-4 h-4 text-slate-600" />

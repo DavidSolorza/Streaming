@@ -38,13 +38,6 @@ export const HeroSection: React.FC = () => {
     }
   };
 
-  const scrollToCombos = () => {
-    const combosEl = document.getElementById('combos');
-    if (combosEl) {
-      combosEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const handlePremiereClick = (tag: string) => {
     const catalogEl = document.getElementById('catalog');
     if (catalogEl) {
@@ -89,7 +82,7 @@ export const HeroSection: React.FC = () => {
               Ver Planes y Precios
             </span>
           </Button>
-          <Button variant="secondary" size="lg" onClick={scrollToCombos}>
+          <Button variant="secondary" size="lg" onClick={scrollToCatalog}>
             <span className="flex items-center gap-2 font-black">
               <Zap className="w-4 h-4 text-amber-500 fill-amber-400" />
               Arma tu Paquete

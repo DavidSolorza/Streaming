@@ -27,11 +27,9 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Menú Central Identico al Mockup */}
         <nav className="hidden md:flex items-center space-x-8 text-xs font-bold text-slate-600">
           <a href="#catalog" className="hover:text-blue-700 transition">Catálogo</a>
           <a href="#premieres" className="hover:text-blue-700 transition">Estrenos</a>
-          <a href="#combos" className="hover:text-blue-700 transition">Arma tu Combo</a>
           <a href="#faq" className="hover:text-blue-700 transition">Garantía & FAQ</a>
         </nav>
 

@@ -4,7 +4,6 @@ import { Navbar } from './shared/components/Navbar';
 import { HeroSection } from './modules/hero/presentation/HeroSection';
 import { CatalogGrid } from './modules/catalog/presentation/containers/CatalogGrid';
 import { ProductDetailModal } from './modules/catalog/presentation/containers/ProductDetailModal';
-import { ComboBuilderSection } from './modules/combo-builder/presentation/ComboBuilderSection';
 import { FaqAccordion } from './modules/faq/presentation/FaqAccordion';
 import { CartDrawer } from './modules/cart/presentation/CartDrawer';
 import { PaymentModal } from './modules/checkout/presentation/PaymentModal';
@@ -34,10 +33,7 @@ export const App: React.FC = () => {
         <CatalogGrid />
       </main>
 
-      {/* Creador de Combos Personalizados */}
-      <section id="combos">
-        <ComboBuilderSection />
-      </section>
+
 
       {/* Preguntas Frecuentes */}
       <FaqAccordion />
