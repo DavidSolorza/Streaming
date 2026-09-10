@@ -41,16 +41,10 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
       {/* Cabecera Cinematográfica */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="p-1.5 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
-            <Flame className="w-4 h-4 fill-amber-500" />
-          </span>
           <div>
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
-              Estrenos del Mes en Tendencia
+            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight text-center">
+              Estrenos del Mes
             </h3>
-            <p className="text-[11px] text-slate-500 font-medium hidden sm:block">
-              Pósteres HD en tiempo real con caché inteligente de 24 horas
-            </p>
           </div>
         </div>
 
