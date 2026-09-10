@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CreditCard, Copy, Check, Zap, MessageCircle } from 'lucide-react';
 import { Modal } from '@/shared/components/Modal';
 import { Button } from '@/shared/components/Button';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
@@ -67,8 +68,15 @@ export const PaymentModal: React.FC = () => {
     window.open(`https://wa.me/573214465418?text=${encoded}`, '_blank');
   };
 
+  const modalTitle = (
+    <div className="flex items-center gap-2 text-slate-900">
+      <CreditCard className="w-5 h-5 text-blue-700" />
+      <span>Medios de Pago Directos (Transferencia)</span>
+    </div>
+  );
+
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="💳 Medios de Pago Directos (Transferencia)">
+    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={modalTitle}>
       <div className="space-y-6">
         <div className="bg-slate-50 border border-slate-900/[0.08] p-4 rounded-xl">
           <div className="flex justify-between items-center">
@@ -96,17 +104,27 @@ export const PaymentModal: React.FC = () => {
             </div>
             <button
               onClick={() => copyToClipboard('3214465418', 'nequi')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                 copiedKey === 'nequi'
                   ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-900/[0.08]'
               }`}
             >
-              {copiedKey === 'nequi' ? '✓ Copiado' : 'Copiar Nequi'}
+              {copiedKey === 'nequi' ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>Copiado</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Copiar Nequi</span>
+                </>
+              )}
             </button>
           </div>
 
-          {/* Bancolombia / A la mano */}
+          {/* Bancolombia */}
           <div className="bg-white border border-slate-900/[0.08] p-4 rounded-xl shadow-sm flex items-center justify-between gap-3 hover:border-slate-300 transition-all">
             <div>
               <div className="flex items-center gap-2">
@@ -118,13 +136,23 @@ export const PaymentModal: React.FC = () => {
             </div>
             <button
               onClick={() => copyToClipboard('03214465418', 'bancolombia')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                 copiedKey === 'bancolombia'
                   ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-900/[0.08]'
               }`}
             >
-              {copiedKey === 'bancolombia' ? '✓ Copiado' : 'Copiar Número'}
+              {copiedKey === 'bancolombia' ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>Copiado</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Copiar Número</span>
+                </>
+              )}
             </button>
           </div>
 
@@ -140,13 +168,23 @@ export const PaymentModal: React.FC = () => {
             </div>
             <button
               onClick={() => copyToClipboard('3214465418', 'daviplata')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                 copiedKey === 'daviplata'
                   ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-900/[0.08]'
               }`}
             >
-              {copiedKey === 'daviplata' ? '✓ Copiado' : 'Copiar Daviplata'}
+              {copiedKey === 'daviplata' ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>Copiado</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Copiar Daviplata</span>
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -154,7 +192,8 @@ export const PaymentModal: React.FC = () => {
         {/* Instrucción paso a paso */}
         <div className="bg-blue-50/50 border border-blue-100 p-4 rounded-xl space-y-2">
           <p className="text-xs font-extrabold text-blue-900 flex items-center gap-1.5">
-            ⚡ Pasos para recibir tus credenciales:
+            <Zap className="w-4 h-4 text-blue-700" />
+            Pasos para recibir tus credenciales:
           </p>
           <ol className="text-xs text-slate-600 space-y-1 list-decimal pl-4 font-medium">
             <li>Copia el número de tu plataforma de preferencia.</li>
@@ -165,7 +204,10 @@ export const PaymentModal: React.FC = () => {
         </div>
 
         <Button variant="mint" fullWidth onClick={handleSendProofWhatsApp}>
-          📲 Enviar Comprobante por WhatsApp
+          <span className="flex items-center justify-center gap-2">
+            <MessageCircle className="w-5 h-5 text-emerald-700" />
+            Enviar Comprobante por WhatsApp
+          </span>
         </Button>
       </div>
     </Modal>

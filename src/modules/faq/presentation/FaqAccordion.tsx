@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HelpCircle, ChevronDown } from 'lucide-react';
 
 interface FaqItem {
   question: string;
@@ -35,7 +36,10 @@ export const FaqAccordion: React.FC = () => {
     <section className="py-12 bg-[#F8FAFC]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <span className="text-xs font-black uppercase text-blue-700 tracking-wider">Resolvemos tus dudas</span>
+          <span className="text-xs font-black uppercase text-blue-700 tracking-wider flex items-center justify-center gap-1.5">
+            <HelpCircle className="w-4 h-4 text-blue-700" />
+            Resolvemos tus dudas
+          </span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Preguntas Frecuentes</h2>
         </div>
 
@@ -52,9 +56,7 @@ export const FaqAccordion: React.FC = () => {
                   className="w-full text-left p-5 font-bold text-slate-900 text-sm flex items-center justify-between gap-4 focus:outline-none"
                 >
                   <span>{faq.question}</span>
-                  <span className="text-slate-400 text-lg transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                    ▼
-                  </span>
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180 text-blue-700' : ''}`} />
                 </button>
                 {isOpen && (
                   <div className="px-5 pb-5 text-xs text-slate-600 font-medium leading-relaxed border-t border-slate-100 pt-3">

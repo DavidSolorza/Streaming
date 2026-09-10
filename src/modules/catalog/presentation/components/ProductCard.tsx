@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Icon } from '@iconify/react';
+import { Monitor, Sparkles, KeyRound, Flame, ShoppingCart, Info } from 'lucide-react';
 import { Product, ProductMode } from '../../domain/entities/Product';
 import { DurationKey } from '../../domain/value-objects/PlanDuration';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
@@ -32,7 +34,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       id: product.id,
       name: `${product.name} (${modeLabel} - ${durationLabel})`,
       price: currentPrice,
-      image: product.logoText,
+      image: product.iconName,
       quantity: 1
     });
   };
@@ -44,14 +46,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className={`bg-white border ${!product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} ${product.brandGlow} rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>
       <div>
-        {/* Encabezado Visual con Logo y Badges Superior */}
+        {/* Encabezado Visual con Logo de Marca (Iconify SVG) y Badges */}
         <div className="flex justify-between items-start mb-5">
-          <div className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-900/[0.08] flex items-center justify-center text-2xl font-black shadow-sm">
-            {product.logoText}
+          <div className={`w-14 h-14 rounded-2xl border border-slate-900/[0.08] flex items-center justify-center p-2.5 shadow-sm ${product.logoBg}`}>
+            <Icon icon={product.iconName} className="w-9 h-9" />
           </div>
           <div className="flex flex-col items-end gap-1.5">
             {product.bestseller && (
-              <Badge variant="amber">🔥 Más Vendido</Badge>
+              <Badge variant="amber">
+                <span className="flex items-center gap-1">
+                  <Flame className="w-3 h-3 text-amber-600 fill-amber-500" />
+                  Más Vendido
+                </span>
+              </Badge>
             )}
             <Badge variant={product.available ? 'emerald' : 'rose'}>
               {product.available ? 'Entrega Inmediata' : 'Agotado'}
@@ -70,7 +77,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           ))}
         </div>
 
-        {/* 1. Selector de Modalidad (Toggle Switch Integrado) */}
+        {/* 1. Selector de Modalidad */}
         <div className="mb-4 bg-slate-100 p-1 rounded-xl border border-slate-900/[0.08] flex text-[11px] font-bold">
           <button
             onClick={() => setSelectedMode('pantalla')}
@@ -86,7 +93,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </button>
         </div>
 
-        {/* 2. Selector de Duración (Píldoras Interactivas) */}
+        {/* 2. Selector de Duración */}
         <div className="mb-5">
           <div className="flex justify-between items-center mb-1.5">
             <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Duración del Servicio:</span>
@@ -106,18 +113,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Resumen de Especificaciones Rápidas */}
+        {/* Resumen de Especificaciones Rápidas con Lucide Icons */}
         <div className="bg-slate-50 border border-slate-900/[0.08] rounded-2xl p-3.5 mb-5 space-y-2 text-xs">
           <div className="flex items-center gap-2 text-slate-600">
-            <span className="text-blue-700 font-bold">📺</span>
+            <Monitor className="w-4 h-4 text-blue-700 shrink-0" />
             <span>{modeData.devices}</span>
           </div>
           <div className="flex items-center gap-2 text-slate-600">
-            <span className="text-blue-700 font-bold">✨</span>
+            <Sparkles className="w-4 h-4 text-blue-700 shrink-0" />
             <span>{modeData.quality}</span>
           </div>
           <div className="flex items-center gap-2 text-slate-600">
-            <span className="text-blue-700 font-bold">🔑</span>
+            <KeyRound className="w-4 h-4 text-blue-700 shrink-0" />
             <span className="truncate">{modeData.access}</span>
           </div>
         </div>
@@ -135,7 +142,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         <div className="grid grid-cols-2 gap-2">
           <Button variant="ghost" size="sm" onClick={handleOpenDetails}>
-            Ver Detalles
+            <span className="flex items-center justify-center gap-1.5">
+              <Info className="w-3.5 h-3.5" />
+              Detalles
+            </span>
           </Button>
           <Button
             variant="primary"
@@ -143,7 +153,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             disabled={!product.available}
             onClick={handleAddToCart}
           >
-            {product.available ? 'Comprar / Añadir' : 'Agotado'}
+            <span className="flex items-center justify-center gap-1.5">
+              <ShoppingCart className="w-3.5 h-3.5" />
+              {product.available ? 'Añadir' : 'Agotado'}
+            </span>
           </Button>
         </div>
       </div>

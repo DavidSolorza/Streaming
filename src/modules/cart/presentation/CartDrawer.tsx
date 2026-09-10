@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { ShoppingBag, X, MessageCircle, CreditCard } from 'lucide-react';
 import { useCartStore } from '../application/useCartStore';
 import { CartItemRow } from './CartItemRow';
 import { Button } from '@/shared/components/Button';
@@ -46,25 +47,26 @@ export const CartDrawer: React.FC = () => {
 
   return (
     <div className={`fixed inset-0 z-50 overflow-hidden ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-      {/* Backdrop con Blur y Transición de Opacidad */}
+      {/* Backdrop con Blur */}
       <div
         className={`absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Drawer Lateral Deslizante con Transición translate-x-full a translate-x-0 */}
+      {/* Drawer Lateral Deslizante */}
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
         <div className={`w-screen max-w-md bg-white border-l border-slate-900/[0.08] flex flex-col shadow-2xl transition-transform duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-slate-900/[0.08]">
             <h2 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
-              🛒 Tu Carrito Express
+              <ShoppingBag className="w-5 h-5 text-blue-700" />
+              Tu Carrito Express
             </h2>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-slate-400 hover:text-slate-900 text-xl font-bold"
+              className="text-slate-400 hover:text-slate-900 p-1 transition rounded-lg hover:bg-slate-100"
             >
-              &times;
+              <X className="w-5 h-5" />
             </button>
           </div>
 
@@ -103,10 +105,16 @@ export const CartDrawer: React.FC = () => {
 
             <div className="space-y-2 pt-1">
               <Button variant="mint" fullWidth onClick={handleCheckoutWhatsApp}>
-                💬 Pagar por WhatsApp (Instantáneo)
+                <span className="flex items-center justify-center gap-2">
+                  <MessageCircle className="w-4 h-4 text-emerald-700" />
+                  Pagar por WhatsApp (Instantáneo)
+                </span>
               </Button>
               <Button variant="primary" fullWidth onClick={handleOpenPaymentModal}>
-                💳 Pagar con Nequi / Daviplata / PSE
+                <span className="flex items-center justify-center gap-2">
+                  <CreditCard className="w-4 h-4" />
+                  Pagar con Nequi / Daviplata / PSE
+                </span>
               </Button>
             </div>
           </div>

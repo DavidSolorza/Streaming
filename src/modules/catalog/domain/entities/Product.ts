@@ -17,7 +17,8 @@ export interface Product {
   brand: string;
   category: 'cine' | 'musica' | 'deportes' | 'combo';
   brandGlow: string;
-  logoText: string;
+  iconName: string; // Nombre del icono oficial en Iconify (ej: "logos:netflix-icon")
+  logoText?: string;
   logoBg: string;
   available: boolean;
   bestseller: boolean;

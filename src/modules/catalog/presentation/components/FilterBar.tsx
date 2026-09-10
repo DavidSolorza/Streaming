@@ -1,4 +1,5 @@
 import React from 'react';
+import { Search, X, Film, Music, Trophy, Flame, Sparkles } from 'lucide-react';
 
 interface FilterBarProps {
   selectedCategory: string;
@@ -16,11 +17,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onClearSearch = () => onSearchChange(''),
 }) => {
   const categories = [
-    { id: 'all', label: 'Todas' },
-    { id: 'cine', label: '🎬 Películas & Series' },
-    { id: 'musica', label: '🎵 Música' },
-    { id: 'deportes', label: '⚽ Deportes' },
-    { id: 'combo', label: '🔥 Combos' },
+    { id: 'all', label: 'Todas', icon: Sparkles },
+    { id: 'cine', label: 'Películas & Series', icon: Film },
+    { id: 'musica', label: 'Música', icon: Music },
+    { id: 'deportes', label: 'Deportes', icon: Trophy },
+    { id: 'combo', label: 'Combos', icon: Flame },
   ];
 
   return (
@@ -29,8 +30,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         
         {/* Buscador Predictivo en Tiempo Real */}
         <div className="relative flex-1">
-          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 text-base">
-            🔍
+          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <Search className="w-4 h-4" />
           </span>
           <input
             type="text"
@@ -42,24 +43,30 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           {searchQuery && (
             <button
               onClick={onClearSearch}
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-900 text-xs font-bold"
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-900 text-xs font-bold gap-1"
             >
-              Limpiar ✕
+              <span>Limpiar</span>
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
         {/* Chips Horizontales Rápidos */}
         <div className="flex flex-wrap items-center gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => onSelectCategory(cat.id)}
-              className={`chip-btn px-4 py-2.5 rounded-xl text-xs font-bold transition ${selectedCategory === cat.id ? 'bg-blue-700 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 bg-slate-100 border border-slate-900/[0.08]'}`}
-            >
-              {cat.label}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const IconComp = cat.icon;
+            const isSelected = selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => onSelectCategory(cat.id)}
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${isSelected ? 'bg-blue-700 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 bg-slate-100 border border-slate-900/[0.08]'}`}
+              >
+                <IconComp className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-blue-600'}`} />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
