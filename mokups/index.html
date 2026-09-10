@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplataformas Cuentas Stream | Entretenimiento en Streaming Premium</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-canvas text-content-primary min-h-screen selection:bg-blue-600 selection:text-white">
+
+    <!-- Cartelera de Avisos Superior -->
+    <div id="announcement-banner" class="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white text-xs md:text-sm font-semibold py-2 px-4 text-center relative shadow-md">
+        <span class="inline-block animate-pulse mr-1.5">🔥</span> 
+        <span id="banner-text">¡Promoción de la Semana! Garantía del 100% durante todo el periodo contratado y entrega en 10 min.</span>
+        <button onclick="toggleAnnouncement()" class="absolute right-3 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 text-lg">&times;</button>
+    </div>
+
+    <!-- Header / Navbar Flotante Superior con Glassmorphism (Desktop) -->
+    <header class="sticky top-3 z-40 mx-4 max-w-7xl md:mx-auto transition-all">
+        <div class="bg-white/90 backdrop-blur-xl border border-slate-900/[0.08] rounded-2xl h-16 shadow-luxury px-4 sm:px-6 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center font-black text-lg shadow-md shadow-blue-600/20 text-white">
+                    4S
+                </div>
+                <div>
+                    <span class="font-extrabold text-base tracking-tight text-slate-900 block leading-none">Cuentas Stream</span>
+                    <span class="text-[9px] text-blue-700 font-bold uppercase tracking-wider block mt-0.5">Multiplataformas</span>
+                </div>
+            </div>
+
+            <!-- Menú Central -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs font-bold text-slate-600">
+                <a href="#catalogo" class="hover:text-blue-700 transition">Catálogo</a>
+                <a href="#estrenos" class="hover:text-blue-700 transition">Estrenos</a>
+                <a href="#constructor" class="hover:text-blue-700 transition">Arma tu Combo</a>
+                <a href="#faq" class="hover:text-blue-700 transition">Garantía & FAQ</a>
+            </nav>
+
+            <!-- Acciones -->
+            <div class="flex items-center space-x-2.5">
+                <button onclick="openAdminModal()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 px-3 py-2 rounded-xl border border-slate-900/[0.08] transition flex items-center gap-1.5 font-semibold">
+                    ⚙️ Admin
+                </button>
+                <a href="https://wa.me/573214465418?text=Hola%20%F0%9F%90%8B%20Quiero%20mas%20informacion" target="_blank" class="hidden sm:flex text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-500/20 px-3.5 py-2 rounded-xl transition font-extrabold items-center gap-1.5">
+                    💬 Soporte
+                </a>
+                <button onclick="toggleCart()" class="relative bg-blue-700 hover:bg-blue-800 text-white p-2.5 rounded-xl transition shadow-lg shadow-blue-600/20 flex items-center justify-center">
+                    🛒
+                    <span id="cart-counter" class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Bottom Navigation Dock (Dock Inferior Fijo al alcance del pulgar) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-900/[0.08] px-2 py-2 flex justify-around items-center text-[10px] font-bold text-slate-500 shadow-luxury">
+        <a href="#catalogo" class="flex flex-col items-center gap-1 text-slate-900">
+            <span class="text-base">🎬</span> Catálogo
+        </a>
+        <a href="#constructor" class="flex flex-col items-center gap-1 hover:text-slate-900">
+            <span class="text-base">⚡</span> Combos
+        </a>
+        <button onclick="toggleCart()" class="flex flex-col items-center gap-1 relative hover:text-slate-900">
+            <span class="text-base">🛒</span> Carrito
+            <span id="mobile-cart-counter" class="absolute -top-1 right-2 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </button>
+        <a href="https://wa.me/573214465418?text=Hola%20%F0%9F%90%8B%20Necesito%20ayuda" target="_blank" class="flex flex-col items-center gap-1 text-emerald-600">
+            <span class="text-base">💬</span> Ayuda
+        </a>
+    </div>
+
+    <!-- Hero Section Cinematográfico (Video 100% Limpio Sin Nada Encima) -->
+    <section class="relative flex flex-col justify-between overflow-hidden border-b border-slate-900/[0.08] bg-canvas pt-6 pb-4">
+        
+        <!-- Título Principal Ubicado Estratégicamente Arriba del Video -->
+        <div class="max-w-4xl mx-auto px-4 text-center mb-5">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight">
+                Tus plataformas favoritas al <span class="text-blue-700">mejor precio de Colombia</span>
+            </h1>
+        </div>
+
+        <!-- Contenedor del Video 100% Limpio, Angosto y Color Natural -->
+        <div class="max-w-6xl mx-auto px-4 w-full relative">
+            <div class="relative rounded-3xl overflow-hidden shadow-luxury border border-slate-900/[0.08] h-[260px] sm:h-[320px] md:h-[360px] bg-black">
+                <!-- Video en Colores Reales Nativos (Sin filtros ni poster azul) -->
+                <video id="hero-video" autoplay loop muted playsinline preload="auto" class="w-full h-full object-cover object-center rounded-3xl">
+                    <source src="../resources/All Streaming Services Originals Intro Effects.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Únicamente los 2 Botones Principales Ubicados Abajo del Video -->
+        <div class="max-w-6xl mx-auto px-4 w-full mt-6 text-center">
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <a href="#catalogo" class="bg-blue-700 hover:bg-blue-800 text-white font-extrabold text-sm px-8 py-3.5 rounded-2xl transition-all shadow-luxury hover:scale-105 flex items-center gap-2">
+                    🎬 Ver Planes y Precios
+                </a>
+                <a href="#constructor" class="bg-white hover:bg-slate-100 text-slate-900 border border-slate-900/[0.08] font-extrabold text-sm px-8 py-3.5 rounded-2xl transition-all shadow-sm hover:scale-105 flex items-center gap-2">
+                    ⚡ Arma tu Paquete
+                </a>
+            </div>
+        </div>
+
+        <!-- Carrusel de Estrenos del Mes -->
+        <div id="estrenos" class="max-w-6xl mx-auto px-4 w-full mt-8">
+            <div class="flex items-center justify-between mb-2.5 px-1">
+                <span class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <span class="text-amber-500">🔥</span> Estrenos del Mes en Tendencia
+                </span>
+                <span class="text-[11px] text-slate-500">Haz clic para filtrar</span>
+            </div>
+            <div id="trending-carousel" class="flex gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar scroll-smooth">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+
+        <!-- Marquee Infinito de Marcas Soportadas -->
+        <div class="relative z-20 bg-white border-t border-slate-900/[0.08] py-3.5 overflow-hidden shadow-sm mt-8">
+            <div class="animate-marquee items-center gap-12 text-slate-600 font-extrabold text-xs uppercase tracking-widest opacity-90">
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-red-600 text-base font-black">NETFLIX</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-purple-700 text-base font-black">MAX (HBO)</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-sky-600 text-base font-black">DISNEY+</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-cyan-600 text-base font-black">PRIME VIDEO</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-orange-600 text-base font-black">CRUNCHYROLL</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-emerald-600 text-base font-black">SPOTIFY</span></span>
+                <span>•</span>
+                <!-- Duplicate set for continuous infinite scrolling -->
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-red-600 text-base font-black">NETFLIX</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-purple-700 text-base font-black">MAX (HBO)</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-sky-600 text-base font-black">DISNEY+</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-cyan-600 text-base font-black">PRIME VIDEO</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-orange-600 text-base font-black">CRUNCHYROLL</span></span>
+                <span>•</span>
+                <span class="flex items-center gap-2 text-slate-900"><span class="text-emerald-600 text-base font-black">SPOTIFY</span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Catálogo con Sticky Filter Bar -->
+    <section id="catalogo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Barra de Control Superior Pegajosa (Sticky Filter Bar) -->
+        <div class="sticky top-20 z-30 bg-white/95 border border-slate-900/[0.08] p-4 rounded-3xl mb-10 shadow-luxury backdrop-blur-xl">
+            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+                
+                <!-- Buscador Predictivo en Tiempo Real -->
+                <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 text-base">
+                        🔍
+                    </span>
+                    <input type="text" id="search-input" oninput="handleSearchInput(this.value)" placeholder="Buscar por servicio (ej. Netflix, Max) o contenido (ej. Fútbol, Anime)..." class="w-full bg-slate-50 border border-slate-900/[0.08] rounded-2xl pl-11 pr-4 py-3 text-xs md:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-700 focus:ring-1 focus:ring-blue-700 transition">
+                    <button id="clear-search" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-900 text-xs font-bold">
+                        Limpiar ✕
+                    </button>
+                </div>
+
+                <!-- Chips Horizontales Rápidos -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="filterCategory('all', this)" class="chip-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-700 text-white transition shadow-sm">
+                        Todas
+                    </button>
+                    <button onclick="filterCategory('cine', this)" class="chip-btn px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 border border-slate-900/[0.08] transition">
+                        🎬 Películas & Series
+                    </button>
+                    <button onclick="filterCategory('musica', this)" class="chip-btn px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 border border-slate-900/[0.08] transition">
+                        🎵 Música
+                    </button>
+                    <button onclick="filterCategory('deportes', this)" class="chip-btn px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 border border-slate-900/[0.08] transition">
+                        ⚽ Deportes
+                    </button>
+                    <button onclick="filterCategory('combo', this)" class="chip-btn px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 border border-slate-900/[0.08] transition">
+                        🔥 Combos
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rejilla del Catálogo (Cards Inteligentes de Doble Acción) -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
+    </section>
+
+    <!-- Constructor Interactivo de Combos -->
+    <section id="constructor" class="bg-white border-y border-slate-900/[0.08] py-16 relative overflow-hidden shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="text-blue-700 text-xs font-bold uppercase tracking-widest mb-2 block">Constructor Dinámico</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Arma tu Propio Combo a Medida</h2>
+            <p class="text-slate-600 text-sm max-w-xl mx-auto mb-8">
+                Selecciona las plataformas que usas a diario y recibe una cotización con descuento instantáneo.
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                <button onclick="toggleBuilderItem(this, 'Netflix')" class="p-4 rounded-2xl bg-slate-50 border border-slate-900/[0.08] hover:border-blue-700 transition text-xs font-bold text-slate-900 flex flex-col items-center gap-2 group shadow-sm">
+                    <span class="text-2xl group-hover:scale-110 transition">🎬</span> Netflix
+                </button>
+                <button onclick="toggleBuilderItem(this, 'Max')" class="p-4 rounded-2xl bg-slate-50 border border-slate-900/[0.08] hover:border-blue-700 transition text-xs font-bold text-slate-900 flex flex-col items-center gap-2 group shadow-sm">
+                    <span class="text-2xl group-hover:scale-110 transition">🍿</span> Max (HBO)
+                </button>
+                <button onclick="toggleBuilderItem(this, 'Disney+')" class="p-4 rounded-2xl bg-slate-50 border border-slate-900/[0.08] hover:border-blue-700 transition text-xs font-bold text-slate-900 flex flex-col items-center gap-2 group shadow-sm">
+                    <span class="text-2xl group-hover:scale-110 transition">⭐</span> Disney+
+                </button>
+                <button onclick="toggleBuilderItem(this, 'Prime Video')" class="p-4 rounded-2xl bg-slate-50 border border-slate-900/[0.08] hover:border-blue-700 transition text-xs font-bold text-slate-900 flex flex-col items-center gap-2 group shadow-sm">
+                    <span class="text-2xl group-hover:scale-110 transition">📦</span> Prime Video
+                </button>
+            </div>
+            <button onclick="checkoutBuilderWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-8 py-3.5 rounded-2xl transition shadow-xl shadow-emerald-600/20 text-xs inline-flex items-center gap-2">
+                💬 Solicitar Descuento del Combo por WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <!-- FAQ & Sección de Garantías en Acordeón -->
+    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-10">
+            <span class="text-blue-700 text-xs font-bold uppercase tracking-widest block mb-1">Garantía & FAQ</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900">Preguntas Frecuentes y Garantía</h2>
+        </div>
+
+        <div class="space-y-3">
+            <div class="bg-white border border-slate-900/[0.08] shadow-sm rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFaq(0)" class="w-full p-5 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                    <span>⚡ ¿Cuánto tarda en llegar mi cuenta o pantalla?</span>
+                    <span id="faq-icon-0" class="text-blue-700 text-base font-black">+</span>
+                </button>
+                <div id="faq-content-0" class="hidden px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-900/[0.05] pt-3">
+                    La entrega es automatizada e inmediata. Tras confirmar tu pago, recibes tus credenciales y el PIN de tu perfil por WhatsApp o correo en un rango de 1 a 10 minutos.
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-900/[0.08] shadow-sm rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFaq(1)" class="w-full p-5 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                    <span>🛡️ ¿Cómo funciona la garantía de reposición?</span>
+                    <span id="faq-icon-1" class="text-blue-700 text-base font-black">+</span>
+                </button>
+                <div id="faq-content-1" class="hidden px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-900/[0.05] pt-3">
+                    Te respaldamos durante el 100% de los días contratados. Si se presenta alguna interrupción o caída de perfil, nuestro equipo de soporte técnico te reemplaza las credenciales o soluciona el acceso en minutos.
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-900/[0.08] shadow-sm rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFaq(2)" class="w-full p-5 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                    <span>💳 ¿Qué medios de pago aceptan?</span>
+                    <span id="faq-icon-2" class="text-blue-700 text-base font-black">+</span>
+                </button>
+                <div id="faq-content-2" class="hidden px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-900/[0.05] pt-3">
+                    Aceptamos transferencias por Nequi, Daviplata, Bancolombia, pagos por PSE y tarjetas de crédito a través de nuestra pasarela o vía WhatsApp.
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-900/[0.08] shadow-sm rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFaq(3)" class="w-full p-5 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                    <span>🔄 ¿Puedo renovar la misma cuenta el próximo mes?</span>
+                    <span id="faq-icon-3" class="text-blue-700 text-base font-black">+</span>
+                </button>
+                <div id="faq-content-3" class="hidden px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-900/[0.05] pt-3">
+                    ¡Sí! Puedes renovar tu mismo perfil o cuenta mes a mes sin perder tus recomendaciones, historial de reproducción o listas guardadas.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal / Drawer de Detalles de Producto -->
+    <div id="product-detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md hidden transition-all duration-300">
+        <div class="bg-white border border-slate-900/[0.08] rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-modal-in">
+            <!-- Cabecera -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-900/[0.08] bg-slate-50">
+                <div class="flex items-center gap-4">
+                    <div id="modal-brand-icon" class="w-12 h-12 rounded-2xl bg-white border border-slate-900/[0.08] flex items-center justify-center text-2xl font-black shadow-sm">
+                        🎬
+                    </div>
+                    <div>
+                        <h2 id="modal-product-title" class="text-lg font-extrabold text-slate-900">Nombre del Plan</h2>
+                        <span id="modal-product-badge" class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-500/20 px-2.5 py-0.5 rounded-full inline-block mt-0.5">
+                            Entrega Inmediata
+                        </span>
+                    </div>
+                </div>
+                <button onclick="closeDetailModal()" class="text-slate-500 hover:text-slate-900 text-2xl font-bold w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition">&times;</button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-1">
+                <div class="flex border-b border-slate-900/[0.08] text-xs font-bold">
+                    <button id="tab-btn-includes" onclick="switchModalTab('includes')" class="modal-tab-btn py-2.5 px-4 text-blue-700 border-b-2 border-blue-700 transition">
+                        ✨ ¿Qué incluye?
+                    </button>
+                    <button id="tab-btn-devices" onclick="switchModalTab('devices')" class="modal-tab-btn py-2.5 px-4 text-slate-600 hover:text-slate-900 transition">
+                        📺 Dispositivos
+                    </button>
+                    <button id="tab-btn-rules" onclick="switchModalTab('rules')" class="modal-tab-btn py-2.5 px-4 text-slate-600 hover:text-slate-900 transition">
+                        🛡️ Reglas y Garantía
+                    </button>
+                </div>
+
+                <div id="tab-content-includes" class="modal-tab-content space-y-4">
+                    <div id="modal-features-list" class="space-y-2 text-xs text-slate-600"></div>
+                </div>
+
+                <div id="tab-content-devices" class="modal-tab-content space-y-4 hidden">
+                    <p class="text-xs text-slate-600 mb-3">Soporte multi-dispositivo sin interrupciones en la app oficial:</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-3 bg-slate-50 border border-slate-900/[0.08] rounded-xl text-center">
+                            <span class="text-xl block mb-1">📺</span>
+                            <span class="text-xs font-bold text-slate-900">Smart TV</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-900/[0.08] rounded-xl text-center">
+                            <span class="text-xl block mb-1">🔥</span>
+                            <span class="text-xs font-bold text-slate-900">TV Box / Stick</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-900/[0.08] rounded-xl text-center">
+                            <span class="text-xl block mb-1">📱</span>
+                            <span class="text-xs font-bold text-slate-900">Smartphones</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-900/[0.08] rounded-xl text-center">
+                            <span class="text-xl block mb-1">💻</span>
+                            <span class="text-xs font-bold text-slate-900">Laptops & PC</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-900/[0.08] rounded-xl text-center">
+                            <span class="text-xl block mb-1">🎮</span>
+                            <span class="text-xs font-bold text-slate-900">Consolas</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-900/[0.08] rounded-xl text-center">
+                            <span class="text-xl block mb-1">Tablet</span>
+                            <span class="text-xs font-bold text-slate-900">Tablets & iPad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-content-rules" class="modal-tab-content space-y-3 hidden">
+                    <div class="p-4 bg-slate-50 border border-slate-900/[0.08] rounded-2xl space-y-2.5 text-xs text-slate-600">
+                        <div>🔑 <strong>Perfil Privado con PIN:</strong> Espacio personal seguro.</div>
+                        <div>🚫 <strong>Uso Personal:</strong> Prohibido compartir credenciales con terceros.</div>
+                        <div>🛡️ <strong>Garantía Total:</strong> Reposición inmediata ante cualquier inconveniente.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer modal -->
+            <div class="p-4 sm:p-5 border-t border-slate-900/[0.08] bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <span class="text-[11px] text-slate-400 block">Variante Seleccionada</span>
+                    <span id="modal-recap-text" class="text-sm font-extrabold text-slate-900">1 Pantalla - 1 Mes</span>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <button id="modal-add-cart-btn" class="flex-1 sm:flex-initial bg-blue-700 hover:bg-blue-800 text-white text-xs font-extrabold px-5 py-3 rounded-xl transition shadow-lg shadow-blue-600/20">
+                        🛒 Añadir al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer Lateral (Mini-Cart Deslizante Expres de Compra en 1 Clic) -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white border-l border-slate-900/[0.08] flex flex-col shadow-2xl">
+                <!-- Header Drawer -->
+                <div class="flex items-center justify-between p-6 border-b border-slate-900/[0.08]">
+                    <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">🛒 Tu Carrito Express</h2>
+                    <button onclick="toggleCart()" class="text-slate-500 hover:text-slate-900 text-xl font-bold">&times;</button>
+                </div>
+
+                <!-- Carrito Items -->
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+
+                <!-- Footer Drawer con Formulario Express & Acciones Directas -->
+                <div class="p-6 border-t border-slate-900/[0.08] bg-slate-50 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-600 text-sm font-semibold">Total a Pagar:</span>
+                        <span id="cart-total" class="text-xl font-black text-slate-900">$0 COP</span>
+                    </div>
+
+                    <!-- Campo de Contacto del Cliente -->
+                    <div>
+                        <label class="block text-[11px] font-extrabold text-slate-500 uppercase mb-1.5">Tu WhatsApp o Correo (Para entrega de datos):</label>
+                        <input type="text" id="customer-contact" placeholder="Ej: +57 300 123 4567 o usuario@gmail.com" class="w-full bg-white border border-slate-900/[0.08] text-xs font-semibold text-slate-900 rounded-xl px-3.5 py-3 focus:outline-none focus:border-blue-700">
+                    </div>
+
+                    <!-- Botones de Pago Expres -->
+                    <div class="space-y-2 pt-1">
+                        <button onclick="checkoutWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 text-xs">
+                            💬 Pagar por WhatsApp (Instantáneo)
+                        </button>
+                        <button onclick="openPaymentModal()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 text-xs">
+                            💳 Pagar con Nequi / Daviplata / PSE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Información de Pago Directo (Nequi / Daviplata / PSE) -->
+    <div id="payment-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md hidden">
+        <div class="bg-white border border-slate-900/[0.08] rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-900/[0.08] pb-3">
+                <h3 class="font-extrabold text-base text-slate-900">💳 Medios de Pago Directo</h3>
+                <button onclick="closePaymentModal()" class="text-slate-500 hover:text-slate-900 text-xl font-bold">&times;</button>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div class="p-3.5 bg-slate-50 border border-slate-900/[0.08] rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="font-extrabold text-slate-900 block">📱 NEQUI</span>
+                        <span class="text-slate-600 text-[11px]">Número: <strong>3214465418</strong></span>
+                    </div>
+                    <button onclick="copyToClipboard('3214465418')" class="bg-white hover:bg-slate-100 text-blue-700 font-bold px-3 py-1.5 rounded-lg border border-slate-900/[0.08]">Copiar</button>
+                </div>
+
+                <div class="p-3.5 bg-slate-50 border border-slate-900/[0.08] rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="font-extrabold text-slate-900 block">📲 DAVIPLATA</span>
+                        <span class="text-slate-600 text-[11px]">Número: <strong>3214465418</strong></span>
+                    </div>
+                    <button onclick="copyToClipboard('3214465418')" class="bg-white hover:bg-slate-100 text-blue-700 font-bold px-3 py-1.5 rounded-lg border border-slate-900/[0.08]">Copiar</button>
+                </div>
+
+                <div class="p-3.5 bg-slate-50 border border-slate-900/[0.08] rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="font-extrabold text-slate-900 block">🏦 BANCOLOMBO (Ahorros)</span>
+                        <span class="text-slate-600 text-[11px]">Cuenta: <strong>912-847291-04</strong></span>
+                    </div>
+                    <button onclick="copyToClipboard('912-847291-04')" class="bg-white hover:bg-slate-100 text-blue-700 font-bold px-3 py-1.5 rounded-lg border border-slate-900/[0.08]">Copiar</button>
+                </div>
+            </div>
+
+            <div class="p-3.5 bg-emerald-50 border border-emerald-500/20 rounded-2xl text-[11px] text-emerald-800 leading-normal">
+                💡 <strong>Una vez realizado el pago:</strong> Envía el comprobante a nuestro WhatsApp para recibir tus credenciales al instante.
+            </div>
+
+            <button onclick="confirmPaymentWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl transition text-xs shadow-lg shadow-emerald-600/20">
+                💬 Enviar Comprobante por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Panel Admin -->
+    <div id="admin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md hidden">
+        <div class="bg-white border border-slate-900/[0.08] rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex items-center justify-between p-6 border-b border-slate-900/[0.08] bg-slate-50">
+                <div>
+                    <h2 class="text-base font-extrabold text-slate-900">⚙️ Panel de Control del Administrador</h2>
+                    <p class="text-[11px] text-slate-500">Modifica precios base y disponibilidad en tiempo real.</p>
+                </div>
+                <button onclick="closeAdminModal()" class="text-slate-500 hover:text-slate-900 text-xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-6 flex-1">
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Inventario y Precios</h3>
+                    <div id="admin-product-list" class="space-y-3"></div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-900/[0.08] bg-slate-50 flex justify-end">
+                <button onclick="closeAdminModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-900 text-xs font-bold px-5 py-2.5 rounded-xl transition">Guardar y Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>
