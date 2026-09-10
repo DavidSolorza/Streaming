@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnnouncementBanner } from './shared/components/AnnouncementBanner';
 import { Navbar } from './shared/components/Navbar';
 import { HeroSection } from './modules/hero/presentation/HeroSection';
 import { CatalogGrid } from './modules/catalog/presentation/containers/CatalogGrid';
 import { ProductDetailModal } from './modules/catalog/presentation/containers/ProductDetailModal';
+import { AdminProductModal } from './modules/catalog/presentation/containers/AdminProductModal';
+import { AdminLoginForm } from './modules/admin/presentation/AdminLoginForm';
+import { AdminDashboardPage } from './modules/admin/presentation/AdminDashboardPage';
+import { AdminRepository } from './modules/admin/infrastructure/adminRepository';
 import { FaqAccordion } from './modules/faq/presentation/FaqAccordion';
 import { CartDrawer } from './modules/cart/presentation/CartDrawer';
 import { PaymentModal } from './modules/checkout/presentation/PaymentModal';
@@ -11,7 +15,45 @@ import { Footer } from './shared/components/Footer';
 import { MobileBottomDock } from './shared/components/MobileBottomDock';
 
 export const App: React.FC = () => {
+  const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => AdminRepository.isAuthenticated());
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentHash(window.location.hash);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Vista Independiente: Mundo Administrador
+  if (currentHash === '#admin') {
+    if (!isAuthenticated) {
+      return (
+        <AdminLoginForm
+          onSuccess={() => setIsAuthenticated(true)}
+          onBackToStore={() => {
+            window.location.hash = '';
+          }}
+        />
+      );
+    }
+
+    return (
+      <AdminDashboardPage
+        onLogout={() => {
+          AdminRepository.logout();
+          setIsAuthenticated(false);
+        }}
+        onGoToStore={() => {
+          window.location.hash = '';
+        }}
+      />
+    );
+  }
+
+  // Vista Pública: Tienda y Catálogo
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 pb-20 md:pb-0">
       {/* Top Banner & Header */}
@@ -34,8 +76,6 @@ export const App: React.FC = () => {
         <CatalogGrid />
       </main>
 
-
-
       {/* Preguntas Frecuentes */}
       <FaqAccordion />
 
@@ -44,6 +84,7 @@ export const App: React.FC = () => {
 
       {/* Modales y Drawers Globales */}
       <ProductDetailModal />
+      <AdminProductModal />
       <CartDrawer />
       <PaymentModal />
       <MobileBottomDock />

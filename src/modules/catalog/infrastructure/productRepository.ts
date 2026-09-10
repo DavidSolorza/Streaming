@@ -1,6 +1,9 @@
 import { Product } from '../domain/entities/Product';
+import { eventBus } from '@/core/bus/eventBus';
 
-export const productsData: Product[] = [
+const PRODUCTS_STORAGE_KEY = 'cuentas_stream_products_v1';
+
+export const initialProductsData: Product[] = [
   { 
     id: 1, 
     name: 'Netflix Ultra HD 4K', 
@@ -222,88 +225,115 @@ export const productsData: Product[] = [
       'Calidad de sonido superior a 320 kbps con ecualizador personalizado',
       'Compatibilidad total con parlantes inteligentes, Smart TV y CarPlay'
     ]
-  },
-  { 
-    id: 7, 
-    name: 'Combo Trío: Netflix + Disney+ + Max', 
-    brand: 'Combo',
-    category: 'combo', 
-    brandGlow: 'brand-glow-combo',
-    iconName: 'lucide:flame',
-    logoBg: 'bg-pink-500/10 text-pink-500 border-pink-500/20',
-    available: true, 
-    bestseller: true,
-    badges: ['Ahorra 40%', '4K Ultra HD', 'Combo Estrella'],
-    searchTags: ['combo', 'netflix', 'disney', 'max', 'ahorro', 'trio', 'paquete'],
-    modes: {
-      pantalla: {
-        label: '3 Pantallas (1 por Servicio)',
-        devices: '3 Servicios simultáneos',
-        quality: '4K Ultra HD en todos los servicios',
-        access: 'Perfiles individuales con PIN de seguridad',
-        prices: { '1m': 39000, '3m': 105000, '6m': 195000 },
-        regularPrices: { '1m': 65000, '3m': 175000, '6m': 320000 }
-      },
-      cuenta: {
-        label: '3 Cuentas Completas',
-        devices: 'Hogar Completo Multi-pantalla',
-        quality: '4K UHD + ESPN Live + Dolby Atmos',
-        access: 'Cuentas familiares independientes',
-        prices: { '1m': 99000, '3m': 275000, '6m': 510000 },
-        regularPrices: { '1m': 160000, '3m': 420000, '6m': 780000 }
-      }
-    },
-    includes: [
-      'El combo de entretenimiento más cotizado de Colombia',
-      'Incluye todo el catálogo de Netflix, Disney+ con deportes ESPN y series HBO Max',
-      'Ahorra hasta más del 40% comparado con comprar cada servicio individualmente',
-      'Soporte técnico prioritario y renovación unificada el mismo día'
-    ]
-  },
-  { 
-    id: 8, 
-    name: 'Combo Dúo: Netflix + Prime Video', 
-    brand: 'Combo',
-    category: 'combo', 
-    brandGlow: 'brand-glow-combo',
-    iconName: 'lucide:layers',
-    logoBg: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-    available: true, 
-    bestseller: false,
-    badges: ['Ahorra 30%', '4K Ultra HD', 'Entrega 10 min'],
-    searchTags: ['combo', 'netflix', 'prime', 'ahorro', 'duo'],
-    modes: {
-      pantalla: {
-        label: '2 Pantallas (1 por Servicio)',
-        devices: '2 Servicios simultáneos',
-        quality: '4K Ultra HD & Full HD',
-        access: 'Perfiles individuales con PIN',
-        prices: { '1m': 23000, '3m': 62000, '6m': 115000 },
-        regularPrices: { '1m': 38000, '3m': 98000, '6m': 180000 }
-      },
-      cuenta: {
-        label: '2 Cuentas Completas',
-        devices: 'Hogar Completo',
-        quality: '4K UHD + HDR10+',
-        access: 'Cuentas completas independientes',
-        prices: { '1m': 62000, '3m': 165000, '6m': 310000 },
-        regularPrices: { '1m': 95000, '3m': 250000, '6m': 460000 }
-      }
-    },
-    includes: [
-      'Suma de producciones originales de Netflix y Amazon Prime Video',
-      'Ideal para amantes del cine independiente, series originales y documentales',
-      'Descuento integrado permanente y garantía respaldada por el canal oficial'
-    ]
   }
 ];
 
 export class ProductRepository {
+  private static cachedProducts: Product[] | null = null;
+
+  /**
+   * Obtiene la lista actual de productos (con persistencia en localStorage)
+   */
   static getProducts(): Product[] {
-    return productsData;
+    if (this.cachedProducts) {
+      return this.cachedProducts;
+    }
+
+    try {
+      const stored = localStorage.getItem(PRODUCTS_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          this.cachedProducts = parsed;
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Error al leer productos de localStorage:', e);
+    }
+
+    this.cachedProducts = [...initialProductsData];
+    this.persist(this.cachedProducts);
+    return this.cachedProducts;
   }
 
+  /**
+   * Busca un producto por ID
+   */
   static getProductById(id: number): Product | undefined {
-    return productsData.find(p => p.id === id);
+    return this.getProducts().find(p => p.id === id);
+  }
+
+  /**
+   * Añade un nuevo producto al catálogo
+   */
+  static addProduct(newProduct: Omit<Product, 'id'>): Product {
+    const products = this.getProducts();
+    const nextId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+    const created: Product = { ...newProduct, id: nextId };
+
+    const updatedList = [created, ...products];
+    this.cachedProducts = updatedList;
+    this.persist(updatedList);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', updatedList);
+    return created;
+  }
+
+  /**
+   * Edita la información o precios de un producto existente
+   */
+  static updateProduct(id: number, updatedFields: Partial<Product>): Product | undefined {
+    const products = this.getProducts();
+    const index = products.findIndex(p => p.id === id);
+    if (index === -1) return undefined;
+
+    const updatedProduct = { ...products[index], ...updatedFields };
+    products[index] = updatedProduct;
+
+    this.cachedProducts = [...products];
+    this.persist(this.cachedProducts);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cachedProducts);
+    return updatedProduct;
+  }
+
+  /**
+   * Elimina un producto del catálogo
+   */
+  static deleteProduct(id: number): boolean {
+    const products = this.getProducts();
+    const filtered = products.filter(p => p.id !== id);
+    if (filtered.length === products.length) return false;
+
+    this.cachedProducts = filtered;
+    this.persist(filtered);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', filtered);
+    return true;
+  }
+
+  /**
+   * Alterna el estado de disponibilidad ("Entrega Inmediata" vs "Agotado") en 1 clic
+   */
+  static toggleAvailability(id: number): Product | undefined {
+    const product = this.getProductById(id);
+    if (!product) return undefined;
+    return this.updateProduct(id, { available: !product.available });
+  }
+
+  /**
+   * Restablece el catálogo a los datos originales por defecto
+   */
+  static resetToDefaults(): Product[] {
+    this.cachedProducts = [...initialProductsData];
+    this.persist(this.cachedProducts);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cachedProducts);
+    return this.cachedProducts;
+  }
+
+  private static persist(products: Product[]): void {
+    try {
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products));
+    } catch (e) {
+      console.warn('Error al guardar productos en localStorage:', e);
+    }
   }
 }

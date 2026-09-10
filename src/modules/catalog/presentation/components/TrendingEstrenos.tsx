@@ -47,10 +47,6 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
             </h3>
           </div>
         </div>
-
-        <span className="text-xs text-blue-700 font-bold flex items-center gap-0.5 cursor-pointer hover:underline">
-          Haz clic para filtrar <ChevronRight className="w-3.5 h-3.5" />
-        </span>
       </div>
 
       {/* Carrusel Deslizante de Tarjetas Compactas con Skeletons */}

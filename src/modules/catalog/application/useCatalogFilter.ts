@@ -1,12 +1,19 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Product } from '../domain/entities/Product';
 import { ProductRepository } from '../infrastructure/productRepository';
+import { eventBus } from '@/core/bus/eventBus';
 
 export function useCatalogFilter() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [allProducts, setAllProducts] = useState<Product[]>(() => ProductRepository.getProducts());
 
-  const allProducts = useMemo(() => ProductRepository.getProducts(), []);
+  useEffect(() => {
+    const unsubscribe = eventBus.on('CATALOG:PRODUCTS_CHANGED', (products) => {
+      setAllProducts(products);
+    });
+    return unsubscribe;
+  }, []);
 
   const filteredProducts = useMemo(() => {
     return allProducts.filter(product => {
