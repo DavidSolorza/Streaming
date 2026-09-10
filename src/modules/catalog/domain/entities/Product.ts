@@ -15,7 +15,7 @@ export interface Product {
   id: number;
   name: string;
   brand: string;
-  category: 'cine' | 'musica' | 'deportes' | 'combo';
+  category: 'cine' | 'musica' | 'deportes' | 'combo' | 'trabajo';
   brandGlow: string;
   iconName: string; // Nombre del icono oficial en Iconify (ej: "logos:netflix-icon")
   logoText?: string;

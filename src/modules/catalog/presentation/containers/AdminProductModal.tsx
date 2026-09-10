@@ -71,10 +71,19 @@ export const AdminProductModal: React.FC = () => {
       setProducts(newProducts);
     });
 
+    const unSubEdit = eventBus.on('ADMIN:EDIT_PRODUCT', (prod) => {
+      refreshProducts();
+      setEditingProduct(prod);
+      setProductForm({ ...prod });
+      setActiveTab('edit');
+      setIsOpen(true);
+    });
+
     return () => {
       unSubOpen();
       unSubClose();
       unSubProducts();
+      unSubEdit();
     };
   }, []);
 
@@ -173,11 +182,13 @@ export const AdminProductModal: React.FC = () => {
                 '1m': price1M,
                 '3m': Math.round((price1M * 2.7) / 1000) * 1000,
                 '6m': Math.round((price1M * 5) / 1000) * 1000,
+                '12m': Math.round((price1M * 9) / 1000) * 1000,
               },
               regularPrices: {
                 '1m': price1M + 10000,
                 '3m': Math.round((price1M * 4) / 1000) * 1000,
                 '6m': Math.round((price1M * 7.5) / 1000) * 1000,
+                '12m': Math.round((price1M * 13) / 1000) * 1000,
               }
             },
             cuenta: {
@@ -189,11 +200,13 @@ export const AdminProductModal: React.FC = () => {
                 '1m': Math.round((price1M * 2.5) / 1000) * 1000,
                 '3m': Math.round((price1M * 6.5) / 1000) * 1000,
                 '6m': Math.round((price1M * 12) / 1000) * 1000,
+                '12m': Math.round((price1M * 20) / 1000) * 1000,
               },
               regularPrices: {
                 '1m': Math.round((price1M * 3.5) / 1000) * 1000,
                 '3m': Math.round((price1M * 9) / 1000) * 1000,
                 '6m': Math.round((price1M * 16) / 1000) * 1000,
+                '12m': Math.round((price1M * 26) / 1000) * 1000,
               }
             }
           },
@@ -231,11 +244,13 @@ export const AdminProductModal: React.FC = () => {
                 '1m': price1M,
                 '3m': Math.round((price1M * 2.7) / 1000) * 1000,
                 '6m': Math.round((price1M * 5) / 1000) * 1000,
+                '12m': Math.round((price1M * 9) / 1000) * 1000,
               },
               regularPrices: {
                 '1m': price1M + 15000,
                 '3m': Math.round((price1M * 4) / 1000) * 1000,
                 '6m': Math.round((price1M * 7.5) / 1000) * 1000,
+                '12m': Math.round((price1M * 12) / 1000) * 1000,
               }
             },
             cuenta: {
@@ -247,11 +262,13 @@ export const AdminProductModal: React.FC = () => {
                 '1m': Math.round((price1M * 2.2) / 1000) * 1000,
                 '3m': Math.round((price1M * 5.8) / 1000) * 1000,
                 '6m': Math.round((price1M * 11) / 1000) * 1000,
+                '12m': Math.round((price1M * 18) / 1000) * 1000,
               },
               regularPrices: {
                 '1m': Math.round((price1M * 3) / 1000) * 1000,
                 '3m': Math.round((price1M * 8) / 1000) * 1000,
                 '6m': Math.round((price1M * 15) / 1000) * 1000,
+                '12m': Math.round((price1M * 24) / 1000) * 1000,
               }
             }
           },
@@ -483,6 +500,7 @@ export const AdminProductModal: React.FC = () => {
                         <option value="cine">Cine y Series (Películas / Shows)</option>
                         <option value="musica">Música y Podcasts</option>
                         <option value="deportes">Deportes en Vivo (ESPN / F1)</option>
+                        <option value="trabajo">Trabajo & Edición (Canva, Gemini, CapCut)</option>
                       </select>
                     </div>
 
@@ -565,15 +583,37 @@ export const AdminProductModal: React.FC = () => {
               )}
 
               {editingProduct && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-6">
+                  <div className="flex items-center space-x-3 bg-blue-50/70 p-3.5 rounded-2xl border border-blue-200">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center border shadow-xs ${productForm.logoBg || 'bg-blue-500/10'}`}>
+                      <Icon icon={productForm.iconName || 'logos:netflix-icon'} className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-slate-900 text-sm">Detalles y Edición Completa: {editingProduct.name}</h4>
+                      <p className="text-[11px] text-slate-500 font-medium">Modifica los precios por mes (1m, 3m, 6m, 12m), categoría, estado y beneficios.</p>
+                    </div>
+                  </div>
+
+                  {/* Información Principal */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">Nombre Comercial</label>
                       <input
                         type="text"
                         value={productForm.name || ''}
                         onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold focus:ring-2 focus:ring-blue-600 outline-none"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Marca / Proveedor</label>
+                      <input
+                        type="text"
+                        value={productForm.brand || ''}
+                        onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold focus:ring-2 focus:ring-blue-600 outline-none"
                         required
                       />
                     </div>
@@ -583,13 +623,131 @@ export const AdminProductModal: React.FC = () => {
                       <select
                         value={productForm.category || 'cine'}
                         onChange={(e) => setProductForm({ ...productForm, category: e.target.value as any })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold bg-white focus:ring-2 focus:ring-blue-600 outline-none"
                       >
                         <option value="cine">Cine y Series</option>
-                        <option value="musica">Música</option>
-                        <option value="deportes">Deportes</option>
+                        <option value="musica">Música & Audio</option>
+                        <option value="deportes">Deportes en Vivo</option>
+                        <option value="trabajo">Trabajo & Edición (Canva, Gemini, CapCut)</option>
                         <option value="combo">Combo Multi-Plataforma</option>
                       </select>
+                    </div>
+                  </div>
+
+                  {/* Badges & Disponibilidad */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Etiquetas / Badges (separados por coma)</label>
+                      <input
+                        type="text"
+                        value={Array.isArray(productForm.badges) ? productForm.badges.join(', ') : ''}
+                        onChange={(e) => setProductForm({ ...productForm, badges: e.target.value.split(',').map(s => s.trim()).filter(Boolean) })}
+                        placeholder="4K UHD, Entrega Inmediata, Renovable"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none"
+                      />
+                    </div>
+
+                    <div className="flex items-center space-x-6 pt-5">
+                      <label className="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!!productForm.available}
+                          onChange={(e) => setProductForm({ ...productForm, available: e.target.checked })}
+                          className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                        />
+                        Disponible / Entrega Inmediata
+                      </label>
+                      <label className="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!!productForm.bestseller}
+                          onChange={(e) => setProductForm({ ...productForm, bestseller: e.target.checked })}
+                          className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                        />
+                        Más Vendido (Bestseller)
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* PRECIOS 1 PANTALLA POR MES */}
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <h5 className="font-extrabold text-xs text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                      <Tv className="w-4 h-4 text-blue-600" />
+                      Precios 1 Pantalla (Perfil con PIN)
+                    </h5>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {(['1m', '3m', '6m', '12m'] as const).map((durKey) => (
+                        <div key={`pantalla-${durKey}`}>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1 uppercase">
+                            {durKey === '1m' ? '1 Mes' : durKey === '3m' ? '3 Meses' : durKey === '6m' ? '6 Meses' : '12 Meses'}
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-2 text-slate-400 text-xs font-bold">$</span>
+                            <input
+                              type="number"
+                              value={productForm.modes?.pantalla?.prices?.[durKey] ?? 0}
+                              onChange={(e) => {
+                                const val = Number(e.target.value);
+                                setProductForm({
+                                  ...productForm,
+                                  modes: {
+                                    ...productForm.modes!,
+                                    pantalla: {
+                                      ...productForm.modes!.pantalla,
+                                      prices: {
+                                        ...productForm.modes!.pantalla.prices,
+                                        [durKey]: val
+                                      }
+                                    }
+                                  }
+                                });
+                              }}
+                              className="w-full pl-6 pr-2 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-900 font-mono focus:ring-2 focus:ring-blue-600 outline-none"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* PRECIOS CUENTA COMPLETA POR MES */}
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <h5 className="font-extrabold text-xs text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-blue-600" />
+                      Precios Cuenta Completa (Hogar)
+                    </h5>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {(['1m', '3m', '6m', '12m'] as const).map((durKey) => (
+                        <div key={`cuenta-${durKey}`}>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1 uppercase">
+                            {durKey === '1m' ? '1 Mes' : durKey === '3m' ? '3 Meses' : durKey === '6m' ? '6 Meses' : '12 Meses'}
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-2.5 top-2 text-slate-400 text-xs font-bold">$</span>
+                            <input
+                              type="number"
+                              value={productForm.modes?.cuenta?.prices?.[durKey] ?? 0}
+                              onChange={(e) => {
+                                const val = Number(e.target.value);
+                                setProductForm({
+                                  ...productForm,
+                                  modes: {
+                                    ...productForm.modes!,
+                                    cuenta: {
+                                      ...productForm.modes!.cuenta,
+                                      prices: {
+                                        ...productForm.modes!.cuenta.prices,
+                                        [durKey]: val
+                                      }
+                                    }
+                                  }
+                                });
+                              }}
+                              className="w-full pl-6 pr-2 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-900 font-mono focus:ring-2 focus:ring-blue-600 outline-none"
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

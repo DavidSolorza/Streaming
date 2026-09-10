@@ -99,15 +99,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Duración del Servicio:</span>
             {selectedDuration === '3m' && <span className="text-[10px] font-extrabold text-emerald-600">Ahorra 15%</span>}
             {selectedDuration === '6m' && <span className="text-[10px] font-extrabold text-emerald-600">Ahorra 25%</span>}
+            {selectedDuration === '12m' && <span className="text-[10px] font-extrabold text-emerald-600">Ahorra 35% Anual</span>}
           </div>
-          <div className="grid grid-cols-3 gap-1.5 text-xs font-bold">
-            {(['1m', '3m', '6m'] as DurationKey[]).map(dur => (
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 text-[11px] font-bold">
+            {(Object.keys(modeData.prices) as DurationKey[]).map(dur => (
               <button
                 key={dur}
                 onClick={() => setSelectedDuration(dur)}
-                className={`py-2 rounded-xl border transition ${selectedDuration === dur ? 'bg-white border-blue-700 text-slate-900 shadow-sm' : 'bg-slate-100 border-slate-900/[0.08] text-slate-600 hover:text-slate-900'}`}
+                className={`py-2 px-1 rounded-xl border transition ${selectedDuration === dur ? 'bg-white border-blue-700 text-slate-900 shadow-sm font-extrabold' : 'bg-slate-100 border-slate-900/[0.08] text-slate-600 hover:text-slate-900'}`}
               >
-                {dur === '1m' ? '1 Mes' : dur === '3m' ? '3 Meses' : '6 Meses'}
+                {dur === '1m' ? '1 Mes' : dur === '3m' ? '3 Meses' : dur === '6m' ? '6 Meses' : '12 Meses'}
               </button>
             ))}
           </div>

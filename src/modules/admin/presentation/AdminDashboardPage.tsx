@@ -21,13 +21,16 @@ import {
   Sparkles,
   Layers,
   Store,
-  Flame
+  Flame,
+  Edit3
 } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import { Product } from '../../catalog/domain/entities/Product';
 import { ProductRepository } from '../../catalog/infrastructure/productRepository';
 import { PaymentConfig } from '../domain/entities/AdminConfig';
 import { AdminRepository } from '../infrastructure/adminRepository';
+import { AdminProductModal } from '../../catalog/presentation/containers/AdminProductModal';
+import { eventBus } from '@/core/bus/eventBus';
 
 interface AdminDashboardPageProps {
   onLogout: () => void;
@@ -52,7 +55,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
   // Fast Creation Form States (Zero friction inline)
   const [createType, setCreateType] = useState<'single' | 'combo'>('single');
   const [newName, setNewName] = useState('');
-  const [newCategory, setNewCategory] = useState<'cine' | 'musica' | 'deportes'>('cine');
+  const [newCategory, setNewCategory] = useState<'cine' | 'musica' | 'deportes' | 'trabajo'>('cine');
   const [newPrice, setNewPrice] = useState<number>(15000);
   const [comboPlatforms, setComboPlatforms] = useState<string[]>(['Netflix', 'Disney+']);
 
@@ -153,16 +156,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
             devices: '1 Dispositivo simultáneo',
             quality: '4K Ultra HD + HDR',
             access: 'Perfil privado con PIN de 4 dígitos',
-            prices: { '1m': pVal, '3m': Math.round((pVal * 2.7)/1000)*1000, '6m': Math.round((pVal * 5)/1000)*1000 },
-            regularPrices: { '1m': pVal + 10000, '3m': Math.round((pVal * 4)/1000)*1000, '6m': Math.round((pVal * 7.5)/1000)*1000 }
+            prices: { '1m': pVal, '3m': Math.round((pVal * 2.7)/1000)*1000, '6m': Math.round((pVal * 5)/1000)*1000, '12m': Math.round((pVal * 9)/1000)*1000 },
+            regularPrices: { '1m': pVal + 10000, '3m': Math.round((pVal * 4)/1000)*1000, '6m': Math.round((pVal * 7.5)/1000)*1000, '12m': Math.round((pVal * 13)/1000)*1000 }
           },
           cuenta: {
             label: 'Cuenta Completa (Hogar)',
             devices: '4 Dispositivos simultáneos',
             quality: '4K Ultra HD + Dolby Atmos',
             access: 'Correo y clave propia renovable',
-            prices: { '1m': Math.round((pVal * 2.5)/1000)*1000, '3m': Math.round((pVal * 6.5)/1000)*1000, '6m': Math.round((pVal * 12)/1000)*1000 },
-            regularPrices: { '1m': Math.round((pVal * 3.5)/1000)*1000, '3m': Math.round((pVal * 9)/1000)*1000, '6m': Math.round((pVal * 16)/1000)*1000 }
+            prices: { '1m': Math.round((pVal * 2.5)/1000)*1000, '3m': Math.round((pVal * 6.5)/1000)*1000, '6m': Math.round((pVal * 12)/1000)*1000, '12m': Math.round((pVal * 20)/1000)*1000 },
+            regularPrices: { '1m': Math.round((pVal * 3.5)/1000)*1000, '3m': Math.round((pVal * 9)/1000)*1000, '6m': Math.round((pVal * 16)/1000)*1000, '12m': Math.round((pVal * 26)/1000)*1000 }
           }
         },
         includes: [
@@ -197,16 +200,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
             devices: `${comboPlatforms.length} Servicios Activos`,
             quality: '4K Ultra HD en todos los servicios',
             access: 'Perfiles privados con PIN de seguridad',
-            prices: { '1m': pVal, '3m': Math.round((pVal * 2.7)/1000)*1000, '6m': Math.round((pVal * 5)/1000)*1000 },
-            regularPrices: { '1m': pVal + 15000, '3m': Math.round((pVal * 4)/1000)*1000, '6m': Math.round((pVal * 7.5)/1000)*1000 }
+            prices: { '1m': pVal, '3m': Math.round((pVal * 2.7)/1000)*1000, '6m': Math.round((pVal * 5)/1000)*1000, '12m': Math.round((pVal * 9)/1000)*1000 },
+            regularPrices: { '1m': pVal + 15000, '3m': Math.round((pVal * 4)/1000)*1000, '6m': Math.round((pVal * 7.5)/1000)*1000, '12m': Math.round((pVal * 12)/1000)*1000 }
           },
           cuenta: {
             label: `Cuentas Completas (${comboPlatforms.length} Servicios)`,
             devices: 'Todos los dispositivos activados',
             quality: '4K Ultra HD + Dolby Atmos',
             access: 'Acceso total a cuentas familiares',
-            prices: { '1m': Math.round((pVal * 2.2)/1000)*1000, '3m': Math.round((pVal * 5.8)/1000)*1000, '6m': Math.round((pVal * 11)/1000)*1000 },
-            regularPrices: { '1m': Math.round((pVal * 3)/1000)*1000, '3m': Math.round((pVal * 8)/1000)*1000, '6m': Math.round((pVal * 15)/1000)*1000 }
+            prices: { '1m': Math.round((pVal * 2.2)/1000)*1000, '3m': Math.round((pVal * 5.8)/1000)*1000, '6m': Math.round((pVal * 11)/1000)*1000, '12m': Math.round((pVal * 18)/1000)*1000 },
+            regularPrices: { '1m': Math.round((pVal * 3)/1000)*1000, '3m': Math.round((pVal * 8)/1000)*1000, '6m': Math.round((pVal * 15)/1000)*1000, '12m': Math.round((pVal * 24)/1000)*1000 }
           }
         },
         includes: [
@@ -425,6 +428,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
                     <option value="cine">Cine y Series</option>
                     <option value="musica">Música & Audio</option>
                     <option value="deportes">Deportes en Vivo</option>
+                    <option value="trabajo">Trabajo & Edición (Canva, Gemini, CapCut)</option>
                   </select>
                 </div>
               ) : (
@@ -524,7 +528,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {products.map((prod) => (
-                  <tr key={prod.id} className="hover:bg-slate-50/80 transition">
+                  <tr 
+                    key={prod.id} 
+                    onClick={(e) => {
+                      // Prevent modal if target is input or button
+                      const target = e.target as HTMLElement;
+                      if (target.tagName === 'INPUT' || target.closest('button') || target.closest('input')) return;
+                      eventBus.emit('ADMIN:EDIT_PRODUCT', prod);
+                    }}
+                    className="hover:bg-blue-50/60 transition cursor-pointer group"
+                    title="Haz clic para ver detalles y editar este producto"
+                  >
                     
                     {/* Producto */}
                     <td className="p-3">
@@ -533,7 +547,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
                           <Icon icon={prod.iconName} className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="font-black text-slate-900 block text-xs">{prod.name}</span>
+                          <span className="font-black text-slate-900 block text-xs group-hover:text-blue-700 transition">{prod.name}</span>
                           <span className="text-[10px] text-slate-400 font-bold">{prod.brand}</span>
                         </div>
                       </div>
@@ -546,9 +560,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
                           ? 'bg-purple-50 text-purple-700 border-purple-200'
                           : prod.category === 'musica'
                           ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : prod.category === 'trabajo'
+                          ? 'bg-amber-50 text-amber-800 border-amber-200'
                           : 'bg-blue-50 text-blue-700 border-blue-200'
                       }`}>
-                        {prod.category}
+                        {prod.category === 'trabajo' ? 'Trabajo & Edición' : prod.category}
                       </span>
                     </td>
 
@@ -595,13 +611,23 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
 
                     {/* Acciones */}
                     <td className="p-3 text-right">
-                      <button
-                        onClick={() => handleDelete(prod.id, prod.name)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
-                        title="Eliminar servicio"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => eventBus.emit('ADMIN:EDIT_PRODUCT', prod)}
+                          className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition text-[11px] font-extrabold flex items-center gap-1"
+                          title="Editar detalles completos"
+                        >
+                          <Edit3 className="w-3.5 h-3.5" />
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDelete(prod.id, prod.name)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
+                          title="Eliminar servicio"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
 
                   </tr>
@@ -612,6 +638,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
         </section>
 
       </div>
+
+      {/* Global Admin Modal for Full Details & Editing */}
+      <AdminProductModal />
     </div>
   );
 };

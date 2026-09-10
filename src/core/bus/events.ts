@@ -13,6 +13,7 @@ export type AppEvents = {
   'PAYMENT:CLOSE_MODAL': void;
   'ADMIN:OPEN_MODAL': void;
   'ADMIN:CLOSE_MODAL': void;
+  'ADMIN:EDIT_PRODUCT': Product;
   'ADMIN:CONFIG_CHANGED': PaymentConfig;
   'NOTIFICATION:SHOW': { message: string; type: 'success' | 'info' | 'error' };
 };

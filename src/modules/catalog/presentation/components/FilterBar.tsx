@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, X, Film, Music, Trophy, Flame, Sparkles } from 'lucide-react';
+import { Search, X, Film, Music, Trophy, Flame, Sparkles, Briefcase } from 'lucide-react';
 
 interface FilterBarProps {
   selectedCategory: string;
@@ -20,6 +20,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     { id: 'all', label: 'Todas', icon: Sparkles },
     { id: 'cine', label: 'Películas & Series', icon: Film },
     { id: 'musica', label: 'Música', icon: Music },
+    { id: 'trabajo', label: 'Trabajo & Edición', icon: Briefcase },
     { id: 'deportes', label: 'Deportes', icon: Trophy },
     { id: 'combo', label: 'Combos', icon: Flame },
   ];
