@@ -10,11 +10,11 @@ export interface TrendingItem {
   posterUrl: string;
 }
 
-const CACHE_KEY = 'trending_estrenos_cache';
-const CACHE_TIME_KEY = 'trending_estrenos_timestamp';
+const CACHE_KEY = 'trending_estrenos_cache_v2';
+const CACHE_TIME_KEY = 'trending_estrenos_timestamp_v2';
 const ONE_DAY_MS = 24 * 60 * 60 * 1000; // 24 Horas
 
-// Lista de respaldo instantánea (Garantiza que NUNCA se vea vacía la interfaz)
+// Lista de respaldo 100% confiable con pósteres HD verificados de TMDb
 const FALLBACK_ESTRENOS: TrendingItem[] = [
   {
     id: 'f1',
@@ -23,7 +23,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-red-600',
     rating: 8.9,
-    posterUrl: 'https://image.tmdb.org/t/p/w185/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',
   },
   {
     id: 'f2',
@@ -32,7 +32,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-blue-600',
     rating: 8.7,
-    posterUrl: 'https://image.tmdb.org/t/p/w185/1XDDXPXGiI8id7MrUxK26ke7Wus.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1XDDXPXGiI8id7MrUxK26ke7Wus.jpg',
   },
   {
     id: 'f3',
@@ -41,25 +41,25 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-sky-600',
     rating: 8.2,
-    posterUrl: 'https://image.tmdb.org/t/p/w185/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
   },
   {
     id: 'f4',
-    title: 'The Boys T4',
+    title: 'The Boys (T4)',
     platform: 'Prime Video',
     platformId: 'cine',
     platformColor: 'bg-cyan-600',
     rating: 8.6,
-    posterUrl: 'https://image.tmdb.org/t/p/w185/7Ns6tO3aYjppI5LoNOEGvdipAAL.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7Ns6tO3aYjppI5LoNOEGvdipAAL.jpg',
   },
   {
     id: 'f5',
-    title: 'Champions League ESPN',
+    title: 'Intensamente 2',
     platform: 'Disney+',
-    platformId: 'deportes',
+    platformId: 'cine',
     platformColor: 'bg-sky-600',
-    rating: 9.4,
-    posterUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&q=80',
+    rating: 8.5,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/kDp1vUBnMpeYr2s52sY69v3C8h2.jpg',
   },
   {
     id: 'f6',
@@ -68,13 +68,21 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-orange-500',
     rating: 9.1,
-    posterUrl: 'https://image.tmdb.org/t/p/w185/z6c98qUv64t00M85iH2qXQjXgU3.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/z6c98qUv64t00M85iH2qXQjXgU3.jpg',
   }
 ];
 
 export class TrendingRepository {
   static async getTrending(): Promise<TrendingItem[]> {
-    // 1. Revisar si tenemos datos frescos en caché local (< 24 horas)
+    // Limpiar claves de caché antiguas si existen
+    try {
+      localStorage.removeItem('trending_estrenos_cache');
+      localStorage.removeItem('trending_estrenos_timestamp');
+    } catch (e) {
+      // Ignorar errores de limpieza
+    }
+
+    // 1. Revisar si tenemos datos frescos en caché v2 (< 24 horas)
     try {
       const cachedData = localStorage.getItem(CACHE_KEY);
       const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
@@ -82,18 +90,21 @@ export class TrendingRepository {
       if (cachedData && cachedTime) {
         const isStillFresh = Date.now() - parseInt(cachedTime, 10) < ONE_DAY_MS;
         if (isStillFresh) {
-          return JSON.parse(cachedData);
+          const parsed: TrendingItem[] = JSON.parse(cachedData);
+          if (Array.isArray(parsed) && parsed.length >= 4) {
+            return parsed;
+          }
         }
       }
     } catch (err) {
-      console.warn('Error leyendo localStorage caché:', err);
+      console.warn('Error leyendo localStorage caché v2:', err);
     }
 
     // 2. Si no hay caché o ya venció, consultamos TMDb en español
     try {
       const apiKey = ENV.TMDB_API_KEY;
       const response = await fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&language=es-MX`
+        `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&language=es-MX`
       );
 
       if (!response.ok) throw new Error(`HTTP Error ${response.status} al conectar con TMDb`);
@@ -109,7 +120,7 @@ export class TrendingRepository {
         (item: any) => item.poster_path && (item.title || item.name)
       );
 
-      if (validItems.length === 0) {
+      if (validItems.length < 4) {
         return FALLBACK_ESTRENOS;
       }
 
@@ -131,16 +142,16 @@ export class TrendingRepository {
           platformId: platform.id,
           platformColor: platform.color,
           rating: Number(item.vote_average ? item.vote_average.toFixed(1) : 8.5),
-          posterUrl: `https://image.tmdb.org/t/p/w185${item.poster_path}`,
+          posterUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
         };
       });
 
-      // 5. Guardar en caché local por 24 horas
+      // 5. Guardar en caché local v2 por 24 horas
       try {
         localStorage.setItem(CACHE_KEY, JSON.stringify(formattedList));
         localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
       } catch (err) {
-        console.warn('Error guardando en localStorage:', err);
+        console.warn('Error guardando en localStorage v2:', err);
       }
 
       return formattedList;

@@ -17,20 +17,22 @@ export const PosterImage: React.FC<PosterImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  if (hasError) {
+  if (hasError || !src) {
     return (
-      <div className={`w-full h-full flex flex-col items-center justify-center bg-slate-800 p-4 text-center ${className}`}>
-        <Film className="w-8 h-8 text-slate-500 mb-2" />
-        <span className="text-[10px] font-bold text-slate-400 line-clamp-2">{alt}</span>
+      <div className={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-slate-800 to-slate-950 p-4 text-center ${className}`}>
+        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-2">
+          <Film className="w-5 h-5 text-blue-400" />
+        </div>
+        <span className="text-[11px] font-extrabold text-white line-clamp-2 drop-shadow-sm">{alt}</span>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-full bg-slate-800 overflow-hidden">
+    <div className="relative w-full h-full bg-slate-900 overflow-hidden">
       {!isLoaded && (
-        <div className="absolute inset-0 bg-slate-800 animate-pulse flex items-center justify-center">
-          <Film className="w-6 h-6 text-slate-700 animate-bounce" />
+        <div className="absolute inset-0 bg-slate-900 animate-pulse flex items-center justify-center">
+          <Film className="w-6 h-6 text-slate-700 animate-pulse" />
         </div>
       )}
       <img
@@ -39,7 +41,8 @@ export const PosterImage: React.FC<PosterImageProps> = ({
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         loading="lazy"
-        className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className}`}
+        crossOrigin="anonymous"
+        className={`w-full h-full object-cover transition-all duration-500 ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} ${className}`}
       />
     </div>
   );
