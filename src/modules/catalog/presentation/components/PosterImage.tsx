@@ -41,7 +41,6 @@ export const PosterImage: React.FC<PosterImageProps> = ({
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         loading="lazy"
-        crossOrigin="anonymous"
         className={`w-full h-full object-cover transition-all duration-500 ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} ${className}`}
       />
     </div>
