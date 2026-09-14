@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ComboEngine } from '../domain/comboEngine';
+import { toast } from '@/core/utils/toast';
 
 export function useComboBuilder() {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -14,7 +15,7 @@ export function useComboBuilder() {
 
   const handleCheckoutCombo = () => {
     if (selectedItems.length === 0) {
-      alert('Selecciona al menos una plataforma para armar tu combo personalizado.');
+      toast.warning('Selecciona al menos una plataforma para armar tu combo personalizado.', 'Arma tu Combo');
       return;
     }
     const message = `¡Hola! Quisiera cotizar un combo personalizado con las siguientes plataformas: *${selectedItems.join(', ')}*. ¿Qué precio especial me pueden ofrecer?`;

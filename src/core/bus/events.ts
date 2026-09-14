@@ -17,5 +17,19 @@ export type AppEvents = {
   'ADMIN:CLOSE_MODAL': void;
   'ADMIN:EDIT_PRODUCT': Product;
   'ADMIN:CONFIG_CHANGED': PaymentConfig;
-  'NOTIFICATION:SHOW': { message: string; type: 'success' | 'info' | 'error' };
+  'NOTIFICATION:SHOW': { 
+    message: string; 
+    type?: 'success' | 'info' | 'error' | 'warning' | 'cart'; 
+    title?: string;
+    iconName?: string;
+    price?: number;
+  };
+  'CONFIRMATION:SHOW': {
+    title: string;
+    message: string;
+    confirmText?: string;
+    cancelText?: string;
+    variant?: 'danger' | 'warning' | 'info';
+    onConfirm: () => void;
+  };
 };

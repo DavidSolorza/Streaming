@@ -19,6 +19,7 @@ import { Icon } from '@iconify/react';
 import { Product } from '../../domain/entities/Product';
 import { ProductRepository } from '../../infrastructure/productRepository';
 import { eventBus } from '@/core/bus/eventBus';
+import { toast } from '@/core/utils/toast';
 
 const AVAILABLE_PLATFORMS = [
   { name: 'Netflix', icon: 'logos:netflix-icon', bg: 'bg-red-500/10 text-red-500 border-red-500/20' },
@@ -100,17 +101,31 @@ export const AdminProductModal: React.FC = () => {
   };
 
   const handleDeleteProduct = (id: number, name: string) => {
-    if (window.confirm(`¿Seguro que deseas eliminar "${name}" del catálogo?`)) {
-      ProductRepository.deleteProduct(id);
-      handleNotify(`Producto "${name}" eliminado correctamente`);
-    }
+    toast.confirm({
+      title: '¿Eliminar Producto?',
+      message: `¿Seguro que deseas eliminar "${name}" del catálogo?`,
+      confirmText: 'Sí, Eliminar',
+      cancelText: 'Cancelar',
+      variant: 'danger',
+      onConfirm: () => {
+        ProductRepository.deleteProduct(id);
+        handleNotify(`Producto "${name}" eliminado correctamente`);
+      }
+    });
   };
 
   const handleResetDefaults = () => {
-    if (window.confirm('¿Restablecer todo el catálogo a los datos originales por defecto?')) {
-      ProductRepository.resetToDefaults();
-      handleNotify('Catálogo restablecido por defecto');
-    }
+    toast.confirm({
+      title: '¿Restablecer Catálogo?',
+      message: '¿Restablecer todo el catálogo a los datos originales por defecto?',
+      confirmText: 'Restablecer Todo',
+      cancelText: 'Cancelar',
+      variant: 'warning',
+      onConfirm: () => {
+        ProductRepository.resetToDefaults();
+        handleNotify('Catálogo restablecido por defecto');
+      }
+    });
   };
 
   const handleStartCreate = () => {
@@ -146,7 +161,7 @@ export const AdminProductModal: React.FC = () => {
 
     if (editingProduct) {
       if (!productForm.name) {
-        alert('Ingresa el nombre del producto.');
+        toast.warning('Ingresa el nombre del producto.', 'Campo Requerido');
         return;
       }
       ProductRepository.updateProduct(editingProduct.id, productForm);
@@ -154,7 +169,7 @@ export const AdminProductModal: React.FC = () => {
     } else {
       if (creationKind === 'single') {
         if (!simpleName.trim()) {
-          alert('Por favor ingresa el nombre del servicio.');
+          toast.warning('Por favor ingresa el nombre del servicio.', 'Campo Requerido');
           return;
         }
 
@@ -668,6 +683,39 @@ export const AdminProductModal: React.FC = () => {
                       </label>
                     </div>
                   </div>
+
+                  {/* PRECIOS DE PLANES ESPECIALES SI APLICA (CANVA / NETFLIX) */}
+                  {productForm.customPlans && productForm.customPlans.length > 0 && (
+                    <div className="bg-teal-50/70 p-4 rounded-2xl border border-teal-200/80 space-y-3">
+                      <h5 className="font-extrabold text-xs text-teal-900 uppercase tracking-wider flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-teal-700" />
+                        Precios de Modalidades y Planes Especiales ({productForm.customPlans.length} Opciones)
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {productForm.customPlans.map((plan, pIdx) => (
+                          <div key={plan.id} className="bg-white p-3 rounded-xl border border-teal-200/80 shadow-xs">
+                            <label className="block text-[11px] font-black text-teal-950 mb-1 truncate">
+                              {plan.label} — <span className="text-[10px] text-slate-500 font-normal">{plan.fullName}</span>
+                            </label>
+                            <div className="relative">
+                              <span className="absolute left-2.5 top-2 text-slate-400 text-xs font-bold">$</span>
+                              <input
+                                type="number"
+                                value={plan.price}
+                                onChange={(e) => {
+                                  const val = Number(e.target.value);
+                                  const updated = [...(productForm.customPlans || [])];
+                                  updated[pIdx] = { ...updated[pIdx], price: val };
+                                  setProductForm({ ...productForm, customPlans: updated });
+                                }}
+                                className="w-full pl-6 pr-2 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-900 font-mono focus:ring-2 focus:ring-teal-600 outline-none"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* PRECIOS 1 PANTALLA POR MES */}
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">

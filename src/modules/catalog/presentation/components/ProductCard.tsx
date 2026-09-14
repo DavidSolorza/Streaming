@@ -14,14 +14,14 @@ interface ProductCardProps {
   product: Product;
 }
 
-const CANVA_PLANS = [
+const DEFAULT_CANVA_PLANS = [
   { id: '1m-correo', label: 'Correo propio', fullName: 'Canva 1 mes con correo del cliente', price: 18000, regularPrice: 28000 },
   { id: '1m', label: '1 Mes', fullName: 'Canva 1 mes', price: 15000, regularPrice: 25000 },
   { id: '6m', label: '6 Meses', fullName: 'Canva 6 meses', price: 50000, regularPrice: 75000 },
   { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 80000, regularPrice: 110000 },
 ];
 
-const NETFLIX_PLANS = [
+const DEFAULT_NETFLIX_PLANS = [
   { id: 'original', label: 'Netflix Original', fullName: 'Netflix Original', price: 17000, regularPrice: 27000 },
   { id: 'unico', label: 'Netflix Único', fullName: 'Netflix Único', price: 29000, regularPrice: 39000 },
 ];
@@ -73,8 +73,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const isCanva = product.brand === 'Canva Pro' || product.name.toLowerCase().includes('canva');
   const isNetflix = product.brand === 'Netflix' && product.category === 'cine';
 
-  const activeCanvaPlan = CANVA_PLANS.find(p => p.id === selectedCanvaPlanId) || CANVA_PLANS[1];
-  const activeNetflixPlan = NETFLIX_PLANS.find(p => p.id === selectedNetflixPlanId) || NETFLIX_PLANS[0];
+  const canvaPlansList = (isCanva && product.customPlans && product.customPlans.length > 0)
+    ? product.customPlans
+    : DEFAULT_CANVA_PLANS;
+
+  const netflixPlansList = (isNetflix && product.customPlans && product.customPlans.length > 0)
+    ? product.customPlans
+    : DEFAULT_NETFLIX_PLANS;
+
+  const activeCanvaPlan = canvaPlansList.find(p => p.id === selectedCanvaPlanId) || canvaPlansList[1] || canvaPlansList[0];
+  const activeNetflixPlan = netflixPlansList.find(p => p.id === selectedNetflixPlanId) || netflixPlansList[0];
 
   const modeData = product.modes[selectedMode];
   const currentPrice = isCanva
@@ -83,11 +91,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     ? activeNetflixPlan.price
     : modeData.prices[selectedDuration];
 
-  const regularPrice = isCanva
+  const rawRegularPrice = isCanva
     ? activeCanvaPlan.regularPrice
     : isNetflix
     ? activeNetflixPlan.regularPrice
     : modeData.regularPrices[selectedDuration];
+
+  const regularPrice = (rawRegularPrice && rawRegularPrice > currentPrice)
+    ? rawRegularPrice
+    : currentPrice + 10000;
 
   const discountPct = Math.round(((regularPrice - currentPrice) / regularPrice) * 100);
 
@@ -202,10 +214,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="mb-3 bg-teal-50/60 p-2 rounded-2xl border border-teal-500/20">
             <div className="text-[10px] font-extrabold text-teal-800 uppercase tracking-wider mb-1.5 flex items-center justify-between">
               <span>Elige tu Plan Canva:</span>
-              <span className="text-[9.5px] text-teal-600 font-bold">4 Opciones</span>
+              <span className="text-[9.5px] text-teal-600 font-bold">{canvaPlansList.length} Opciones</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5 text-[11px] font-bold">
-              {CANVA_PLANS.map(plan => (
+              {canvaPlansList.map(plan => (
                 <button
                   key={plan.id}
                   onClick={() => setSelectedCanvaPlanId(plan.id)}
@@ -227,10 +239,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="mb-3 bg-red-50/60 p-2 rounded-2xl border border-red-500/20">
             <div className="text-[10px] font-extrabold text-red-800 uppercase tracking-wider mb-1.5 flex items-center justify-between">
               <span>Tipo de Perfil Netflix:</span>
-              <span className="text-[9.5px] text-red-600 font-bold">2 Opciones</span>
+              <span className="text-[9.5px] text-red-600 font-bold">{netflixPlansList.length} Opciones</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5 text-[11px] font-bold">
-              {NETFLIX_PLANS.map(plan => (
+              {netflixPlansList.map(plan => (
                 <button
                   key={plan.id}
                   onClick={() => setSelectedNetflixPlanId(plan.id)}

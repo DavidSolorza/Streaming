@@ -5,6 +5,8 @@ import { CartItemRow } from './CartItemRow';
 import { Button } from '@/shared/components/Button';
 import { eventBus } from '@/core/bus/eventBus';
 
+import { toast } from '@/core/utils/toast';
+
 export const CartDrawer: React.FC = () => {
   const { items, isOpen, setIsOpen, total, customerContact, setCustomerContact } = useCartStore();
 
@@ -19,7 +21,7 @@ export const CartDrawer: React.FC = () => {
 
   const handleCheckoutWhatsApp = () => {
     if (items.length === 0) {
-      alert('Agrega al menos un servicio al carrito para continuar.');
+      toast.warning('Agrega al menos un servicio al carrito para continuar.', 'Carrito Vacío');
       return;
     }
 
@@ -39,7 +41,7 @@ export const CartDrawer: React.FC = () => {
 
   const handleOpenPaymentModal = () => {
     if (items.length === 0) {
-      alert('Agrega al menos un servicio al carrito para ver medios de pago.');
+      toast.warning('Agrega al menos un servicio al carrito para ver medios de pago.', 'Carrito Vacío');
       return;
     }
     eventBus.emit('PAYMENT:OPEN_MODAL', undefined);

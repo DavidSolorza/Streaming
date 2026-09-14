@@ -11,6 +11,14 @@ export interface ModeDetails {
   regularPrices: Record<DurationKey, number>;
 }
 
+export interface ProductCustomPlan {
+  id: string;
+  label: string;
+  fullName: string;
+  price: number;
+  regularPrice?: number;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -26,4 +34,5 @@ export interface Product {
   searchTags: string[];
   modes: Record<ProductMode, ModeDetails>;
   includes: string[];
+  customPlans?: ProductCustomPlan[];
 }

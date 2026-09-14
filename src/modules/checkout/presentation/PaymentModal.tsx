@@ -7,6 +7,8 @@ import { AdminRepository } from '@/modules/admin/infrastructure/adminRepository'
 import { PaymentConfig } from '@/modules/admin/domain/entities/AdminConfig';
 import { eventBus } from '@/core/bus/eventBus';
 
+import { toast } from '@/core/utils/toast';
+
 export const PaymentModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -53,9 +55,10 @@ export const PaymentModal: React.FC = () => {
 
     if (success) {
       setCopiedKey(key);
+      toast.success(`Número ${cleanText} copiado al portapapeles.`, '¡Copiado!');
       setTimeout(() => setCopiedKey(null), 2500);
     } else {
-      alert(`Copia manualmente este número: ${cleanText}`);
+      toast.info(`Número para transferencia: ${cleanText}`, 'Copia Manual');
     }
   };
 
