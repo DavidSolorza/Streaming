@@ -16,10 +16,16 @@ const CANVA_PLANS = [
   { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 60000 },
 ];
 
+const NETFLIX_PLANS = [
+  { id: 'original', label: 'Netflix Original', fullName: 'Netflix Original', price: 17000 },
+  { id: 'unico', label: 'Netflix Único', fullName: 'Netflix Único', price: 29000 },
+];
+
 export const ProductDetailModal: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [activeTab, setActiveTab] = useState<'includes' | 'devices' | 'rules'>('includes');
   const [selectedCanvaPlanId, setSelectedCanvaPlanId] = useState<string>('1m');
+  const [selectedNetflixPlanId, setSelectedNetflixPlanId] = useState<string>('original');
   const addItem = useCartStore(state => state.addItem);
 
   useEffect(() => {
@@ -27,6 +33,7 @@ export const ProductDetailModal: React.FC = () => {
       setProduct(selectedProduct);
       setActiveTab('includes');
       setSelectedCanvaPlanId('1m');
+      setSelectedNetflixPlanId('original');
     });
     return () => unsubscribe();
   }, []);
@@ -34,19 +41,35 @@ export const ProductDetailModal: React.FC = () => {
   if (!product) return null;
 
   const isCanva = product.brand === 'Canva Pro' || product.name.toLowerCase().includes('canva');
-  const activeCanvaPlan = CANVA_PLANS.find(p => p.id === selectedCanvaPlanId) || CANVA_PLANS[1];
+  const isNetflix = product.brand === 'Netflix' && product.category === 'cine';
 
-  const currentPrice = isCanva ? activeCanvaPlan.price : product.modes.pantalla.prices['1m'];
-  const productName = isCanva ? activeCanvaPlan.fullName : product.name;
+  const activeCanvaPlan = CANVA_PLANS.find(p => p.id === selectedCanvaPlanId) || CANVA_PLANS[1];
+  const activeNetflixPlan = NETFLIX_PLANS.find(p => p.id === selectedNetflixPlanId) || NETFLIX_PLANS[0];
+
+  const currentPrice = isCanva
+    ? activeCanvaPlan.price
+    : isNetflix
+    ? activeNetflixPlan.price
+    : product.modes.pantalla.prices['1m'];
+
+  const productName = isCanva
+    ? activeCanvaPlan.fullName
+    : isNetflix
+    ? activeNetflixPlan.fullName
+    : product.name;
 
   const handleClose = () => setProduct(null);
 
   const handleAddToCart = () => {
     if (!product) return;
     addItem({
-      cartItemId: isCanva ? `${product.id}-${activeCanvaPlan.id}` : `${product.id}-pantalla-1m`,
+      cartItemId: isCanva
+        ? `${product.id}-${activeCanvaPlan.id}`
+        : isNetflix
+        ? `${product.id}-${activeNetflixPlan.id}`
+        : `${product.id}-pantalla-1m`,
       id: product.id,
-      name: isCanva ? activeCanvaPlan.fullName : `${product.name} (1 Pantalla - 1 Mes)`,
+      name: isCanva || isNetflix ? productName : `${product.name} (1 Pantalla - 1 Mes)`,
       price: currentPrice,
       image: product.iconName,
       quantity: 1,
@@ -96,6 +119,30 @@ export const ProductDetailModal: React.FC = () => {
                 className={`py-2 px-2.5 rounded-xl text-center border transition-all flex items-center justify-center ${
                   selectedCanvaPlanId === plan.id
                     ? 'bg-white border-teal-600 text-teal-950 font-black ring-2 ring-teal-600/30 shadow-sm'
+                    : 'bg-white/80 border-slate-900/[0.08] text-slate-600 hover:text-slate-900 font-bold'
+                }`}
+              >
+                <span className="text-[11px] leading-tight font-extrabold">{plan.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Selector de Planes si es Netflix */}
+      {isNetflix && (
+        <div className="mb-4 bg-red-50/70 p-3 rounded-2xl border border-red-500/20">
+          <label className="text-xs font-extrabold text-red-900 uppercase block mb-2">
+            Selecciona tu tipo de perfil Netflix:
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            {NETFLIX_PLANS.map(plan => (
+              <button
+                key={plan.id}
+                onClick={() => setSelectedNetflixPlanId(plan.id)}
+                className={`py-2 px-3 rounded-xl text-center border transition-all flex items-center justify-center ${
+                  selectedNetflixPlanId === plan.id
+                    ? 'bg-red-600 border-red-600 text-white font-black shadow-sm'
                     : 'bg-white/80 border-slate-900/[0.08] text-slate-600 hover:text-slate-900 font-bold'
                 }`}
               >

@@ -21,20 +21,39 @@ const CANVA_PLANS = [
   { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 60000, regularPrice: 85000 },
 ];
 
+const NETFLIX_PLANS = [
+  { id: 'original', label: 'Netflix Original', fullName: 'Netflix Original', price: 17000, regularPrice: 27000 },
+  { id: 'unico', label: 'Netflix Único', fullName: 'Netflix Único', price: 29000, regularPrice: 39000 },
+];
+
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const selectedMode: ProductMode = 'pantalla';
   const selectedDuration: DurationKey = '1m';
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const [selectedCanvaPlanId, setSelectedCanvaPlanId] = useState<string>('1m');
+  const [selectedNetflixPlanId, setSelectedNetflixPlanId] = useState<string>('original');
 
   const addItem = useCartStore(state => state.addItem);
 
   const isCanva = product.brand === 'Canva Pro' || product.name.toLowerCase().includes('canva');
+  const isNetflix = product.brand === 'Netflix' && product.category === 'cine';
+
   const activeCanvaPlan = CANVA_PLANS.find(p => p.id === selectedCanvaPlanId) || CANVA_PLANS[1];
+  const activeNetflixPlan = NETFLIX_PLANS.find(p => p.id === selectedNetflixPlanId) || NETFLIX_PLANS[0];
 
   const modeData = product.modes[selectedMode];
-  const currentPrice = isCanva ? activeCanvaPlan.price : modeData.prices[selectedDuration];
-  const regularPrice = isCanva ? activeCanvaPlan.regularPrice : modeData.regularPrices[selectedDuration];
+  const currentPrice = isCanva
+    ? activeCanvaPlan.price
+    : isNetflix
+    ? activeNetflixPlan.price
+    : modeData.prices[selectedDuration];
+
+  const regularPrice = isCanva
+    ? activeCanvaPlan.regularPrice
+    : isNetflix
+    ? activeNetflixPlan.regularPrice
+    : modeData.regularPrices[selectedDuration];
+
   const discountPct = Math.round(((regularPrice - currentPrice) / regularPrice) * 100);
 
   // Multiplicador de meses para cálculo del total acumulado
@@ -50,13 +69,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     b => b.toLowerCase() !== 'entrega inmediata'
   );
 
+  const activeProductName = isCanva
+    ? activeCanvaPlan.fullName
+    : isNetflix
+    ? activeNetflixPlan.fullName
+    : product.name;
+
   const handleAddToCart = () => {
     if (!product.available) return;
 
     addItem({
-      cartItemId: isCanva ? `${product.id}-${activeCanvaPlan.id}` : `${product.id}-${selectedMode}-${selectedDuration}`,
+      cartItemId: isCanva
+        ? `${product.id}-${activeCanvaPlan.id}`
+        : isNetflix
+        ? `${product.id}-${activeNetflixPlan.id}`
+        : `${product.id}-${selectedMode}-${selectedDuration}`,
       id: product.id,
-      name: isCanva ? activeCanvaPlan.fullName : `${product.name} (${modeLabel} - ${durationLabel})`,
+      name: isCanva || isNetflix ? activeProductName : `${product.name} (${modeLabel} - ${durationLabel})`,
       price: currentPrice,
       image: product.iconName,
       quantity: 1
@@ -72,8 +101,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   // Generar enlace directo codificado a WhatsApp
   const whatsAppUrl = WhatsAppAdapter.generateProductUrl({
-    productName: isCanva ? activeCanvaPlan.fullName : product.name,
-    modeLabel: isCanva ? 'Licencia Pro' : modeLabel,
+    productName: activeProductName,
+    modeLabel: isCanva ? 'Licencia Pro' : isNetflix ? '1 Pantalla' : modeLabel,
     durationLabel: isCanva ? activeCanvaPlan.label : durationLabel,
     price: currentPrice
   });
@@ -103,7 +132,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Título en color neutro oscuro slate-900 sin choque visual */}
         <h3 className="font-extrabold text-base text-slate-900 mb-0.5 leading-snug">
-          {product.name}
+          {activeProductName}
         </h3>
 
         {/* Modalidades y badges contextuales */}
@@ -139,6 +168,31 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   className={`py-2 px-2 rounded-xl border text-center transition-all flex items-center justify-center ${
                     selectedCanvaPlanId === plan.id
                       ? 'bg-white border-teal-600 text-teal-950 font-black shadow-sm ring-2 ring-teal-600/30'
+                      : 'bg-white/70 border-slate-900/[0.08] text-slate-600 hover:text-slate-900 hover:bg-white font-bold'
+                  }`}
+                >
+                  <span className="text-[11px] font-extrabold leading-tight">{plan.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Selector de Modalidad Exclusivo para Netflix */}
+        {isNetflix && (
+          <div className="mb-3 bg-red-50/60 p-2 rounded-2xl border border-red-500/20">
+            <div className="text-[10px] font-extrabold text-red-800 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+              <span>Tipo de Perfil Netflix:</span>
+              <span className="text-[9.5px] text-red-600 font-bold">2 Opciones</span>
+            </div>
+            <div className="grid grid-cols-2 gap-1.5 text-[11px] font-bold">
+              {NETFLIX_PLANS.map(plan => (
+                <button
+                  key={plan.id}
+                  onClick={() => setSelectedNetflixPlanId(plan.id)}
+                  className={`py-2 px-2 rounded-xl border text-center transition-all flex items-center justify-center ${
+                    selectedNetflixPlanId === plan.id
+                      ? 'bg-red-600 border-red-600 text-white font-black shadow-sm'
                       : 'bg-white/70 border-slate-900/[0.08] text-slate-600 hover:text-slate-900 hover:bg-white font-bold'
                   }`}
                 >
