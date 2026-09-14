@@ -386,15 +386,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
       {/* Header Admin */}
       <header className="bg-slate-900 text-white sticky top-0 z-40 shadow-lg border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-500 shadow-sm flex items-center justify-center bg-white p-0.5 shrink-0">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 ring-2 ring-blue-500/30 shadow-md flex items-center justify-center bg-white p-0.5 shrink-0">
               <img src="/perfil.png" alt={storeConfig.storeName} className="w-full h-full object-cover rounded-full" />
             </div>
             <div>
-              <h1 className="font-black text-base text-white leading-none">
+              <h1 className="font-black text-sm sm:text-base text-white leading-tight">
                 {storeConfig.storeName} — Panel Administrativo
               </h1>
-              <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider block mt-0.5">
+              <span className="text-[10px] text-blue-400 font-extrabold uppercase tracking-wider block mt-0.5">
                 Edición Sencilla de Precios y Disponibilidad
               </span>
             </div>

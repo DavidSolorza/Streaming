@@ -28,10 +28,10 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-3 z-40 mx-4 max-w-7xl md:mx-auto transition-all">
-      <div className="bg-white/90 backdrop-blur-xl border border-slate-900/[0.08] rounded-2xl h-16 shadow-luxury px-4 sm:px-6 flex items-center justify-between">
-        {/* Logo */}
+      <div className="bg-white/95 backdrop-blur-xl border border-slate-900/[0.08] rounded-2xl h-20 sm:h-22 shadow-luxury px-4 sm:px-6 flex items-center justify-between">
+        {/* Logo Agrandado y Destacado */}
         <div
-          className="flex items-center space-x-3 cursor-pointer"
+          className="flex items-center space-x-3.5 cursor-pointer py-2 group"
           onClick={() => {
             if (window.location.hash === '#admin') {
               window.location.hash = '';
@@ -40,18 +40,26 @@ export const Navbar: React.FC = () => {
             }
           }}
         >
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-blue-600 ring-2 ring-blue-500/30 shadow-lg shadow-blue-500/20 flex items-center justify-center bg-white shrink-0 p-0.5 transition-all duration-300 hover:scale-110">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-blue-600 ring-4 ring-blue-500/20 shadow-xl shadow-blue-500/30 flex items-center justify-center bg-white shrink-0 p-0.5 transition-all duration-300 group-hover:scale-105 group-hover:ring-blue-500/40">
             <img src="/perfil.png" alt={config.storeName} className="w-full h-full object-cover rounded-full" />
           </div>
-          <div>
-            <span className="font-black text-base sm:text-lg tracking-tight text-slate-900 block leading-none">{config.storeName}</span>
-            <span className="text-[10px] sm:text-[11px] text-blue-700 font-extrabold uppercase tracking-wider block mt-1">{config.storeSubtitle}</span>
+          <div className="min-w-0">
+            <span className="font-black text-sm sm:text-base tracking-tight text-slate-900 block leading-tight truncate max-w-[200px] sm:max-w-none">
+              {config.storeName}
+            </span>
+            <span className="text-[10px] sm:text-[11px] text-blue-700 font-black uppercase tracking-wider block mt-0.5">
+              {config.storeSubtitle}
+            </span>
           </div>
         </div>
 
-        <nav className="hidden md:flex items-center space-x-8 text-xs font-bold text-slate-600">
+        <nav className="hidden md:flex items-center space-x-8 text-xs font-extrabold text-slate-600">
           <a href="#catalog" className="hover:text-blue-700 transition">Catálogo</a>
           <a href="#premieres" className="hover:text-blue-700 transition">Estrenos</a>
+          <a href="#testimonios" className="hover:text-blue-700 transition flex items-center gap-1">
+            <span>Clientes</span>
+            <span className="bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded-full font-black">NUEVO</span>
+          </a>
           <a href="#faq" className="hover:text-blue-700 transition">Garantía & FAQ</a>
         </nav>
 

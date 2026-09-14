@@ -9,6 +9,7 @@ import { AdminLoginForm } from './modules/admin/presentation/AdminLoginForm';
 import { AdminDashboardPage } from './modules/admin/presentation/AdminDashboardPage';
 import { AdminRepository } from './modules/admin/infrastructure/adminRepository';
 import { FaqAccordion } from './modules/faq/presentation/FaqAccordion';
+import { TestimonialsSection } from './modules/testimonials/presentation/TestimonialsSection';
 import { CartDrawer } from './modules/cart/presentation/CartDrawer';
 import { PaymentModal } from './modules/checkout/presentation/PaymentModal';
 import { Footer } from './shared/components/Footer';
@@ -76,6 +77,9 @@ export const App: React.FC = () => {
 
         <CatalogGrid />
       </main>
+
+      {/* Testimonios & Opiniones de Clientes */}
+      <TestimonialsSection />
 
       {/* Preguntas Frecuentes */}
       <FaqAccordion />
