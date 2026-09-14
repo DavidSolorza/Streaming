@@ -76,9 +76,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     price: currentPrice
   });
 
-  return (
-    <div className={`bg-white border ${!product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} ${product.brandGlow} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>
-      <div>
+  return (    <div className={`bg-white border ${!product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} ${product.brandGlow} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>
+      <div className="flex-1 flex flex-col">
         {/* Encabezado Visual con Logo de Marca y Badge de Estado Único */}
         <div className="flex justify-between items-start mb-3">
           <div className={`w-12 h-12 rounded-2xl border border-slate-900/[0.08] flex items-center justify-center p-2 shadow-sm ${product.logoBg}`}>
@@ -158,10 +157,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         )}
 
-
-
         {/* Especificaciones Técnicas Concisas (Visibles en pantallas Medianas / Escritorio para tarjetas móviles compactas) */}
-        <div className="hidden sm:block bg-slate-50 border border-slate-900/[0.06] rounded-xl p-2.5 mb-4 space-y-1 text-[11px] text-slate-600">
+        <div className="hidden sm:block bg-slate-50 border border-slate-900/[0.06] rounded-xl p-2.5 mt-auto mb-4 space-y-1 text-[11px] text-slate-600">
           <div className="flex items-center gap-2">
             <Monitor className="w-3.5 h-3.5 text-blue-600 shrink-0" />
             <span className="truncate">{modeData.devices}</span>
