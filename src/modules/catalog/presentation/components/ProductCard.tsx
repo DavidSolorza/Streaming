@@ -279,16 +279,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="pt-3 border-t border-slate-900/[0.08] space-y-2.5">
         <div className="flex items-baseline justify-between">
           <div>
-            <span className="text-[11px] text-slate-400 line-through block leading-none">{formatCOP(regularPrice)}</span>
             <div className="flex items-baseline gap-1">
               <span className="text-xl font-black text-slate-900">{formatCOP(currentPrice)}</span>
               <span className="text-[10px] font-medium text-slate-500">/ mes</span>
             </div>
-          </div>
-          {/* Insignia de descuento corregida sin duplicar signo de pesos */}
-          <span className="text-[10px] font-black bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg border border-emerald-200">
-            {discountPct}% DCTO
-          </span>
+          </div>          
         </div>
 
         {/* Acción Principal Prominente: WhatsApp Directo */}
