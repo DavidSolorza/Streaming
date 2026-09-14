@@ -25,11 +25,10 @@ export const PosterImage: React.FC<PosterImageProps> = ({
 
   if (hasError || !src) {
     return (
-      <div className={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-slate-800 to-slate-950 p-4 text-center ${className}`}>
-        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-2">
+      <div className={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-tr from-slate-900 via-slate-800 to-indigo-950 p-4 text-center ${className}`}>
+        <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center shadow-inner">
           <Film className="w-5 h-5 text-blue-400" />
         </div>
-        <span className="text-[11px] font-extrabold text-white line-clamp-2 drop-shadow-sm">{alt}</span>
       </div>
     );
   }

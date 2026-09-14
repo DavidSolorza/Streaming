@@ -7,31 +7,47 @@ import { Button } from '@/shared/components/Button';
 import { Badge } from '@/shared/components/Badge';
 import { eventBus } from '@/core/bus/eventBus';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
+import { formatCOP } from '@/core/utils/currency';
+
+const CANVA_PLANS = [
+  { id: '1m-correo', label: 'Correo propio', fullName: 'Canva 1 mes con correo del cliente', price: 12000 },
+  { id: '1m', label: '1 Mes', fullName: 'Canva 1 mes', price: 10000 },
+  { id: '6m', label: '6 Meses', fullName: 'Canva 6 meses', price: 34000 },
+  { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 60000 },
+];
 
 export const ProductDetailModal: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [activeTab, setActiveTab] = useState<'includes' | 'devices' | 'rules'>('includes');
+  const [selectedCanvaPlanId, setSelectedCanvaPlanId] = useState<string>('1m');
   const addItem = useCartStore(state => state.addItem);
 
   useEffect(() => {
     const unsubscribe = eventBus.on('CATALOG:OPEN_DETAILS', (selectedProduct) => {
       setProduct(selectedProduct);
       setActiveTab('includes');
+      setSelectedCanvaPlanId('1m');
     });
     return () => unsubscribe();
   }, []);
 
   if (!product) return null;
 
+  const isCanva = product.brand === 'Canva Pro' || product.name.toLowerCase().includes('canva');
+  const activeCanvaPlan = CANVA_PLANS.find(p => p.id === selectedCanvaPlanId) || CANVA_PLANS[1];
+
+  const currentPrice = isCanva ? activeCanvaPlan.price : product.modes.pantalla.prices['1m'];
+  const productName = isCanva ? activeCanvaPlan.fullName : product.name;
+
   const handleClose = () => setProduct(null);
 
   const handleAddToCart = () => {
     if (!product) return;
     addItem({
-      cartItemId: `${product.id}-pantalla-1m`,
+      cartItemId: isCanva ? `${product.id}-${activeCanvaPlan.id}` : `${product.id}-pantalla-1m`,
       id: product.id,
-      name: `${product.name} (1 Pantalla - 1 Mes)`,
-      price: product.modes.pantalla.prices['1m'],
+      name: isCanva ? activeCanvaPlan.fullName : `${product.name} (1 Pantalla - 1 Mes)`,
+      price: currentPrice,
       image: product.iconName,
       quantity: 1,
     });
@@ -39,9 +55,7 @@ export const ProductDetailModal: React.FC = () => {
   };
 
   const handleBuyWhatsApp = () => {
-    const modeData = product.modes.pantalla;
-    const price = modeData.prices['1m'];
-    const message = `Hola 👋 Deseo comprar inmediatamente *${product.name}* (1 Pantalla por 1 Mes) por un valor de *$${price.toLocaleString('es-CO')} COP*. ¿Me das los medios de pago?`;
+    const message = `Hola 👋 Deseo comprar inmediatamente *${productName}* por un valor de *${formatCOP(currentPrice)}*. ¿Me das los medios de pago?`;
     window.open(`https://wa.me/573214465418?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -51,7 +65,7 @@ export const ProductDetailModal: React.FC = () => {
         <Icon icon={product.iconName} className="w-8 h-8" />
       </div>
       <div>
-        <h2 className="text-lg font-extrabold text-slate-900">{product.name}</h2>
+        <h2 className="text-lg font-extrabold text-slate-900">{productName}</h2>
         <Badge variant="emerald" className="mt-0.5">Entrega Inmediata</Badge>
       </div>
     </div>
@@ -68,6 +82,30 @@ export const ProductDetailModal: React.FC = () => {
 
   return (
     <Modal isOpen={!!product} onClose={handleClose} title={modalTitle} maxWidth="2xl">
+      {/* Selector de Planes si es Canva */}
+      {isCanva && (
+        <div className="mb-4 bg-teal-50/70 p-3 rounded-2xl border border-teal-500/20">
+          <label className="text-xs font-extrabold text-teal-900 uppercase block mb-2">
+            Selecciona tu modalidad o duración Canva:
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {CANVA_PLANS.map(plan => (
+              <button
+                key={plan.id}
+                onClick={() => setSelectedCanvaPlanId(plan.id)}
+                className={`py-2 px-2.5 rounded-xl text-center border transition-all flex items-center justify-center ${
+                  selectedCanvaPlanId === plan.id
+                    ? 'bg-white border-teal-600 text-teal-950 font-black ring-2 ring-teal-600/30 shadow-sm'
+                    : 'bg-white/80 border-slate-900/[0.08] text-slate-600 hover:text-slate-900 font-bold'
+                }`}
+              >
+                <span className="text-[11px] leading-tight font-extrabold">{plan.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Tabs */}
       <div className="flex border-b border-slate-900/[0.08] text-xs font-bold mb-4">
         <button
@@ -126,15 +164,15 @@ export const ProductDetailModal: React.FC = () => {
         <div className="p-4 bg-slate-50 border border-slate-900/[0.08] rounded-2xl space-y-3 text-xs text-slate-600">
           <div className="flex items-start gap-2.5">
             <KeyRound className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
-            <div><strong>Perfil Privado con PIN:</strong> Espacio personal seguro e inmutable.</div>
+            <div><strong>Licencia Oficial:</strong> Activación segura en tu cuenta o correo personal.</div>
           </div>
           <div className="flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-            <div><strong>Uso Personal:</strong> Prohibido compartir credenciales con terceros.</div>
+            <div><strong>Uso Personal:</strong> Prohibido revender o vulnerar los términos del servicio.</div>
           </div>
           <div className="flex items-start gap-2.5">
             <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-            <div><strong>Garantía Total:</strong> Reposición inmediata durante todo el periodo contratado.</div>
+            <div><strong>Garantía Total:</strong> Soporte e interacción continua durante toda la vigencia contratada.</div>
           </div>
         </div>
       )}
@@ -142,9 +180,9 @@ export const ProductDetailModal: React.FC = () => {
       {/* Footer modal */}
       <div className="pt-4 border-t border-slate-900/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
         <div>
-          <span className="text-[11px] text-slate-400 block font-semibold">Plan Asignado</span>
-          <span className="text-sm font-extrabold text-slate-900">
-            ${product.modes.pantalla.prices['1m'].toLocaleString('es-CO')} COP / mes
+          <span className="text-[11px] text-slate-400 block font-semibold">Plan Seleccionado</span>
+          <span className="text-base font-black text-teal-800">
+            {formatCOP(currentPrice)} COP
           </span>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">

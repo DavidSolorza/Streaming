@@ -13,6 +13,7 @@ import { CartDrawer } from './modules/cart/presentation/CartDrawer';
 import { PaymentModal } from './modules/checkout/presentation/PaymentModal';
 import { Footer } from './shared/components/Footer';
 import { MobileBottomDock } from './shared/components/MobileBottomDock';
+import { ToastNotification } from './shared/components/ToastNotification';
 
 export const App: React.FC = () => {
   const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash);
@@ -82,12 +83,13 @@ export const App: React.FC = () => {
       {/* Footer Pro Rediseñado */}
       <Footer />
 
-      {/* Modales y Drawers Globales */}
+      {/* Modales, Drawers y Toast Flotante Global */}
       <ProductDetailModal />
       <AdminProductModal />
       <CartDrawer />
       <PaymentModal />
       <MobileBottomDock />
+      <ToastNotification />
     </div>
   );
 };

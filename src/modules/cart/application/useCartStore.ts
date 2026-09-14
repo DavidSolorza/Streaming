@@ -40,7 +40,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({
       items: updatedItems,
       total: CartCalculator.calculateTotal(updatedItems),
-      isOpen: true, // Abre el mini-cart de inmediato en 1 clic
+      // Mantiene el estado actual de isOpen (no fuerza abrir el panel)
     });
 
     // Despacha evento al bus desacoplado

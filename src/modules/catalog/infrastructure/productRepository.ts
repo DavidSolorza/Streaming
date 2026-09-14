@@ -2,7 +2,7 @@ import { Product } from '../domain/entities/Product';
 import { eventBus } from '@/core/bus/eventBus';
 import excelData from './excelCatalogData.json';
 
-const PRODUCTS_STORAGE_KEY = 'cuentas_stream_products_v4';
+const PRODUCTS_STORAGE_KEY = 'cuentas_stream_products_v6';
 
 export const initialProductsData: Product[] = excelData as Product[];
 
@@ -33,6 +33,24 @@ export class ProductRepository {
     this.cachedProducts = [...initialProductsData];
     this.persist(this.cachedProducts);
     return this.cachedProducts;
+  }
+
+  /**
+   * Servicio para obtener datos con manejo de estados asíncronos y control de errores
+   */
+  static async fetchProductsAsync(): Promise<Product[]> {
+    try {
+      // Simula latencia controlada para estados de carga limpios o fetch a endpoint de API/JSON
+      await new Promise(resolve => setTimeout(resolve, 300));
+      const products = this.getProducts();
+      if (!products || products.length === 0) {
+        throw new Error('No se pudo cargar el catálogo de productos.');
+      }
+      return products;
+    } catch (error) {
+      console.error('Fallo al obtener servicios del catálogo:', error);
+      throw error;
+    }
   }
 
   /**

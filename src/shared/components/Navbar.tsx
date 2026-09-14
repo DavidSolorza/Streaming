@@ -76,7 +76,7 @@ export const Navbar: React.FC = () => {
           </a>
           <button
             onClick={handleOpenCart}
-            className="relative bg-blue-700 hover:bg-blue-800 text-white p-2.5 rounded-xl transition shadow-lg shadow-blue-600/20 flex items-center justify-center"
+            className="hidden sm:flex relative bg-blue-700 hover:bg-blue-800 text-white p-2.5 rounded-xl transition shadow-lg shadow-blue-600/20 items-center justify-center"
             title="Ver Carrito Express"
           >
             <ShoppingBag className="w-4 h-4 text-white" />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TrendingRepository, TrendingItem } from '../../infrastructure/trendingRepository';
 import { PosterImage } from './PosterImage';
-import { Star, Flame, ChevronRight } from 'lucide-react';
+import { Star, Sparkles } from 'lucide-react';
 
 interface TrendingEstrenosProps {
   onSelectPlatform?: (platformId: string) => void;
@@ -37,34 +37,38 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
   };
 
   return (
-    <section id="premieres" className="mt-12 mb-8">
-      {/* Cabecera Cinematográfica */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div>
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight text-center">
-              Estrenos del Mes
-            </h3>
-          </div>
-        </div>
+    /* Oculto en móviles (< md) y completamente centrado y estático en PC (>= md) */
+    <section id="premieres" className="hidden md:block mt-12 mb-10">
+      {/* Cabecera Centrada sin Flechas */}
+      <div className="text-center space-y-1.5 mb-6">
+        <span className="text-xs font-black uppercase text-blue-700 tracking-wider flex items-center justify-center gap-1.5 bg-blue-50 px-3.5 py-1.5 rounded-full w-fit mx-auto border border-blue-100">
+          <Sparkles className="w-4 h-4 text-blue-700" />
+          Cartelera Destacada
+        </span>
+        <h3 className="font-black text-2xl sm:text-3xl text-slate-900 tracking-tight">
+          Estrenos del Mes
+        </h3>
+        <p className="text-xs sm:text-sm text-slate-500 font-medium max-w-xl mx-auto">
+          Cartelera oficial de novedades HD disponibles en tus plataformas favoritas
+        </p>
       </div>
 
-      {/* Carrusel Deslizante de Tarjetas Compactas con Skeletons */}
-      <div className="flex gap-3.5 overflow-x-auto pb-4 pt-1 no-scrollbar snap-x scroll-smooth">
+      {/* Galería Centrada de Tarjetas Estáticas */}
+      <div className="flex justify-center items-center gap-4 overflow-x-auto pb-2 pt-1 px-1 no-scrollbar">
         {loading
           ? Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="flex-none w-[145px] sm:w-[165px] h-[215px] sm:h-[240px] rounded-2xl bg-slate-200 animate-pulse border border-slate-900/[0.08]"
+                className="flex-none w-[155px] h-[235px] rounded-2xl bg-slate-200 animate-pulse border border-slate-900/[0.08]"
               />
             ))
           : estrenos.map((item) => (
               <article
                 key={item.id}
                 onClick={() => handleItemClick(item.platformId)}
-                className="group relative flex-none w-[145px] sm:w-[165px] h-[215px] sm:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-luxury hover:shadow-luxury-hover transition-all duration-300 hover:-translate-y-1.5 snap-start border border-slate-900/[0.08] bg-slate-900"
+                className="group relative flex-none w-[155px] h-[235px] rounded-2xl overflow-hidden cursor-pointer shadow-luxury hover:shadow-luxury-hover transition-all duration-300 hover:-translate-y-1.5 border border-slate-900/[0.08] bg-slate-900"
               >
-                {/* Imagen protegida contra errores y con tamaño optimizado w185 */}
+                {/* Imagen del Póster HD */}
                 <PosterImage
                   src={item.posterUrl}
                   alt={item.title}
@@ -72,29 +76,29 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
                   className="transition-transform duration-500 group-hover:scale-105"
                 />
 
-                {/* Gradiente Protector de Legibilidad */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent pointer-events-none" />
+                {/* Gradiente Protector de Legibilidad Cinematográfico */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
 
                 {/* Badges Superiores Flotantes */}
                 <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between text-[10px] font-medium z-10">
-                  <span className={`px-2 py-0.5 rounded-full text-white font-bold backdrop-blur-md shadow-sm text-[9px] uppercase tracking-wider ${item.platformColor}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-white font-black backdrop-blur-md shadow-md text-[9px] uppercase tracking-wider ${item.platformColor}`}>
                     {item.platform}
                   </span>
                   
-                  <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-amber-300 font-bold text-[10px]">
-                    <Star className="w-2.5 h-2.5 fill-amber-300" />
+                  <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-black/65 backdrop-blur-md text-amber-300 font-extrabold text-[10px] shadow-sm">
+                    <Star className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
                     {item.rating}
                   </span>
                 </div>
 
-                {/* Información Inferior */}
+                {/* Información Inferior Enriquecida */}
                 <div className="absolute bottom-2.5 inset-x-2.5 z-10">
-                  <h4 className="font-extrabold text-white text-xs sm:text-sm line-clamp-2 leading-snug drop-shadow-sm mb-1">
+                  <h4 className="font-extrabold text-white text-xs sm:text-sm line-clamp-2 leading-snug drop-shadow-md mb-0.5">
                     {item.title}
                   </h4>
                   <p className="text-[10px] text-slate-300 font-bold flex items-center gap-1 group-hover:text-blue-300 transition-colors">
                     <span>Ver en {item.platform}</span>
-                    <span className="text-xs font-black">→</span>
+                    <span className="text-xs font-black transition-transform group-hover:translate-x-1">→</span>
                   </p>
                 </div>
               </article>
