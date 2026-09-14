@@ -40,6 +40,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const unsubscribe = eventBus.on('CATALOG:HIGHLIGHT_PLATFORM', (targetPlatform: string) => {
       if (!targetPlatform) return;
 
+      // Excluir productos combo de la selección para enfocar únicamente la tarjeta individual
+      if (product.category === 'combo') return;
+
       const pLower = targetPlatform.toLowerCase().replace('+', '').trim();
       const nameLower = product.name.toLowerCase().replace('+', '');
       const brandLower = product.brand.toLowerCase().replace('+', '');
