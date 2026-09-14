@@ -45,10 +45,10 @@ export const Navbar: React.FC = () => {
           </div>
           <div className="min-w-0">
             <h1 className="font-black text-sm sm:text-base md:text-lg tracking-tight text-slate-900 leading-tight">
-              {config.storeName}
+              {config.storeName && config.storeName.includes('JP') ? config.storeName : 'Cuentas y plataformas de streaming JP'}
             </h1>
             <span className="text-[10px] sm:text-[11px] text-blue-700 font-black uppercase tracking-wider block mt-0.5">
-              {config.storeSubtitle}
+              {config.storeSubtitle && config.storeSubtitle !== 'Multiplataformas' ? config.storeSubtitle : 'Entretenimiento & Licencias Premium'}
             </span>
           </div>
         </div>

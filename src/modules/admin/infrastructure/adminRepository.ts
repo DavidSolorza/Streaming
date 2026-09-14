@@ -34,7 +34,15 @@ export class AdminRepository {
       const stored = localStorage.getItem(PAYMENT_CONFIG_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
+        // Si el localStorage conserva el nombre viejo o 'Multiplataformas', migrarlo automáticamente
+        if (!parsed.storeName || parsed.storeName === 'Cuentas Stream' || !parsed.storeName.includes('JP')) {
+          parsed.storeName = 'Cuentas y plataformas de streaming JP';
+        }
+        if (!parsed.storeSubtitle || parsed.storeSubtitle === 'Multiplataformas') {
+          parsed.storeSubtitle = 'Entretenimiento & Licencias Premium';
+        }
         this.cachedConfig = { ...defaultPaymentConfig, ...parsed };
+        this.savePaymentConfig(this.cachedConfig!);
         return this.cachedConfig!;
       }
     } catch (e) {

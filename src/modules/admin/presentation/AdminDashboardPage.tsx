@@ -392,7 +392,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
             </div>
             <div>
               <h1 className="font-black text-sm sm:text-base text-white leading-tight">
-                {storeConfig.storeName} — Panel Administrativo
+                {storeConfig.storeName && storeConfig.storeName.includes('JP') ? storeConfig.storeName : 'Cuentas y plataformas de streaming JP'} — Panel Administrativo
               </h1>
               <span className="text-[10px] text-blue-400 font-extrabold uppercase tracking-wider block mt-0.5">
                 Edición Sencilla de Precios y Disponibilidad
