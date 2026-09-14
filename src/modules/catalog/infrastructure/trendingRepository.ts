@@ -92,6 +92,21 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
 
 export class TrendingRepository {
   /**
+   * Limpia toda la caché guardada de versiones anteriores o actuales de los estrenos
+   */
+  static clearCache(): void {
+    try {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('trending_estrenos_')) {
+          localStorage.removeItem(key);
+        }
+      });
+    } catch (e) {
+      // Ignorar errores de localStorage
+    }
+  }
+
+  /**
    * Obtiene datos iniciales de forma SÍNCRONA (desde caché o lista de respaldo)
    */
   static getInitialData(): TrendingItem[] {
@@ -112,17 +127,23 @@ export class TrendingRepository {
   /**
    * Consulta la API en vivo de TMDB (The Movie Database) para extraer las tendencias globales de la semana.
    */
-  static async getTrending(): Promise<TrendingItem[]> {
-    try {
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+  static async getTrending(forceRefresh: boolean = false): Promise<TrendingItem[]> {
+    if (forceRefresh) {
+      this.clearCache();
+    }
 
-      if (cachedData && cachedTime) {
-        const age = Date.now() - Number(cachedTime);
-        if (age < ONE_WEEK_MS) {
-          const parsed: TrendingItem[] = JSON.parse(cachedData);
-          if (Array.isArray(parsed) && parsed.length >= 6) {
-            return parsed;
+    try {
+      if (!forceRefresh) {
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+
+        if (cachedData && cachedTime) {
+          const age = Date.now() - Number(cachedTime);
+          if (age < ONE_WEEK_MS) {
+            const parsed: TrendingItem[] = JSON.parse(cachedData);
+            if (Array.isArray(parsed) && parsed.length >= 6) {
+              return parsed;
+            }
           }
         }
       }

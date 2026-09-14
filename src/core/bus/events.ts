@@ -10,6 +10,7 @@ export type AppEvents = {
   'CATALOG:OPEN_DETAILS': Product;
   'CATALOG:HIGHLIGHT_PLATFORM': string;
   'CATALOG:PRODUCTS_CHANGED': Product[];
+  'CATALOG:REFRESH_TRENDING': void;
   'PAYMENT:OPEN_MODAL': void;
   'PAYMENT:CLOSE_MODAL': void;
   'ADMIN:OPEN_MODAL': void;
