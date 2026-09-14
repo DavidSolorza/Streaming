@@ -60,7 +60,7 @@ export const PaymentModal: React.FC = () => {
   };
 
   const handleSendProofWhatsApp = () => {
-    let message = "Hola 👋 Ya realicé mi pago para las siguientes cuentas:\n\n";
+    let message = "¡Hola! Ya realicé mi pago para las siguientes cuentas:\n\n";
     items.forEach(item => {
       message += `• ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toLocaleString('es-CO')} COP\n`;
     });

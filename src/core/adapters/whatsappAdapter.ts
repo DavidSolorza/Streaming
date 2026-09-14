@@ -21,12 +21,12 @@ export class WhatsAppAdapter {
     const { productName, modeLabel, durationLabel, price } = params;
 
     const mensaje = 
-      `👋 *¡Hola! Me interesa contratar el siguiente servicio:* \n\n` +
-      `📌 *Servicio:* ${productName}\n` +
-      `📺 *Modalidad:* ${modeLabel}\n` +
-      `⏳ *Duración:* ${durationLabel}\n` +
-      `💰 *Precio:* ${formatCOP(price)} / mes\n\n` +
-      `✅ ¿Está disponible para entrega inmediata?`;
+      `*¡Hola! Me interesa contratar el siguiente servicio:*\n\n` +
+      `• *Servicio:* ${productName}\n` +
+      `• *Modalidad:* ${modeLabel}\n` +
+      `• *Duración:* ${durationLabel}\n` +
+      `• *Precio:* ${formatCOP(price)} / mes\n\n` +
+      `¿Está disponible para entrega inmediata?`;
 
     // Limpiar caracteres no numéricos del teléfono
     const cleanPhone = phoneNumber.replace(/\D/g, '');

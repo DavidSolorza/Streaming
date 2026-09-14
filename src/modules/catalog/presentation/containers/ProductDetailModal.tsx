@@ -78,7 +78,7 @@ export const ProductDetailModal: React.FC = () => {
   };
 
   const handleBuyWhatsApp = () => {
-    const message = `Hola 👋 Deseo comprar inmediatamente *${productName}* por un valor de *${formatCOP(currentPrice)}*. ¿Me das los medios de pago?`;
+    const message = `¡Hola! Deseo comprar inmediatamente *${productName}* por un valor de *${formatCOP(currentPrice)}*. ¿Me das los medios de pago?`;
     window.open(`https://wa.me/573214465418?text=${encodeURIComponent(message)}`, '_blank');
   };
 

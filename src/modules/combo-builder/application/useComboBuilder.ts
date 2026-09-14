@@ -17,7 +17,7 @@ export function useComboBuilder() {
       alert('Selecciona al menos una plataforma para armar tu combo personalizado.');
       return;
     }
-    const message = `Hola 👋 Quisiera cotizar un combo personalizado con las siguientes plataformas: *${selectedItems.join(', ')}*. ¿Qué precio especial me pueden ofrecer?`;
+    const message = `¡Hola! Quisiera cotizar un combo personalizado con las siguientes plataformas: *${selectedItems.join(', ')}*. ¿Qué precio especial me pueden ofrecer?`;
     window.open(`https://wa.me/573214465418?text=${encodeURIComponent(message)}`, '_blank');
   };
 

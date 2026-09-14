@@ -23,7 +23,7 @@ export const CartDrawer: React.FC = () => {
       return;
     }
 
-    let message = "Hola 👋 ¡Quiero adquirir los siguientes servicios en Cuentas Stream:\n\n";
+    let message = "¡Hola! Quiero adquirir los siguientes servicios en Cuentas Stream:\n\n";
     items.forEach(item => {
       message += `• ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toLocaleString('es-CO')} COP\n`;
     });

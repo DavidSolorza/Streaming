@@ -4,7 +4,7 @@ export class WhatsAppAdapter {
   private static readonly PHONE_NUMBER = '573214465418';
 
   static generateOrderUrl(items: CartItem[], total: number, contactInfo?: string): string {
-    let message = "Hola 👋 ¡Quiero adquirir los siguientes servicios en Cuentas Stream:\n\n";
+    let message = "¡Hola! Quiero adquirir los siguientes servicios en Cuentas Stream:\n\n";
     items.forEach(item => {
       message += `• ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toLocaleString('es-CO')} COP\n`;
     });
@@ -19,7 +19,7 @@ export class WhatsAppAdapter {
   }
 
   static generatePaymentProofUrl(items: CartItem[], total: number, contactInfo?: string): string {
-    let message = "Hola 👋 Ya realicé mi pago en Cuentas Stream para los siguientes servicios:\n\n";
+    let message = "¡Hola! Ya realicé mi pago en Cuentas Stream para los siguientes servicios:\n\n";
     items.forEach(item => {
       message += `• ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toLocaleString('es-CO')} COP\n`;
     });
