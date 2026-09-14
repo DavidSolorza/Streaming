@@ -29,9 +29,9 @@ export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-3 z-40 mx-4 max-w-7xl md:mx-auto transition-all">
       <div className="bg-white/95 backdrop-blur-xl border border-slate-900/[0.08] rounded-2xl h-20 sm:h-22 shadow-luxury px-4 sm:px-6 flex items-center justify-between">
-        {/* Logo Agrandado y Destacado */}
+        {/* Logo Agrandado de Alto Impacto */}
         <div
-          className="flex items-center space-x-3.5 cursor-pointer py-2 group"
+          className="flex items-center space-x-4 cursor-pointer py-2 group"
           onClick={() => {
             if (window.location.hash === '#admin') {
               window.location.hash = '';
@@ -40,13 +40,13 @@ export const Navbar: React.FC = () => {
             }
           }}
         >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-blue-600 ring-4 ring-blue-500/20 shadow-xl shadow-blue-500/30 flex items-center justify-center bg-white shrink-0 p-0.5 transition-all duration-300 group-hover:scale-105 group-hover:ring-blue-500/40">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-3 border-blue-600 ring-4 ring-blue-500/25 shadow-2xl shadow-blue-600/30 flex items-center justify-center bg-white shrink-0 p-0.5 transition-all duration-300 group-hover:scale-105 group-hover:ring-blue-500/50">
             <img src="/perfil.png" alt={config.storeName} className="w-full h-full object-cover rounded-full" />
           </div>
           <div className="min-w-0">
-            <span className="font-black text-sm sm:text-base tracking-tight text-slate-900 block leading-tight truncate max-w-[200px] sm:max-w-none">
+            <h1 className="font-black text-sm sm:text-base md:text-lg tracking-tight text-slate-900 leading-tight">
               {config.storeName}
-            </span>
+            </h1>
             <span className="text-[10px] sm:text-[11px] text-blue-700 font-black uppercase tracking-wider block mt-0.5">
               {config.storeSubtitle}
             </span>
