@@ -10,11 +10,11 @@ export interface TrendingItem {
   posterUrl: string;
 }
 
-const CACHE_KEY = 'trending_estrenos_tmdb_live_v7';
-const CACHE_TIME_KEY = 'trending_estrenos_timestamp_live_v7';
+const CACHE_KEY = 'trending_estrenos_tmdb_live_v8';
+const CACHE_TIME_KEY = 'trending_estrenos_timestamp_live_v8';
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-// Lista de plataformas soportadas en el catálogo
+// Lista de plataformas soportadas para mapeo equilibrado
 const PLATFORM_CONFIGS: Record<string, { name: TrendingItem['platform']; color: string }> = {
   netflix: { name: 'Netflix', color: 'bg-red-600' },
   max: { name: 'Max', color: 'bg-blue-600' },
@@ -32,27 +32,85 @@ const DEFAULT_PLATFORMS: Array<{ name: TrendingItem['platform']; color: string }
   PLATFORM_CONFIGS.disney,
 ];
 
+// Lista de respaldo de alta disponibilidad para modo sin conexión
+const FALLBACK_ESTRENOS: TrendingItem[] = [
+  {
+    id: 'f1',
+    title: 'Stranger Things 5',
+    platform: 'Netflix',
+    platformId: 'cine',
+    platformColor: 'bg-red-600',
+    rating: 8.9,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg',
+  },
+  {
+    id: 'f2',
+    title: 'La Casa del Dragón',
+    platform: 'Max',
+    platformId: 'cine',
+    platformColor: 'bg-blue-600',
+    rating: 8.7,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg',
+  },
+  {
+    id: 'f3',
+    title: 'Deadpool & Wolverine',
+    platform: 'Disney+',
+    platformId: 'cine',
+    platformColor: 'bg-sky-600',
+    rating: 8.2,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
+  },
+  {
+    id: 'f4',
+    title: 'The Boys (T4)',
+    platform: 'Prime Video',
+    platformId: 'cine',
+    platformColor: 'bg-cyan-600',
+    rating: 8.6,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/in1R2dDc421JxsoRWaIIAqVI2KE.jpg',
+  },
+  {
+    id: 'f5',
+    title: 'Intensamente 2',
+    platform: 'Disney+',
+    platformId: 'cine',
+    platformColor: 'bg-sky-600',
+    rating: 8.5,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg',
+  },
+  {
+    id: 'f6',
+    title: 'Dragon Ball DAIMA',
+    platform: 'Crunchyroll',
+    platformId: 'cine',
+    platformColor: 'bg-orange-500',
+    rating: 9.1,
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lMULbSFZNXUC87MqOZQ4SSV9DXI.jpg',
+  }
+];
+
 export class TrendingRepository {
   /**
-   * Obtiene datos iniciales desde la caché de la API si están disponibles
+   * Obtiene datos iniciales de forma SÍNCRONA (desde caché o lista de respaldo)
    */
   static getInitialData(): TrendingItem[] {
     try {
       const cachedData = localStorage.getItem(CACHE_KEY);
       if (cachedData) {
         const parsed: TrendingItem[] = JSON.parse(cachedData);
-        if (Array.isArray(parsed) && parsed.length > 0) {
+        if (Array.isArray(parsed) && parsed.length >= 6) {
           return parsed;
         }
       }
     } catch (e) {
       // Ignorar errores de localStorage
     }
-    return [];
+    return FALLBACK_ESTRENOS;
   }
 
   /**
-   * Consulta en tiempo real la API oficial de TMDB para extraer las tendencias globales de la semana.
+   * Consulta la API en vivo de TMDB (The Movie Database) para extraer las tendencias globales de la semana.
    */
   static async getTrending(): Promise<TrendingItem[]> {
     try {
@@ -69,62 +127,64 @@ export class TrendingRepository {
         }
       }
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const apiKey = ENV.TMDB_API_KEY;
+      const endpoints = [
+        `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&language=es-MX`,
+        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-MX`
+      ];
 
-      // Petición directa a la API de TMDB (Tendencias de la semana en español)
-      const url = `https://api.themoviedb.org/3/trending/all/week?api_key=${ENV.TMDB_API_KEY}&language=es-MX`;
-      const response = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
+      for (const url of endpoints) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 6000);
+          const response = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        throw new Error(`Error en API TMDB: ${response.status}`);
-      }
+          if (!response.ok) continue;
 
-      const data = await response.json();
-      if (data && Array.isArray(data.results) && data.results.length > 0) {
-        const filtered = data.results.filter(
-          (item: any) => item.poster_path && (item.title || item.name)
-        );
+          const data = await response.json();
+          if (data && Array.isArray(data.results) && data.results.length > 0) {
+            const filtered = data.results.filter(
+              (item: any) => item.poster_path && (item.title || item.name)
+            );
 
-        if (filtered.length >= 6) {
-          const mapped: TrendingItem[] = filtered.slice(0, 6).map((item: any, idx: number) => {
-            const isAnime = item.original_language === 'ja' || (Array.isArray(item.origin_country) && item.origin_country.includes('JP'));
-            
-            let platformInfo = DEFAULT_PLATFORMS[idx % DEFAULT_PLATFORMS.length];
-            if (isAnime) {
-              platformInfo = PLATFORM_CONFIGS.crunchyroll;
+            if (filtered.length >= 6) {
+              const mapped: TrendingItem[] = filtered.slice(0, 6).map((item: any, idx: number) => {
+                const isAnime = item.original_language === 'ja' || (Array.isArray(item.origin_country) && item.origin_country.includes('JP'));
+                
+                let platformInfo = DEFAULT_PLATFORMS[idx % DEFAULT_PLATFORMS.length];
+                if (isAnime) {
+                  platformInfo = PLATFORM_CONFIGS.crunchyroll;
+                }
+
+                const title = item.title || item.name || item.original_title || item.original_name || 'Estreno Destacado';
+                const ratingRaw = item.vote_average ? Number(item.vote_average.toFixed(1)) : 8.5;
+                const rating = ratingRaw > 0 ? ratingRaw : 8.5;
+
+                return {
+                  id: `tmdb-${item.id}`,
+                  title,
+                  platform: platformInfo.name,
+                  platformId: 'cine',
+                  platformColor: platformInfo.color,
+                  rating,
+                  posterUrl: `${ENV.TMDB_IMAGE_BASE_URL}${item.poster_path}`,
+                };
+              });
+
+              localStorage.setItem(CACHE_KEY, JSON.stringify(mapped));
+              localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
+              return mapped;
             }
-
-            const title = item.title || item.name || item.original_title || item.original_name || 'Estreno TMDB';
-            const ratingRaw = item.vote_average ? Number(item.vote_average.toFixed(1)) : 8.5;
-            const rating = ratingRaw > 0 ? ratingRaw : 8.5;
-
-            return {
-              id: `tmdb-${item.id}`,
-              title,
-              platform: platformInfo.name,
-              platformId: 'cine',
-              platformColor: platformInfo.color,
-              rating,
-              posterUrl: `${ENV.TMDB_IMAGE_BASE_URL}${item.poster_path}`,
-            };
-          });
-
-          localStorage.setItem(CACHE_KEY, JSON.stringify(mapped));
-          localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
-          return mapped;
+          }
+        } catch (e) {
+          // Continuar al siguiente endpoint si uno falla
         }
       }
     } catch (error) {
-      console.error('Error al extraer estrenos en vivo desde la API de TMDB:', error);
+      console.error('Error al consultar API TMDB:', error);
     }
 
-    // Si ya existe caché previa la devuelve, de lo contrario devuelve arreglo vacío hasta la reconexión
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    if (cachedData) {
-      try { return JSON.parse(cachedData); } catch (e) {}
-    }
-    return [];
+    return FALLBACK_ESTRENOS;
   }
 }

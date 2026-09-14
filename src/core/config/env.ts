@@ -5,7 +5,7 @@ export const ENV = {
   API_BASE_URL: import.meta.env.VITE_API_BASE_URL || 'https://api.cuentasstream.com/api/v1',
   API_TIMEOUT_MS: Number(import.meta.env.VITE_API_TIMEOUT_MS) || 10000,
   ENABLE_MOCK_DATA: import.meta.env.VITE_ENABLE_MOCK_DATA !== 'false',
-  TMDB_API_KEY: import.meta.env.VITE_TMDB_API_KEY || 'c4b8fa671dd3a68297b80a13ebec05b2',
+  TMDB_API_KEY: import.meta.env.VITE_TMDB_API_KEY || '4e44d9029b1270a757cddc766a1bcb63',
   TMDB_IMAGE_BASE_URL: import.meta.env.VITE_TMDB_IMAGE_BASE_URL || 'https://image.tmdb.org/t/p/w500',
   WHATSAPP_NUMBER: import.meta.env.VITE_WHATSAPP_NUMBER || '573214465418',
   NEQUI_NUMBER: import.meta.env.VITE_NEQUI_NUMBER || '3214465418',
