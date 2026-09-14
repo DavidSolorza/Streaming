@@ -538,16 +538,16 @@
         "quality": "Kit de marca y removedor de fondos",
         "access": "Activación rápida a tu correo",
         "prices": {
-          "1m": 10000,
+          "1m": 15000,
           "3m": 22000,
-          "6m": 34000,
-          "12m": 60000
+          "6m": 50000,
+          "12m": 80000
         },
         "regularPrices": {
-          "1m": 18000,
+          "1m": 25000,
           "3m": 32000,
-          "6m": 48000,
-          "12m": 85000
+          "6m": 75000,
+          "12m": 110000
         }
       },
       "cuenta": {

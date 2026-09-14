@@ -15,10 +15,10 @@ interface ProductCardProps {
 }
 
 const CANVA_PLANS = [
-  { id: '1m-correo', label: 'Correo propio', fullName: 'Canva 1 mes con correo del cliente', price: 12000, regularPrice: 20000 },
-  { id: '1m', label: '1 Mes', fullName: 'Canva 1 mes', price: 10000, regularPrice: 18000 },
-  { id: '6m', label: '6 Meses', fullName: 'Canva 6 meses', price: 34000, regularPrice: 48000 },
-  { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 60000, regularPrice: 85000 },
+  { id: '1m-correo', label: 'Correo propio', fullName: 'Canva 1 mes con correo del cliente', price: 18000, regularPrice: 28000 },
+  { id: '1m', label: '1 Mes', fullName: 'Canva 1 mes', price: 15000, regularPrice: 25000 },
+  { id: '6m', label: '6 Meses', fullName: 'Canva 6 meses', price: 50000, regularPrice: 75000 },
+  { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 80000, regularPrice: 110000 },
 ];
 
 const NETFLIX_PLANS = [

@@ -10,10 +10,10 @@ import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { formatCOP } from '@/core/utils/currency';
 
 const CANVA_PLANS = [
-  { id: '1m-correo', label: 'Correo propio', fullName: 'Canva 1 mes con correo del cliente', price: 12000 },
-  { id: '1m', label: '1 Mes', fullName: 'Canva 1 mes', price: 10000 },
-  { id: '6m', label: '6 Meses', fullName: 'Canva 6 meses', price: 34000 },
-  { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 60000 },
+  { id: '1m-correo', label: 'Correo propio', fullName: 'Canva 1 mes con correo del cliente', price: 18000 },
+  { id: '1m', label: '1 Mes', fullName: 'Canva 1 mes', price: 15000 },
+  { id: '6m', label: '6 Meses', fullName: 'Canva 6 meses', price: 50000 },
+  { id: '12m', label: '12 Meses', fullName: 'Canva 12 meses', price: 80000 },
 ];
 
 const NETFLIX_PLANS = [
