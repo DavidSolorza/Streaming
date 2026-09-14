@@ -242,8 +242,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
       <header className="bg-slate-900 text-white sticky top-0 z-40 shadow-lg border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-black text-sm text-white shadow-md uppercase">
-              {storeConfig.storeName.substring(0, 2) || '4S'}
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-500 ring-2 ring-blue-400/30 shadow-md shadow-blue-500/20 flex items-center justify-center bg-white shrink-0 p-0.5">
+              <img src="/perfil.png" alt={storeConfig.storeName} className="w-full h-full object-cover rounded-full" />
             </div>
             <div>
               <div className="flex items-center gap-2">
