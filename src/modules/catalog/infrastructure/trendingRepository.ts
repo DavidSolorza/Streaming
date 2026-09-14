@@ -10,11 +10,11 @@ export interface TrendingItem {
   posterUrl: string;
 }
 
-const CACHE_KEY = 'trending_estrenos_tmdb_live_v8';
-const CACHE_TIME_KEY = 'trending_estrenos_timestamp_live_v8';
+const CACHE_KEY = 'trending_estrenos_tmdb_pure_api_v9';
+const CACHE_TIME_KEY = 'trending_estrenos_timestamp_pure_api_v9';
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-// Lista de plataformas soportadas para mapeo equilibrado
+// Lista de plataformas soportadas en el catálogo para distribución limpia
 const PLATFORM_CONFIGS: Record<string, { name: TrendingItem['platform']; color: string }> = {
   netflix: { name: 'Netflix', color: 'bg-red-600' },
   max: { name: 'Max', color: 'bg-blue-600' },
@@ -32,67 +32,9 @@ const DEFAULT_PLATFORMS: Array<{ name: TrendingItem['platform']; color: string }
   PLATFORM_CONFIGS.disney,
 ];
 
-// Lista de respaldo de alta disponibilidad para modo sin conexión
-const FALLBACK_ESTRENOS: TrendingItem[] = [
-  {
-    id: 'f1',
-    title: 'Stranger Things 5',
-    platform: 'Netflix',
-    platformId: 'cine',
-    platformColor: 'bg-red-600',
-    rating: 8.9,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg',
-  },
-  {
-    id: 'f2',
-    title: 'La Casa del Dragón',
-    platform: 'Max',
-    platformId: 'cine',
-    platformColor: 'bg-blue-600',
-    rating: 8.7,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg',
-  },
-  {
-    id: 'f3',
-    title: 'Deadpool & Wolverine',
-    platform: 'Disney+',
-    platformId: 'cine',
-    platformColor: 'bg-sky-600',
-    rating: 8.2,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
-  },
-  {
-    id: 'f4',
-    title: 'The Boys (T4)',
-    platform: 'Prime Video',
-    platformId: 'cine',
-    platformColor: 'bg-cyan-600',
-    rating: 8.6,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/in1R2dDc421JxsoRWaIIAqVI2KE.jpg',
-  },
-  {
-    id: 'f5',
-    title: 'Intensamente 2',
-    platform: 'Disney+',
-    platformId: 'cine',
-    platformColor: 'bg-sky-600',
-    rating: 8.5,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg',
-  },
-  {
-    id: 'f6',
-    title: 'Dragon Ball DAIMA',
-    platform: 'Crunchyroll',
-    platformId: 'cine',
-    platformColor: 'bg-orange-500',
-    rating: 9.1,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/lMULbSFZNXUC87MqOZQ4SSV9DXI.jpg',
-  }
-];
-
 export class TrendingRepository {
   /**
-   * Limpia toda la caché guardada de versiones anteriores o actuales de los estrenos
+   * Limpia toda la caché previa o antigua de versiones pasadas en localStorage
    */
   static clearCache(): void {
     try {
@@ -107,10 +49,17 @@ export class TrendingRepository {
   }
 
   /**
-   * Obtiene datos iniciales de forma SÍNCRONA (desde caché o lista de respaldo)
+   * Obtiene únicamente datos previamente extraídos de la API guardados en caché
    */
   static getInitialData(): TrendingItem[] {
     try {
+      // Limpieza preventiva de versiones anteriores
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('trending_estrenos_') && !key.includes('v9')) {
+          localStorage.removeItem(key);
+        }
+      });
+
       const cachedData = localStorage.getItem(CACHE_KEY);
       if (cachedData) {
         const parsed: TrendingItem[] = JSON.parse(cachedData);
@@ -121,11 +70,11 @@ export class TrendingRepository {
     } catch (e) {
       // Ignorar errores de localStorage
     }
-    return FALLBACK_ESTRENOS;
+    return [];
   }
 
   /**
-   * Consulta la API en vivo de TMDB (The Movie Database) para extraer las tendencias globales de la semana.
+   * Extrae en vivo los estrenos desde la API de TMDB sin depender de ninguna lista estática ni antigua.
    */
   static async getTrending(forceRefresh: boolean = false): Promise<TrendingItem[]> {
     if (forceRefresh) {
@@ -151,7 +100,8 @@ export class TrendingRepository {
       const apiKey = ENV.TMDB_API_KEY;
       const endpoints = [
         `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&language=es-MX`,
-        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-MX`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-MX`,
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&language=es-MX`
       ];
 
       for (const url of endpoints) {
@@ -199,13 +149,13 @@ export class TrendingRepository {
             }
           }
         } catch (e) {
-          // Continuar al siguiente endpoint si uno falla
+          // Intentar con el siguiente endpoint de TMDB
         }
       }
     } catch (error) {
-      console.error('Error al consultar API TMDB:', error);
+      console.error('Error al extraer estrenos en vivo desde TMDB:', error);
     }
 
-    return FALLBACK_ESTRENOS;
+    return [];
   }
 }
