@@ -40,12 +40,12 @@ export const Navbar: React.FC = () => {
             }
           }}
         >
-          <div className="w-9 h-9 rounded-xl overflow-hidden border border-slate-900/[0.08] shadow-sm flex items-center justify-center bg-white shrink-0">
-            <img src="/perfil.png" alt={config.storeName} className="w-full h-full object-cover" />
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-blue-600/30 shadow-md shadow-blue-500/15 flex items-center justify-center bg-white shrink-0 p-0.5 transition-transform duration-300 hover:scale-105">
+            <img src="/perfil.png" alt={config.storeName} className="w-full h-full object-cover rounded-xl" />
           </div>
           <div>
-            <span className="font-extrabold text-base tracking-tight text-slate-900 block leading-none">{config.storeName}</span>
-            <span className="text-[9px] text-blue-700 font-bold uppercase tracking-wider block mt-0.5">{config.storeSubtitle}</span>
+            <span className="font-black text-base sm:text-lg tracking-tight text-slate-900 block leading-none">{config.storeName}</span>
+            <span className="text-[10px] sm:text-[11px] text-blue-700 font-extrabold uppercase tracking-wider block mt-1">{config.storeSubtitle}</span>
           </div>
         </div>
 
