@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { Monitor, Sparkles, KeyRound, Flame, ShoppingCart, Info, MessageCircle, ShieldCheck, Check } from 'lucide-react';
 import { Product, ProductMode } from '../../domain/entities/Product';
@@ -30,10 +30,42 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const selectedMode: ProductMode = 'pantalla';
   const selectedDuration: DurationKey = '1m';
   const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [isHighlighted, setIsHighlighted] = useState<boolean>(false);
   const [selectedCanvaPlanId, setSelectedCanvaPlanId] = useState<string>('1m');
   const [selectedNetflixPlanId, setSelectedNetflixPlanId] = useState<string>('original');
 
   const addItem = useCartStore(state => state.addItem);
+
+  useEffect(() => {
+    const unsubscribe = eventBus.on('CATALOG:HIGHLIGHT_PLATFORM', (targetPlatform: string) => {
+      if (!targetPlatform) return;
+
+      const pLower = targetPlatform.toLowerCase().replace('+', '').trim();
+      const nameLower = product.name.toLowerCase().replace('+', '');
+      const brandLower = product.brand.toLowerCase().replace('+', '');
+
+      const isMatch =
+        nameLower.includes(pLower) ||
+        brandLower.includes(pLower) ||
+        (pLower.includes('prime') && (nameLower.includes('prime') || brandLower.includes('prime'))) ||
+        (pLower.includes('amazon') && (nameLower.includes('prime') || brandLower.includes('prime'))) ||
+        (pLower.includes('disney') && (nameLower.includes('disney') || brandLower.includes('disney'))) ||
+        (pLower.includes('max') && (nameLower.includes('max') || brandLower.includes('max')));
+
+      if (isMatch) {
+        setIsHighlighted(true);
+        setTimeout(() => {
+          const cardEl = document.getElementById(`product-card-${product.id}`);
+          if (cardEl) {
+            cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+        setTimeout(() => setIsHighlighted(false), 2000);
+      }
+    });
+
+    return unsubscribe;
+  }, [product]);
 
   const isCanva = product.brand === 'Canva Pro' || product.name.toLowerCase().includes('canva');
   const isNetflix = product.brand === 'Netflix' && product.category === 'cine';
@@ -108,7 +140,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   });
 
   return (
-    <div className={`bg-white border ${!product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} ${product.brandGlow} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>
+    <div
+      id={`product-card-${product.id}`}
+      className={`bg-white border ${
+        isHighlighted
+          ? 'border-blue-600 ring-4 ring-blue-500/50 scale-[1.03] shadow-2xl z-20 transition-all duration-300'
+          : !product.available
+          ? 'border-slate-900/[0.05] opacity-60'
+          : 'border-slate-900/[0.08]'
+      } ${product.brandGlow} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}
+    >
       <div className="flex-1 flex flex-col">
         {/* Encabezado Visual con Logo de Marca y Badges Alineados en Fila */}
         <div className="flex justify-between items-start mb-3 min-h-[48px]">

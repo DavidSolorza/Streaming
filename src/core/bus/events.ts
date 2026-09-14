@@ -8,6 +8,7 @@ export type AppEvents = {
   'CART:OPEN_DRAWER': void;
   'CART:CLOSE_DRAWER': void;
   'CATALOG:OPEN_DETAILS': Product;
+  'CATALOG:HIGHLIGHT_PLATFORM': string;
   'CATALOG:PRODUCTS_CHANGED': Product[];
   'PAYMENT:OPEN_MODAL': void;
   'PAYMENT:CLOSE_MODAL': void;

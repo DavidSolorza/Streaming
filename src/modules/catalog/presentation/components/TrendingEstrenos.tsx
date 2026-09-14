@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TrendingRepository, TrendingItem } from '../../infrastructure/trendingRepository';
 import { PosterImage } from './PosterImage';
 import { Star, Sparkles } from 'lucide-react';
+import { eventBus } from '@/core/bus/eventBus';
 
 interface TrendingEstrenosProps {
   onSelectPlatform?: (platformId: string) => void;
@@ -26,14 +27,13 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
     };
   }, []);
 
-  const handleItemClick = (platformId: string) => {
+  const handleItemClick = (platform: string) => {
     if (onSelectPlatform) {
-      onSelectPlatform(platformId);
+      onSelectPlatform(platform);
     }
-    const catalogEl = document.getElementById('catalog');
-    if (catalogEl) {
-      catalogEl.scrollIntoView({ behavior: 'smooth' });
-    }
+
+    // Emitir evento para activar filtro y resaltar tarjeta en el catálogo
+    eventBus.emit('CATALOG:HIGHLIGHT_PLATFORM', platform);
   };
 
   return (
@@ -65,7 +65,7 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
           : estrenos.map((item) => (
               <article
                 key={item.id}
-                onClick={() => handleItemClick(item.platformId)}
+                onClick={() => handleItemClick(item.platform)}
                 className="group relative flex-none w-[155px] h-[235px] rounded-2xl overflow-hidden cursor-pointer shadow-luxury hover:shadow-luxury-hover transition-all duration-300 hover:-translate-y-1.5 border border-slate-900/[0.08] bg-slate-900"
               >
                 {/* Imagen del Póster HD */}

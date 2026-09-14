@@ -26,10 +26,19 @@ export function useCatalogFilter() {
   useEffect(() => {
     loadProducts();
 
-    const unsubscribe = eventBus.on('CATALOG:PRODUCTS_CHANGED', (products) => {
+    const unsubscribeProducts = eventBus.on('CATALOG:PRODUCTS_CHANGED', (products) => {
       setAllProducts(products);
     });
-    return unsubscribe;
+
+    const unsubscribeHighlight = eventBus.on('CATALOG:HIGHLIGHT_PLATFORM', () => {
+      setSearchQuery('');
+      setSelectedCategory('all');
+    });
+
+    return () => {
+      unsubscribeProducts();
+      unsubscribeHighlight();
+    };
   }, [loadProducts]);
 
   const filteredProducts = useMemo(() => {
