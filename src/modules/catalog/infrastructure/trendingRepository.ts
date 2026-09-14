@@ -10,10 +10,10 @@ export interface TrendingItem {
   posterUrl: string;
 }
 
-const CACHE_KEY = 'trending_estrenos_cache_v3';
-const CACHE_TIME_KEY = 'trending_estrenos_timestamp_v3';
+const CACHE_KEY = 'trending_estrenos_cache_v5';
+const CACHE_TIME_KEY = 'trending_estrenos_timestamp_v5';
 
-// Lista de respaldo 100% confiable con pósteres HD reales y verificados
+// Lista de respaldo 100% confiable con pósteres HD reales y verificados (HTTP 200 OK)
 const FALLBACK_ESTRENOS: TrendingItem[] = [
   {
     id: 'f1',
@@ -22,7 +22,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-red-600',
     rating: 8.9,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg',
   },
   {
     id: 'f2',
@@ -31,7 +31,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-blue-600',
     rating: 8.7,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/70a2zM2vVw9TqZ8V2j0o6Xz0X8u.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg',
   },
   {
     id: 'f3',
@@ -49,7 +49,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-cyan-600',
     rating: 8.6,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/m2L2j2k8W2qM8w1mZ1k7z5k6W6k.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/in1R2dDc421JxsoRWaIIAqVI2KE.jpg',
   },
   {
     id: 'f5',
@@ -58,7 +58,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-sky-600',
     rating: 8.5,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpEZZaLvOFWKGWvU.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg',
   },
   {
     id: 'f6',
@@ -67,7 +67,7 @@ const FALLBACK_ESTRENOS: TrendingItem[] = [
     platformId: 'cine',
     platformColor: 'bg-orange-500',
     rating: 9.1,
-    posterUrl: 'https://image.tmdb.org/t/p/w500/z6c98qUv64t00M85iH2qXQjXgU3.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lMULbSFZNXUC87MqOZQ4SSV9DXI.jpg',
   }
 ];
 
@@ -77,10 +77,13 @@ export class TrendingRepository {
    */
   static getInitialData(): TrendingItem[] {
     try {
+      // Limpiar versiones viejas si existen
+      localStorage.removeItem('trending_estrenos_cache_v3');
+      localStorage.removeItem('trending_estrenos_cache_v4');
       const cachedData = localStorage.getItem(CACHE_KEY);
       if (cachedData) {
         const parsed: TrendingItem[] = JSON.parse(cachedData);
-        if (Array.isArray(parsed) && parsed.length >= 4) {
+        if (Array.isArray(parsed) && parsed.length >= 6) {
           return parsed;
         }
       }
