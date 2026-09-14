@@ -1,87 +1,23 @@
 [
   {
-    "id": 1,
-    "name": "Netflix único",
-    "brand": "Netflix",
-    "category": "cine",
-    "brandGlow": "brand-glow-netflix",
-    "iconName": "logos:netflix-icon",
-    "logoBg": "bg-red-500/10 text-red-500 border-red-500/20",
-    "available": true,
-    "bestseller": false,
-    "badges": [
-      "Entrega Inmediata",
-      "4K UHD",
-      "Renovable"
-    ],
-    "searchTags": [
-      "netflix único",
-      "netflix",
-      "cine"
-    ],
-    "modes": {
-      "pantalla": {
-        "label": "1 Pantalla / Licencia Personal",
-        "devices": "1 Dispositivo simultáneo",
-        "quality": "Versión Pro / Ultra HD",
-        "access": "Acceso directo con PIN o Correo",
-        "prices": {
-          "1m": 29000,
-          "3m": 78000,
-          "6m": 145000,
-          "12m": 261000
-        },
-        "regularPrices": {
-          "1m": 39000,
-          "3m": 88000,
-          "6m": 155000,
-          "12m": 271000
-        }
-      },
-      "cuenta": {
-        "label": "Cuenta / Plan Completo",
-        "devices": "Todos los dispositivos activados",
-        "quality": "Versión Pro Completa",
-        "access": "Correo y clave propia renovable",
-        "prices": {
-          "1m": 66000,
-          "3m": 174000,
-          "6m": 319000,
-          "12m": 522000
-        },
-        "regularPrices": {
-          "1m": 86000,
-          "3m": 194000,
-          "6m": 339000,
-          "12m": 542000
-        }
-      }
-    },
-    "includes": [
-      "Acceso completo a Netflix único",
-      "Licencia oficial activada con soporte garantizado",
-      "Garantía total durante todo el periodo contratado"
-    ]
-  },
-  {
     "id": 2,
-    "name": "Netflix original",
+    "name": "Netflix",
     "brand": "Netflix",
     "category": "cine",
     "brandGlow": "brand-glow-netflix",
     "iconName": "logos:netflix-icon",
     "logoBg": "bg-red-500/10 text-red-500 border-red-500/20",
     "available": true,
-    "bestseller": false,
+    "bestseller": true,
     "badges": [
       "Entrega Inmediata",
       "4K UHD",
       "Renovable"
     ],
     "searchTags": [
-      "netflix original",
       "netflix",
-      "cine"
+      "cine",
+      "4k uhd"
     ],
     "modes": {
       "pantalla": {
@@ -122,9 +58,9 @@
       }
     },
     "includes": [
-      "Acceso completo a Netflix original",
-      "Licencia oficial activada con soporte garantizado",
-      "Garantía total durante todo el periodo contratado"
+      "Acceso completo a Netflix en ultra alta definición (4K UHD)",
+      "Perfil privado con PIN personal e inmutable",
+      "Licencia oficial activada con soporte y garantía total 30 días"
     ]
   },
   {
