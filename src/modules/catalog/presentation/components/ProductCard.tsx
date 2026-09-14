@@ -214,19 +214,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         )}
 
-        {/* Especificaciones Técnicas Concisas (Visibles en pantallas Medianas / Escritorio para tarjetas móviles compactas) */}
-        <div className="hidden sm:block bg-slate-50 border border-slate-900/[0.06] rounded-xl p-2.5 mt-auto mb-4 space-y-1 text-[11px] text-slate-600">
+        {/* Especificaciones Técnicas Concisas (Panel expandible que elimina huecos blancos) */}
+        <div className="hidden sm:flex flex-col justify-center bg-slate-50 border border-slate-900/[0.06] rounded-2xl p-3.5 mt-auto mb-4 flex-1 space-y-2 text-[11px] text-slate-600">
           <div className="flex items-center gap-2">
-            <Monitor className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-            <span className="truncate">{modeData.devices}</span>
+            <Monitor className="w-4 h-4 text-blue-600 shrink-0" />
+            <span className="truncate font-semibold">{modeData.devices}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-            <span className="truncate">{modeData.quality}</span>
+            <Sparkles className="w-4 h-4 text-blue-600 shrink-0" />
+            <span className="truncate font-semibold">{modeData.quality}</span>
           </div>
           <div className="flex items-center gap-2">
-            <KeyRound className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-            <span className="truncate">{modeData.access}</span>
+            <KeyRound className="w-4 h-4 text-blue-600 shrink-0" />
+            <span className="truncate font-semibold">{modeData.access}</span>
           </div>
         </div>
       </div>
