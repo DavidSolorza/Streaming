@@ -39,8 +39,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   // Multiplicador de meses para cálculo del total acumulado
   const durationMonths = selectedDuration === '1m' ? 1 : selectedDuration === '3m' ? 3 : selectedDuration === '6m' ? 6 : 12;
-
-  const modeLabel = selectedMode === 'pantalla' ? '1 Pantalla con PIN' : 'Cuenta Completa';
+  const isWorkProduct = product.category === 'trabajo';
+  const modeLabel = isWorkProduct 
+    ? 'Licencia Pro Personal' 
+    : (selectedMode === 'pantalla' ? '1 Pantalla con PIN' : 'Cuenta Completa');
   const durationLabel = selectedDuration === '1m' ? '1 Mes' : `${durationMonths} Meses`;
 
   // Filtrar insignias redundantes ("Entrega Inmediata" ya aparece en la insignia superior)
@@ -76,14 +78,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     price: currentPrice
   });
 
-  return (    <div className={`bg-white border ${!product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} ${product.brandGlow} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>
+  return (
+    <div className={`bg-white border ${!product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} ${product.brandGlow} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>
       <div className="flex-1 flex flex-col">
-        {/* Encabezado Visual con Logo de Marca y Badge de Estado Único */}
-        <div className="flex justify-between items-start mb-3">
+        {/* Encabezado Visual con Logo de Marca y Badges Alineados en Fila */}
+        <div className="flex justify-between items-start mb-3 min-h-[48px]">
           <div className={`w-12 h-12 rounded-2xl border border-slate-900/[0.08] flex items-center justify-center p-2 shadow-sm ${product.logoBg}`}>
             <Icon icon={product.iconName} className="w-7 h-7" />
           </div>
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-wrap items-center justify-end gap-1 max-w-[70%]">
             {product.bestseller && (
               <Badge variant="amber">
                 <span className="flex items-center gap-1">

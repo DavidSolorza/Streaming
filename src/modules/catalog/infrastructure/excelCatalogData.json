@@ -598,9 +598,9 @@
     "modes": {
       "pantalla": {
         "label": "1 Pantalla / Licencia Personal",
-        "devices": "1 Dispositivo simultáneo",
-        "quality": "Versión Pro / Ultra HD",
-        "access": "Acceso directo con PIN o Correo",
+        "devices": "Plantillas y recursos Pro ilimitados",
+        "quality": "Kit de marca y removedor de fondos",
+        "access": "Activación rápida a tu correo",
         "prices": {
           "1m": 10000,
           "3m": 22000,
@@ -645,8 +645,8 @@
     "brand": "CapCut Pro",
     "category": "trabajo",
     "brandGlow": "brand-glow-netflix",
-    "iconName": "simple-icons:capcut",
-    "logoBg": "bg-slate-900/10 text-slate-800 border-slate-900/20",
+    "iconName": "ph:video-camera-fill",
+    "logoBg": "bg-slate-900 text-white border-slate-800 shadow-sm",
     "available": true,
     "bestseller": false,
     "badges": [
@@ -662,9 +662,9 @@
     "modes": {
       "pantalla": {
         "label": "1 Pantalla / Licencia Personal",
-        "devices": "1 Dispositivo simultáneo",
-        "quality": "Versión Pro / Ultra HD",
-        "access": "Acceso directo con PIN o Correo",
+        "devices": "Exportación 4K sin marca de agua",
+        "quality": "Filtros, efectos y animaciones Pro",
+        "access": "Subtítulos automáticos con IA",
         "prices": {
           "1m": 22000,
           "3m": 59000,
@@ -709,7 +709,7 @@
     "brand": "Gemini AI",
     "category": "trabajo",
     "brandGlow": "brand-glow-disney",
-    "iconName": "simple-icons:googlegemini",
+    "iconName": "logos:google-gemini",
     "logoBg": "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
     "available": true,
     "bestseller": false,
@@ -726,9 +726,9 @@
     "modes": {
       "pantalla": {
         "label": "1 Pantalla / Licencia Personal",
-        "devices": "1 Dispositivo simultáneo",
-        "quality": "Versión Pro / Ultra HD",
-        "access": "Acceso directo con PIN o Correo",
+        "devices": "Modelo más potente Google 1.5 Pro",
+        "quality": "Análisis avanzado de datos y código",
+        "access": "Integración directa con tu cuenta Google",
         "prices": {
           "1m": 18000,
           "3m": 48000,
