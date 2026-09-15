@@ -1,0 +1,18 @@
+# ====================================================================
+# ⚙️ CONFIGURACIÓN DE CLOUDFLARE PAGES & CLOUDFLARE D1 (SQLITE)
+# ====================================================================
+
+name = "cuentas-stream-colombia"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+# 🗄️ BINDING DE BASE DE DATOS CLOUDFLARE D1 (SQLITE)
+[[d1_databases]]
+binding = "DB" # Nombre accesible en env.DB en Cloudflare Pages Functions
+database_name = "cuentas_stream_db"
+database_id = "local-d1-cuentas-stream-db"
+
+[vars]
+ENVIRONMENT = "production"
+APP_TITLE = "Cuentas y plataformas de streaming JP"
