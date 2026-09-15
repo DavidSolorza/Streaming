@@ -206,7 +206,7 @@ const findBestTrailerKey = (videoResults: any[]) => {
   return anyYt ? anyYt.key : null;
 };
 
-const AUTO_SLIDE_DURATION = 30000;
+const AUTO_SLIDE_DURATION = 60000;
 
 export const HeroCinematicShowcase: React.FC = () => {
   const [movies, setMovies] = useState<FeaturedMovieItem[]>(DEFAULT_FEATURED_MOVIES);
