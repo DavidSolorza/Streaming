@@ -1,160 +1,149 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
-import { MessageCircle, ShoppingBag, Sparkles, Volume2, VolumeX, Flame, ChevronRight, Play, Check } from 'lucide-react';
+import { MessageCircle, ShoppingBag, Sparkles, Volume2, VolumeX, Star, Flame, Play, Check } from 'lucide-react';
 import { Button } from '@/shared/components/Button';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { eventBus } from '@/core/bus/eventBus';
 import { formatCOP } from '@/core/utils/currency';
-import videoSource from '../../../../resources/All Streaming Services Originals Intro Effects.mp4';
 
-export interface ShowcaseItem {
+export interface FeaturedMovieItem {
   id: string;
-  name: string;
+  movieTitle: string;
   brand: string;
   icon: string;
+  rating: number;
+  category: string;
   tagline: string;
   description: string;
-  badge: string;
-  badgeColor: string;
   price: number;
   regularPrice: number;
   productId: number;
-  startTime: number;
-  endTime: number;
+  youtubeId: string;
   backdropUrl: string;
   whatsappMessage: string;
 }
 
-const SHOWCASE_ITEMS: ShowcaseItem[] = [
+const FEATURED_MOVIES: FeaturedMovieItem[] = [
   {
-    id: 'netflix',
-    name: 'Netflix Original 4K UHD',
-    brand: 'Netflix',
-    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
-    tagline: 'Películas, Series Top & Estrenos Exclusivos',
-    description: 'Perfil privado con PIN personal, garantía total 30 días y transmisión Ultra HD 4K.',
-    badge: 'Más Vendido',
-    badgeColor: 'bg-red-600 text-white shadow-red-600/30',
-    price: 17000,
-    regularPrice: 27000,
-    productId: 2,
-    startTime: 0,
-    endTime: 10,
-    backdropUrl: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1200&auto=format&fit=crop',
-    whatsappMessage: '¡Hola! Vengo desde la web y quiero solicitar la cuenta de *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Me indicas los medios de pago?',
-  },
-  {
-    id: 'disney',
-    name: 'Disney+ Premium IMAX',
+    id: 'moana-2',
+    movieTitle: 'Moana 2',
     brand: 'Disney+',
     icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
-    tagline: 'Marvel, Star Wars, Pixar & ESPN Deportes',
-    description: 'Calidad IMAX Enhanced, deportes en vivo de ESPN y estrenos cine simultáneos.',
-    badge: '4K Ultra HD',
-    badgeColor: 'bg-sky-500 text-white shadow-sky-500/30',
+    rating: 7.2,
+    category: 'Disney+ Premium',
+    tagline: 'Una nueva aventura épica en los océanos',
+    description: 'Moana y Maui se reúnen para una nueva travesía junto a una tripulación de marineros insólitos en Disney+ Premium.',
     price: 16000,
     regularPrice: 26000,
     productId: 3,
-    startTime: 10,
-    endTime: 20,
+    youtubeId: 'hDZ7y8RP5HE',
     backdropUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop',
-    whatsappMessage: '¡Hola! Vengo desde la web y quiero comprar *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das la información de pago?',
+    whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero solicitar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los medios de pago?',
   },
   {
-    id: 'max',
-    name: 'Max (HBO) Plan Pro',
+    id: 'house-dragon',
+    movieTitle: 'La Casa del Dragón',
     brand: 'Max',
     icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png',
-    tagline: 'House of the Dragon & Cine de Taquilla',
-    description: 'Las series icónicas de HBO, producciones de Warner Bros y eventos deportivos.',
-    badge: 'Estrenos HBO',
-    badgeColor: 'bg-blue-600 text-white shadow-blue-600/30',
+    rating: 8.5,
+    category: 'Max (HBO) Pro',
+    tagline: 'Fuego y Sangre en máxima calidad 4K',
+    description: 'La guerra civil de los Targaryen alcanza su clímax. Disfruta de la serie más aclamada de HBO en Max.',
     price: 15000,
     regularPrice: 25000,
     productId: 4,
-    startTime: 20,
-    endTime: 30,
-    backdropUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop',
-    whatsappMessage: '¡Hola! Vengo desde la web y me interesa adquirir *Max (HBO)* por *$15.000 COP/mes*. ¿Tienen disponibilidad inmediata?',
+    youtubeId: 'DotnJ7tTA34',
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+    whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero adquirir *Max (HBO)* para ver *La Casa del Dragón* por *$15.000 COP/mes*. ¿Me indicas cómo pagar?',
   },
   {
-    id: 'prime',
-    name: 'Prime Video Original',
+    id: 'spiderman-spiderverse',
+    movieTitle: 'Spider-Man: Un Nuevo Día',
+    brand: 'Disney+',
+    icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
+    rating: 7.9,
+    category: 'Disney+ Marvel',
+    tagline: 'El multiverso completo en Ultra HD',
+    description: 'Toda la colección de Marvel Studios, películas animadas y acción en IMAX Enhanced exclusivamente en Disney+.',
+    price: 16000,
+    regularPrice: 26000,
+    productId: 3,
+    youtubeId: 'cqGjhVJWtEg',
+    backdropUrl: 'https://images.unsplash.com/photo-1635863138275-d9b33299680b?q=80&w=1200&auto=format&fit=crop',
+    whatsappMessage: '¡Hola! Me interesa la cuenta de *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
+  },
+  {
+    id: 'the-boys',
+    movieTitle: 'The Boys / Carrera contra el tiempo',
     brand: 'Prime Video',
     icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png',
-    tagline: 'Amazon Originals & Cine Exclusivo',
-    description: 'The Boys, El Señor de los Anillos y el catálogo de cine y series de Amazon.',
-    badge: 'Entrega Instantánea',
-    badgeColor: 'bg-cyan-500 text-white shadow-cyan-500/30',
+    rating: 8.7,
+    category: 'Prime Video Original',
+    tagline: 'Acción sin censura y Amazon Originals',
+    description: 'Suspenso, acción extrema y las mejores producciones galardonadas de Amazon Prime Video.',
     price: 14000,
     regularPrice: 24000,
     productId: 5,
-    startTime: 30,
-    endTime: 40,
+    youtubeId: '06c1a_p-vO0',
     backdropUrl: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1200&auto=format&fit=crop',
-    whatsappMessage: '¡Hola! Deseo adquirir la cuenta de *Prime Video* por *$14.000 COP/mes*. ¿Cómo puedo realizar el pago?',
+    whatsappMessage: '¡Hola! Deseo adquirir *Prime Video* por *$14.000 COP/mes*. ¿Me envías la información de cuenta?',
   },
   {
-    id: 'crunchyroll',
-    name: 'Crunchyroll Mega Fan',
+    id: 'stranger-things',
+    movieTitle: 'Stranger Things 5',
+    brand: 'Netflix',
+    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
+    rating: 8.7,
+    category: 'Netflix Original 4K',
+    tagline: 'La temporada final en Ultra HD 4K',
+    description: 'Hawkins se enfrenta al capítulo definitivo. Disfruta de Netflix Original con perfil privado y PIN personal.',
+    price: 17000,
+    regularPrice: 27000,
+    productId: 2,
+    youtubeId: 'b9EkMc79ZSU',
+    backdropUrl: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1200&auto=format&fit=crop',
+    whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero contratar *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Tienen entrega inmediata?',
+  },
+  {
+    id: 'demon-slayer',
+    movieTitle: 'Demon Slayer: Castillo Infinito',
     brand: 'Crunchyroll',
     icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png',
-    tagline: 'Simulcast Anime 1 hora después de Japón',
-    description: 'El catálogo más extenso de anime en HD, sin publicidad y con opción de descargas.',
-    badge: 'Sin Anuncios',
-    badgeColor: 'bg-orange-500 text-white shadow-orange-500/30',
+    rating: 8.9,
+    category: 'Crunchyroll Mega Fan',
+    tagline: 'Simulcast Anime directo de Japón',
+    description: 'La batalla final contra Muzan Kibutsuji sin anuncios, en calidad HD y con opción de descarga offline.',
     price: 12000,
     regularPrice: 22000,
     productId: 7,
-    startTime: 40,
-    endTime: 50,
+    youtubeId: 'WY682855T20',
     backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop',
-    whatsappMessage: '¡Hola! Vengo desde la web y quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
-  },
+    whatsappMessage: '¡Hola! Quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
+  }
 ];
 
-const AUTO_SLIDE_DURATION = 7000; // 7 segundos por ítem
+const AUTO_SLIDE_DURATION = 7000; // 7 segundos por película
 
 export const HeroCinematicShowcase: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const addItemToCart = useCartStore((state) => state.addItem);
 
-  const activeItem = SHOWCASE_ITEMS[activeIndex];
-
-  // Controlar reproductor de video para saltar al tiempo adecuado
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = activeItem.startTime;
-      videoRef.current.play().catch(() => {
-        // Silencioso ante autoplays bloqueados por el navegador
-      });
-    }
-  }, [activeIndex]);
-
-  // Manejar loop de tiempo del video para no salirse del segmento del ítem
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      if (videoRef.current.currentTime >= activeItem.endTime) {
-        videoRef.current.currentTime = activeItem.startTime;
-      }
-    }
-  };
+  const activeMovie = FEATURED_MOVIES[activeIndex];
 
   // Timer para la barra de progreso tipo Stories (0 a 100%)
   useEffect(() => {
     if (isPaused) return;
 
-    const intervalTime = 50; // Ticks cada 50ms
+    const intervalTime = 50;
     const step = (intervalTime / AUTO_SLIDE_DURATION) * 100;
 
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
-          setActiveIndex((current) => (current + 1) % SHOWCASE_ITEMS.length);
+          setActiveIndex((current) => (current + 1) % FEATURED_MOVIES.length);
           return 0;
         }
         return prev + step;
@@ -170,113 +159,105 @@ export const HeroCinematicShowcase: React.FC = () => {
   };
 
   const handleBuyWhatsApp = () => {
-    const url = `https://wa.me/573214465418?text=${encodeURIComponent(activeItem.whatsappMessage)}`;
+    const url = `https://wa.me/573214465418?text=${encodeURIComponent(activeMovie.whatsappMessage)}`;
     window.open(url, '_blank');
   };
 
   const handleAddToCart = () => {
     addItemToCart({
-      cartItemId: `${activeItem.productId}-${Date.now()}`,
-      id: activeItem.productId,
-      name: activeItem.name,
-      price: activeItem.price,
-      image: activeItem.icon,
+      cartItemId: `${activeMovie.productId}-${Date.now()}`,
+      id: activeMovie.productId,
+      name: `${activeMovie.brand} (${activeMovie.movieTitle})`,
+      price: activeMovie.price,
+      image: activeMovie.icon,
       quantity: 1,
     });
 
     eventBus.emit('NOTIFICATION:SHOW', {
-      message: `¡${activeItem.name} se añadió a tu carrito!`,
+      message: `¡${activeMovie.brand} (${activeMovie.movieTitle}) se añadió a tu carrito!`,
       type: 'cart',
       title: '¡Añadido al Carrito!',
-      price: activeItem.price,
-      iconName: activeItem.icon,
+      price: activeMovie.price,
+      iconName: activeMovie.icon,
     });
   };
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
   return (
-    <div className="w-full max-w-6xl mx-auto my-6 sm:my-8 px-2 sm:px-4">
-      {/* Contenedor Principal Cinemático Oscuro (Steam / Epic Games / Apple TV+ Style) */}
+    <div className="w-full max-w-6xl mx-auto my-4 sm:my-6">
+      {/* Contenedor Principal Blanco de Lujo (Blanco con Bordes Limpios & Sombras Suaves) */}
       <div 
-        className="relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] text-white grid grid-cols-1 lg:grid-cols-12 min-h-[460px] sm:min-h-[520px]"
+        className="relative bg-white rounded-3xl overflow-hidden border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         
-        {/* PANEL IZQUIERDO: REPRODUCTOR DE VIDEO CINE & CAPAS GRADIENTES (70% en PC / Columna 1-8) */}
-        <div className="lg:col-span-8 relative bg-black flex flex-col justify-between overflow-hidden group min-h-[300px] sm:min-h-[420px]">
+        {/* PANEL IZQUIERDO: REPRODUCTOR DE TRÁILERS Y OVERLAY DE COMPRA (8 cols / 70% en PC) */}
+        <div className="lg:col-span-8 relative bg-slate-900 rounded-2xl overflow-hidden shadow-md flex flex-col justify-between aspect-[16/9] lg:aspect-auto min-h-[320px] sm:min-h-[460px]">
           
-          {/* Video de Fondo con Transición Suave */}
-          <div className="absolute inset-0 w-full h-full bg-black">
-            <video
-              ref={videoRef}
-              src={videoSource}
-              autoPlay
-              muted={isMuted}
-              playsInline
-              onTimeUpdate={handleTimeUpdate}
-              className="w-full h-full object-cover opacity-90 transition-opacity duration-700"
+          {/* Tráiler de YouTube Embed de la Película Destacada */}
+          <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none">
+            <iframe
+              key={activeMovie.id}
+              src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`}
+              title={activeMovie.movieTitle}
+              className="w-full h-full object-cover scale-135 border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
-            {/* Degradados cinemáticos para legibilidad y fusión fluida */}
+
+            {/* Degradado para legibilidad del texto cinemático */}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-transparent hidden sm:block" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-transparent to-transparent hidden sm:block" />
           </div>
 
-          {/* Header Superior del Video: Badges y Mute Button */}
-          <div className="relative z-10 p-4 sm:p-6 flex items-center justify-between">
+          {/* Top Bar Overlay: Badges y Mute Audio */}
+          <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className={`text-[11px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-1.5 ${activeItem.badgeColor}`}>
-                <Flame className="w-3.5 h-3.5 fill-current" />
-                {activeItem.badge}
+              <span className="text-[11px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider bg-blue-600 text-white shadow-md flex items-center gap-1.5">
+                <Flame className="w-3.5 h-3.5 fill-current text-amber-300" />
+                Estreno Destacado
               </span>
-              <span className="bg-slate-900/80 backdrop-blur-md text-slate-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full border border-slate-700/60 hidden sm:inline-flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                Entrega 100% Inmediata
+              <span className="bg-slate-950/80 backdrop-blur-md text-amber-400 text-xs font-extrabold px-3 py-1 rounded-full border border-amber-500/30 flex items-center gap-1 shadow-md">
+                <Star className="w-3.5 h-3.5 fill-amber-400" />
+                {activeMovie.rating}
               </span>
             </div>
 
             {/* Botón Mute / Unmute */}
             <button
-              onClick={toggleMute}
-              className="p-2.5 rounded-full bg-slate-900/80 backdrop-blur-md text-slate-300 hover:text-white hover:bg-slate-800 transition border border-slate-700/60 shadow-md"
-              title={isMuted ? 'Activar sonido' : 'Silenciar'}
+              onClick={() => setIsMuted(!isMuted)}
+              className="p-2.5 rounded-full bg-slate-900/80 backdrop-blur-md text-slate-200 hover:text-white hover:bg-slate-800 transition border border-slate-700/60 shadow-md"
+              title={isMuted ? 'Activar sonido del tráiler' : 'Silenciar'}
             >
-              {isMuted ? <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" /> : <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />}
+              {isMuted ? <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-slate-300" /> : <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />}
             </button>
           </div>
 
-          {/* Footer Inferior del Video: Metadata & CTA Contextual Directo */}
-          <div className="relative z-10 p-4 sm:p-8 space-y-3.5">
+          {/* Bottom Bar Overlay: Información de la Película y Botón de WhatsApp */}
+          <div className="relative z-10 p-4 sm:p-6 space-y-3">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-slate-900/90 border border-slate-700/80 p-2 flex items-center justify-center shadow-xl backdrop-blur-md shrink-0">
-                <PlatformIcon icon={activeItem.icon} name={activeItem.brand} className="w-7 h-7 sm:w-8 sm:h-8" />
+                <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-blue-400 block">{activeItem.brand}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-blue-400 block">{activeMovie.brand} • {activeMovie.category}</span>
                 <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight leading-tight drop-shadow-md">
-                  {activeItem.name}
+                  {activeMovie.movieTitle}
                 </h2>
               </div>
             </div>
 
-            <p className="text-slate-300 text-xs sm:text-sm font-medium line-clamp-2 max-w-xl text-shadow-sm">
-              {activeItem.description}
+            <p className="text-slate-200 text-xs sm:text-sm font-medium line-clamp-2 max-w-xl text-shadow-sm">
+              {activeMovie.description}
             </p>
 
             {/* Barra de Precios & CTA WhatsApp Contextual */}
             <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
-              <div className="flex items-baseline gap-2 bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-700/60">
+              <div className="flex items-baseline gap-2 bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-700/60 shadow-md">
                 <span className="text-xl sm:text-2xl font-black text-emerald-400">
-                  {formatCOP(activeItem.price)}
+                  {formatCOP(activeMovie.price)}
                 </span>
                 <span className="text-xs text-slate-400 line-through font-semibold">
-                  {formatCOP(activeItem.regularPrice)}
+                  {formatCOP(activeMovie.regularPrice)}
                 </span>
                 <span className="text-[10px] text-slate-400 uppercase font-extrabold ml-1">/ mes</span>
               </div>
@@ -285,7 +266,7 @@ export const HeroCinematicShowcase: React.FC = () => {
                 <Button variant="mint" size="md" onClick={handleBuyWhatsApp} className="shadow-emerald-950/50 grow sm:grow-0">
                   <span className="flex items-center justify-center gap-2 font-black text-xs sm:text-sm">
                     <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-700" />
-                    Pedir por WhatsApp
+                    Solicitar esta Cuenta por WhatsApp
                   </span>
                 </Button>
 
@@ -298,37 +279,37 @@ export const HeroCinematicShowcase: React.FC = () => {
 
         </div>
 
-        {/* PANEL DERECHO: LISTA LATERAL ESTILO STEAM / EPIC GAMES (30% en PC / Columna 9-12) */}
-        <div className="lg:col-span-4 bg-slate-950/90 border-t lg:border-t-0 lg:border-l border-slate-800/80 p-3 sm:p-4 flex flex-col justify-between overflow-hidden">
+        {/* PANEL DERECHO: LISTA LIMPIA Y BLANCA DE PELÍCULAS DESTACADAS (4 cols / 30% en PC) */}
+        <div className="lg:col-span-4 bg-slate-50/80 rounded-2xl border border-slate-200/80 p-3 sm:p-4 flex flex-col justify-between overflow-hidden">
           
-          <div className="space-y-1 mb-2 hidden lg:block px-2 pt-1">
-            <span className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-              Destacados del Mes
+          <div className="space-y-1 mb-2 hidden lg:block px-1">
+            <span className="text-xs font-black uppercase tracking-widest text-blue-700 flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-blue-600" />
+              Tráilers de Películas Destacadas
             </span>
           </div>
 
-          {/* Tira Vertical en Desktop / Tira Horizontal Deslizable en Móvil */}
-          <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-none">
-            {SHOWCASE_ITEMS.map((item, index) => {
+          {/* Tira de Películas: Vertical en PC / Horizontal Deslizable en Celulares */}
+          <div className="flex lg:flex-col gap-2.5 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-none">
+            {FEATURED_MOVIES.map((movie, index) => {
               const isActive = index === activeIndex;
 
               return (
                 <div
-                  key={item.id}
+                  key={movie.id}
                   onClick={() => handleSelectTab(index)}
                   onMouseEnter={() => handleSelectTab(index)}
-                  className={`relative p-3 rounded-2xl transition-all duration-300 cursor-pointer text-left border shrink-0 w-[240px] sm:w-[280px] lg:w-full group overflow-hidden ${
+                  className={`relative p-3 rounded-xl transition-all duration-300 cursor-pointer text-left border shrink-0 w-[240px] sm:w-[280px] lg:w-full group overflow-hidden ${
                     isActive
-                      ? 'bg-slate-900 border-blue-500/80 shadow-lg shadow-blue-500/10'
-                      : 'bg-slate-950/50 border-slate-800/60 hover:bg-slate-900/60 hover:border-slate-700'
+                      ? 'bg-white border-blue-600 shadow-md ring-2 ring-blue-500/20'
+                      : 'bg-white/60 border-slate-200/80 text-slate-700 hover:bg-white hover:border-slate-300 shadow-xs'
                   }`}
                 >
-                  {/* Barra de Progreso Tipo "Stories" para el ítem activo */}
+                  {/* Barra de Progreso Tipo "Stories" para la película activa */}
                   {isActive && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-slate-800 overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-75 ease-linear"
+                        className="h-full bg-blue-600 transition-all duration-75 ease-linear"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -337,23 +318,23 @@ export const HeroCinematicShowcase: React.FC = () => {
                   <div className="flex items-center justify-between gap-3 pt-1">
                     <div className="flex items-center gap-3 min-w-0">
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center p-1.5 border shrink-0 transition-transform ${
-                        isActive ? 'bg-blue-600/20 border-blue-500/40 scale-105' : 'bg-slate-900 border-slate-800'
+                        isActive ? 'bg-blue-50 border-blue-300 scale-105' : 'bg-slate-100 border-slate-200'
                       }`}>
-                        <PlatformIcon icon={item.icon} name={item.brand} className="w-6 h-6" />
+                        <PlatformIcon icon={movie.icon} name={movie.brand} className="w-6 h-6" />
                       </div>
                       <div className="min-w-0">
-                        <h4 className={`text-xs sm:text-sm font-extrabold truncate ${isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'}`}>
-                          {item.brand}
+                        <h4 className={`text-xs sm:text-sm font-extrabold truncate ${isActive ? 'text-slate-900' : 'text-slate-700 group-hover:text-slate-900'}`}>
+                          {movie.movieTitle}
                         </h4>
-                        <p className="text-[10px] text-slate-400 truncate font-medium">
-                          {item.tagline}
-                        </p>
+                        <span className="text-[10px] text-slate-500 font-semibold block truncate">
+                          {movie.brand} • ★ {movie.rating}
+                        </span>
                       </div>
                     </div>
 
                     <div className="text-right shrink-0">
-                      <span className={`text-xs font-black block ${isActive ? 'text-emerald-400' : 'text-slate-400'}`}>
-                        {formatCOP(item.price)}
+                      <span className={`text-xs font-black block ${isActive ? 'text-blue-700' : 'text-slate-600'}`}>
+                        {formatCOP(movie.price)}
                       </span>
                     </div>
                   </div>
@@ -363,10 +344,10 @@ export const HeroCinematicShowcase: React.FC = () => {
           </div>
 
           {/* Footer Informativo del Panel Derecho */}
-          <div className="mt-3 pt-3 border-t border-slate-900 hidden lg:flex items-center justify-between text-[11px] text-slate-400 font-medium px-2">
-            <span>Pasa el mouse para explorar</span>
-            <span className="flex items-center gap-1 text-blue-400 font-bold">
-              Garantía Total 30 días <Check className="w-3.5 h-3.5" />
+          <div className="mt-3 pt-3 border-t border-slate-200/80 hidden lg:flex items-center justify-between text-[11px] text-slate-500 font-medium px-1">
+            <span>Pasa el mouse para reproducir tráiler</span>
+            <span className="flex items-center gap-1 text-emerald-700 font-bold">
+              Garantía Total <Check className="w-3.5 h-3.5" />
             </span>
           </div>
 
