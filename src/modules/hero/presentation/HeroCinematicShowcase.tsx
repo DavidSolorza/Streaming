@@ -202,25 +202,50 @@ export const HeroCinematicShowcase: React.FC = () => {
     setHasVideoError(false);
   }, [activeIndex]);
 
-  // Mantener el estado del volumen (silenciado o con sonido) constante al cambiar de tráiler
-  useEffect(() => {
-    if (!iframeRef.current) return;
-
-    const applyVolumeState = () => {
-      if (iframeRef.current && iframeRef.current.contentWindow) {
-        const command = isMuted ? 'mute' : 'unMute';
+  // Función robusta para sincronizar el estado del volumen (mute / unMute + setVolume 100) con YouTube API
+  const applyVolumeState = () => {
+    if (!iframeRef.current || !iframeRef.current.contentWindow) return;
+    try {
+      if (isMuted) {
         iframeRef.current.contentWindow.postMessage(
-          JSON.stringify({ event: 'command', func: command, args: [] }),
+          JSON.stringify({ event: 'command', func: 'mute', args: [] }),
+          '*'
+        );
+      } else {
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'unMute', args: [] }),
+          '*'
+        );
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'setVolume', args: [100] }),
           '*'
         );
       }
-    };
+    } catch (e) {
+      // Ignorar si la ventana del iframe aún no está lista
+    }
+  };
 
+  // Enviar comandos al cambiar de película o estado de volumen con reintentos para dar tiempo a la API de YouTube
+  useEffect(() => {
     applyVolumeState();
-    const timer = setTimeout(applyVolumeState, 400);
 
-    return () => clearTimeout(timer);
+    const t1 = setTimeout(applyVolumeState, 300);
+    const t2 = setTimeout(applyVolumeState, 800);
+    const t3 = setTimeout(applyVolumeState, 1500);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, [activeIndex, isMuted]);
+
+  const handleIframeLoad = () => {
+    applyVolumeState();
+    setTimeout(applyVolumeState, 400);
+    setTimeout(applyVolumeState, 1000);
+  };
 
   // Cargar películas en tendencia y estrenos en vivo desde TMDB API en segundo plano sin congelar la UI
   useEffect(() => {
@@ -480,6 +505,7 @@ export const HeroCinematicShowcase: React.FC = () => {
                 key={activeMovie.id}
                 src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&autohide=1&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&enablejsapi=1`}
                 title={activeMovie.movieTitle}
+                onLoad={handleIframeLoad}
                 onError={() => setHasVideoError(true)}
                 className="w-full h-full object-cover scale-[1.45] -translate-y-1 border-0 pointer-events-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
