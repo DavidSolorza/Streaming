@@ -320,10 +320,13 @@ export const HeroCinematicShowcase: React.FC = () => {
             </div>
           )}
 
+          {/* Escudo transparente protector para garantizar que 0 eventos de ratón/touch lleguen a YouTube */}
+          <div className="absolute inset-0 z-10 bg-transparent pointer-events-auto select-none" />
+
           {/* Flecha Anterior (Hover) */}
           <button
             onClick={handlePrev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer"
             title="Tráiler anterior"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -332,14 +335,14 @@ export const HeroCinematicShowcase: React.FC = () => {
           {/* Flecha Siguiente (Hover) */}
           <button
             onClick={handleNext}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer"
             title="Siguiente tráiler"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
 
           {/* Controles Superiores Flotantes (Plataforma, Rating y Mute) */}
-          <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-auto">
+          <div className="absolute top-3 left-3 right-3 z-30 flex items-center justify-between pointer-events-auto">
             <div className="flex items-center gap-2">
               <span className="bg-slate-950/80 backdrop-blur-md text-white text-xs font-black px-3 py-1 rounded-full border border-white/10 flex items-center gap-1.5 shadow-md">
                 <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-4 h-4" />
