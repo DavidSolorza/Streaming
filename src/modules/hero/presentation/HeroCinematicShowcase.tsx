@@ -125,6 +125,64 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
   }
 ];
 
+const CATALOG_PLATFORMS = [
+  {
+    brand: 'Disney+',
+    icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
+    price: 16000,
+    regularPrice: 26000,
+    productId: 3,
+  },
+  {
+    brand: 'Max',
+    icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png',
+    price: 15000,
+    regularPrice: 25000,
+    productId: 4,
+  },
+  {
+    brand: 'Netflix',
+    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
+    price: 17000,
+    regularPrice: 27000,
+    productId: 2,
+  },
+  {
+    brand: 'Prime Video',
+    icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png',
+    price: 14000,
+    regularPrice: 24000,
+    productId: 5,
+  },
+  {
+    brand: 'Crunchyroll',
+    icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png',
+    price: 12000,
+    regularPrice: 22000,
+    productId: 7,
+  },
+];
+
+const assignPlatformForMovie = (title: string, overview: string, index: number) => {
+  const text = (title + ' ' + overview).toLowerCase();
+  if (text.includes('anime') || text.includes('slayer') || text.includes('dragon ball') || text.includes('naruto') || text.includes('piece')) {
+    return CATALOG_PLATFORMS[4];
+  }
+  if (text.includes('disney') || text.includes('marvel') || text.includes('star wars') || text.includes('pixar') || text.includes('moana') || text.includes('avatar')) {
+    return CATALOG_PLATFORMS[0];
+  }
+  if (text.includes('hbo') || text.includes('dragon') || text.includes('batman') || text.includes('superman') || text.includes('dc ') || text.includes('warner')) {
+    return CATALOG_PLATFORMS[1];
+  }
+  if (text.includes('amazon') || text.includes('prime') || text.includes('boys') || text.includes('rings')) {
+    return CATALOG_PLATFORMS[3];
+  }
+  if (text.includes('netflix') || text.includes('stranger')) {
+    return CATALOG_PLATFORMS[2];
+  }
+  return CATALOG_PLATFORMS[index % CATALOG_PLATFORMS.length];
+};
+
 const AUTO_SLIDE_DURATION = 30000; // Duración aumentada a 30 segundos por tráiler a petición del usuario
 
 export const HeroCinematicShowcase: React.FC = () => {
@@ -163,7 +221,7 @@ export const HeroCinematicShowcase: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeIndex, isMuted]);
 
-  // Cargar tráileres oficiales y portadas en español con estrategia de respaldo de 3 capas (TMDB -> YouTube Data API v3 -> Fallback)
+  // Cargar tráileres oficiales y películas EN TENDENCIA en tiempo real desde TMDB API
   useEffect(() => {
     const fetchLiveTmdbTrailers = async () => {
       const tmdbKey = ENV.TMDB_API_KEY;
@@ -172,10 +230,86 @@ export const HeroCinematicShowcase: React.FC = () => {
       if (!tmdbKey) return;
 
       try {
+        // --- INTENTO A: Obtener películas en TENDENCIA en vivo desde TMDB API ---
+        const trendingRes = await fetch(
+          `https://api.themoviedb.org/3/trending/movie/week?api_key=${tmdbKey}&language=es-MX`
+        );
+
+        if (trendingRes.ok) {
+          const trendingData = await trendingRes.json();
+          const liveTrendingList = trendingData.results ? trendingData.results.slice(0, 8) : [];
+
+          if (liveTrendingList.length > 0) {
+            const processedTrending = await Promise.all(
+              liveTrendingList.map(async (tmdbResult: any, idx: number) => {
+                const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
+                let videoRes = await fetch(
+                  `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}&language=es-MX`
+                );
+                let videoData = await videoRes.json();
+
+                if (!videoData.results || videoData.results.length === 0) {
+                  videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`);
+                  videoData = await videoRes.json();
+                }
+
+                let trailerKey = videoData.results
+                  ? (videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0])?.key
+                  : null;
+
+                const movieTitle = tmdbResult.title || tmdbResult.name || 'Película en Tendencia';
+                if (!trailerKey && youtubeKey) {
+                  try {
+                    const query = encodeURIComponent(`${movieTitle} trailer oficial espanol latino`);
+                    const ytRes = await fetch(
+                      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoEmbeddable=true&maxResults=1&key=${youtubeKey}`
+                    );
+                    if (ytRes.ok) {
+                      const ytData = await ytRes.json();
+                      if (ytData.items && ytData.items.length > 0 && ytData.items[0].id?.videoId) {
+                        trailerKey = ytData.items[0].id.videoId;
+                      }
+                    }
+                  } catch (e) {}
+                }
+
+                const platform = assignPlatformForMovie(movieTitle, tmdbResult.overview || '', idx);
+                const priceFormatted = formatCOP(platform.price);
+
+                return {
+                  id: `tmdb-trending-${tmdbResult.id}`,
+                  movieTitle,
+                  brand: platform.brand,
+                  icon: platform.icon,
+                  rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : 8.5,
+                  tagline: '🔥 Película en Tendencia Mundial',
+                  description: tmdbResult.overview || 'Sinopsis oficial no disponible.',
+                  price: platform.price,
+                  regularPrice: platform.regularPrice,
+                  productId: platform.productId,
+                  youtubeId: trailerKey || '',
+                  posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+                  backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : undefined,
+                  whatsappMessage: `¡Hola! Vengo desde la web y quiero solicitar *${platform.brand}* para ver la película en tendencia *${movieTitle}* por *${priceFormatted}/mes*. ¿Me das los datos de pago?`,
+                } as FeaturedMovieItem;
+              })
+            );
+
+            if (processedTrending.length >= 3) {
+              setMovies(processedTrending);
+              return;
+            }
+          }
+        }
+      } catch (err) {
+        // Fallback a lista inicial si falla la consulta de tendencias globales
+      }
+
+      // --- INTENTO B: Fallback actualizando lista inicial ---
+      try {
         const updatedList = await Promise.all(
           INITIAL_MOVIES.map(async (item) => {
             try {
-              // --- PASO 1: Intentar obtener metadata y tráiler con TMDB API ---
               const searchRes = await fetch(
                 `https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${encodeURIComponent(item.movieTitle)}&language=es-MX`
               );
@@ -190,7 +324,6 @@ export const HeroCinematicShowcase: React.FC = () => {
               );
               let videoData = await videoRes.json();
 
-              // Fallback a tráiler en inglés si no hay tráiler traducido a español en TMDB
               if (!videoData.results || videoData.results.length === 0) {
                 videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`);
                 videoData = await videoRes.json();
@@ -200,7 +333,6 @@ export const HeroCinematicShowcase: React.FC = () => {
                 ? (videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0])?.key
                 : null;
 
-              // --- PASO 2: Respaldo con YouTube Data API v3 (Si TMDB no devolvió tráiler y existe YOUTUBE_API_KEY) ---
               if (!trailerKey && youtubeKey) {
                 try {
                   const query = encodeURIComponent(`${item.movieTitle} trailer oficial espanol latino`);
@@ -213,9 +345,7 @@ export const HeroCinematicShowcase: React.FC = () => {
                       trailerKey = ytData.items[0].id.videoId;
                     }
                   }
-                } catch (ytErr) {
-                  // Continuar con el siguiente paso en caso de error de red
-                }
+                } catch (ytErr) {}
               }
 
               return {
@@ -233,9 +363,7 @@ export const HeroCinematicShowcase: React.FC = () => {
           })
         );
         setMovies(updatedList);
-      } catch (e) {
-        // En caso de fallo de red, se mantienen los tráileres iniciales verificados
-      }
+      } catch (e) {}
     };
 
     fetchLiveTmdbTrailers();
@@ -264,7 +392,6 @@ export const HeroCinematicShowcase: React.FC = () => {
     const nextMuted = !isMuted;
     setIsMuted(nextMuted);
 
-    // Mandar mensaje postMessage a la API de YouTube para silenciar/activar sonido SIN reiniciar la reproducción
     if (iframeRef.current && iframeRef.current.contentWindow) {
       const command = nextMuted ? 'mute' : 'unMute';
       iframeRef.current.contentWindow.postMessage(
@@ -299,7 +426,7 @@ export const HeroCinematicShowcase: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
+    <div className="w-full max-w-7xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
       {/* Contenedor Principal Blanco Limpio */}
       <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2.5 sm:p-4 space-y-3">
         
