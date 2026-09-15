@@ -162,7 +162,7 @@ export const ToastNotification: React.FC = () => {
     <>
       {/* 1. NOTIFICACIÓN TOAST FLOTANTE */}
       {toast && toastStyle && (
-        <div className="fixed top-5 right-4 sm:right-6 z-50 max-w-sm w-full animate-bounce-short">
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-[100] max-w-md w-[calc(100%-2rem)] sm:w-auto min-w-[300px] sm:min-w-[400px] animate-bounce-short">
           <div className={`bg-slate-900/95 backdrop-blur-md text-white border ${toastStyle.borderColor} rounded-2xl p-4 shadow-2xl flex items-center justify-between gap-3 relative overflow-hidden group`}>
             
             {/* Barra lateral de acento de color */}
