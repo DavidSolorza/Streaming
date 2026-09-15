@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { PosterImage } from '@/modules/catalog/presentation/components/PosterImage';
-import { MessageCircle, ShoppingBag, Volume2, VolumeX, Star, ChevronLeft, ChevronRight, Play, Film } from 'lucide-react';
+import { MessageCircle, ShoppingBag, Volume2, VolumeX, Star, ChevronLeft, ChevronRight, Film } from 'lucide-react';
 import { Button } from '@/shared/components/Button';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { eventBus } from '@/core/bus/eventBus';
@@ -25,108 +25,16 @@ export interface FeaturedMovieItem {
   whatsappMessage: string;
 }
 
-// Datos oficiales verificados directamente con TMDB API en español latino
-const INITIAL_MOVIES: FeaturedMovieItem[] = [
-  {
-    id: 'moana-2',
-    movieTitle: 'Moana 2',
-    brand: 'Disney+',
-    icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
-    rating: 7.0,
-    tagline: 'Una nueva aventura épica en los mares de Oceanía',
-    description: 'Después de recibir una llamada inesperada de sus antepasados navegantes, Moana viajará a los lejanos mares de Oceanía en Disney+ Premium.',
-    price: 16000,
-    regularPrice: 26000,
-    productId: 3,
-    youtubeId: 'ZSlSfhHCc78',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
-    backdropUrl: 'https://image.tmdb.org/t/p/w1280/tE12181Gvy7B139707v7v.jpg',
-    whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero solicitar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los medios de pago?',
-  },
-  {
-    id: 'house-dragon',
-    movieTitle: 'La Casa del Dragón',
-    brand: 'Max',
-    icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png',
-    rating: 8.4,
-    tagline: 'Fuego y Sangre en máxima calidad 4K',
-    description: 'La sangrienta guerra civil de la Casa Targaryen alcanza su clímax por el Trono de Hierro. Disponible en calidad Ultra HD en Max.',
-    price: 15000,
-    regularPrice: 25000,
-    productId: 4,
-    youtubeId: '339paLFRKlo',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/szyVpg9K3LL5s8VFAGkXzlxgZUk.jpg',
-    backdropUrl: 'https://image.tmdb.org/t/p/w1280/etj8E2o0x2z23708940.jpg',
-    whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero adquirir *Max (HBO)* para ver *La Casa del Dragón* por *$15.000 COP/mes*. ¿Me indicas cómo pagar?',
-  },
-  {
-    id: 'spiderman-spiderverse',
-    movieTitle: 'Spider-Man: A través del Spider-Verso',
-    brand: 'Disney+',
-    icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
-    rating: 8.3,
-    tagline: 'El multiverso arácnido completo en Ultra HD',
-    description: 'Miles Morales es catapultado a través del Multiverso en una aventura espectacular en IMAX Enhanced exclusivamente en Disney+.',
-    price: 16000,
-    regularPrice: 26000,
-    productId: 3,
-    youtubeId: 'E4noegsHPvM',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/rXhgHQmtjTIQOEDU8E2TbUFMjWM.jpg',
-    backdropUrl: 'https://image.tmdb.org/t/p/w1280/4H2239402.jpg',
-    whatsappMessage: '¡Hola! Me interesa la cuenta de *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
-  },
-  {
-    id: 'the-boys',
-    movieTitle: 'The Boys',
-    brand: 'Prime Video',
-    icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png',
-    rating: 8.4,
-    tagline: 'Acción sin censura y Amazon Originals',
-    description: 'Un grupo de vigilantes decide hacer todo lo posible por frenar a los superhéroes corruptos. Serie original de Amazon Prime Video.',
-    price: 14000,
-    regularPrice: 24000,
-    productId: 5,
-    youtubeId: 'eshJeoaDmtY',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/lTb6v3ZRanWLWoOpofXrBHNo9s1.jpg',
-    backdropUrl: 'https://image.tmdb.org/t/p/w1280/m9o0349.jpg',
-    whatsappMessage: '¡Hola! Deseo adquirir *Prime Video* por *$14.000 COP/mes*. ¿Me envías la información de cuenta?',
-  },
-  {
-    id: 'stranger-things',
-    movieTitle: 'Stranger Things',
-    brand: 'Netflix',
-    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
-    rating: 8.6,
-    tagline: 'La gran producción original en Ultra HD 4K',
-    description: 'Experimentos secretos, fuerzas sobrenaturales y la batalla final en Hawkins. Serie original de Netflix en Ultra HD 4K.',
-    price: 17000,
-    regularPrice: 27000,
-    productId: 2,
-    youtubeId: 'mnd7sFt5c3A',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/AsPD90QEQsIAtSxfSjV3fN7XFpt.jpg',
-    backdropUrl: 'https://image.tmdb.org/t/p/w1280/560934.jpg',
-    whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero contratar *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Tienen entrega inmediata?',
-  },
-  {
-    id: 'demon-slayer',
-    movieTitle: 'Demon Slayer: Castillo Infinito',
-    brand: 'Crunchyroll',
-    icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png',
-    rating: 8.8,
-    tagline: 'Simulcast Anime directo de Japón',
-    description: 'La épica confrontación final contra las Lunas Superiores y Muzan Kibutsuji dentro del Castillo Infinito. Sin anuncios en Crunchyroll.',
-    price: 12000,
-    regularPrice: 22000,
-    productId: 7,
-    youtubeId: 'sqgSm8fWe1s',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/6N21gcFbhT4ocdTU4MGREAaM5Vz.jpg',
-    backdropUrl: 'https://image.tmdb.org/t/p/w1280/4090234.jpg',
-    whatsappMessage: '¡Hola! Quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
-  }
-];
-
+// Catálogo de plataformas de streaming de la tienda para asignación de precios y pedidos
 const CATALOG_PLATFORMS = [
   {
+    brand: 'Netflix',
+    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
+    price: 17000,
+    regularPrice: 27000,
+    productId: 2,
+  },
+  {
     brand: 'Disney+',
     icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
     price: 16000,
@@ -139,13 +47,6 @@ const CATALOG_PLATFORMS = [
     price: 15000,
     regularPrice: 25000,
     productId: 4,
-  },
-  {
-    brand: 'Netflix',
-    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
-    price: 17000,
-    regularPrice: 27000,
-    productId: 2,
   },
   {
     brand: 'Prime Video',
@@ -166,27 +67,28 @@ const CATALOG_PLATFORMS = [
 const assignPlatformForMovie = (title: string, overview: string, index: number) => {
   const text = (title + ' ' + overview).toLowerCase();
   if (text.includes('anime') || text.includes('slayer') || text.includes('dragon ball') || text.includes('naruto') || text.includes('piece')) {
-    return CATALOG_PLATFORMS[4];
+    return CATALOG_PLATFORMS[4]; // Crunchyroll
   }
   if (text.includes('disney') || text.includes('marvel') || text.includes('star wars') || text.includes('pixar') || text.includes('moana') || text.includes('avatar')) {
-    return CATALOG_PLATFORMS[0];
+    return CATALOG_PLATFORMS[1]; // Disney+
   }
   if (text.includes('hbo') || text.includes('dragon') || text.includes('batman') || text.includes('superman') || text.includes('dc ') || text.includes('warner')) {
-    return CATALOG_PLATFORMS[1];
+    return CATALOG_PLATFORMS[2]; // Max
   }
   if (text.includes('amazon') || text.includes('prime') || text.includes('boys') || text.includes('rings')) {
-    return CATALOG_PLATFORMS[3];
+    return CATALOG_PLATFORMS[3]; // Prime Video
   }
   if (text.includes('netflix') || text.includes('stranger')) {
-    return CATALOG_PLATFORMS[2];
+    return CATALOG_PLATFORMS[0]; // Netflix
   }
   return CATALOG_PLATFORMS[index % CATALOG_PLATFORMS.length];
 };
 
-const AUTO_SLIDE_DURATION = 30000; // Duración aumentada a 30 segundos por tráiler a petición del usuario
+const AUTO_SLIDE_DURATION = 30000;
 
 export const HeroCinematicShowcase: React.FC = () => {
-  const [movies, setMovies] = useState<FeaturedMovieItem[]>(INITIAL_MOVIES);
+  const [movies, setMovies] = useState<FeaturedMovieItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -221,109 +123,59 @@ export const HeroCinematicShowcase: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeIndex, isMuted]);
 
-  // Cargar tráileres oficiales y películas EN TENDENCIA en tiempo real desde TMDB API
+  // Cargar 100% DINÁMICAMENTE películas en tendencia y estrenos en vivo desde TMDB API
   useEffect(() => {
     const fetchLiveTmdbTrailers = async () => {
       const tmdbKey = ENV.TMDB_API_KEY;
       const youtubeKey = ENV.YOUTUBE_API_KEY;
 
-      if (!tmdbKey) return;
+      if (!tmdbKey) {
+        setIsLoading(false);
+        return;
+      }
 
       try {
-        // --- INTENTO A: Obtener películas en TENDENCIA en vivo desde TMDB API ---
+        setIsLoading(true);
+
+        // 1. Obtener películas en tendencia de la semana desde TMDB API
         const trendingRes = await fetch(
           `https://api.themoviedb.org/3/trending/movie/week?api_key=${tmdbKey}&language=es-MX`
         );
 
+        // 2. Obtener estrenos recientes desde TMDB API
+        const nowPlayingRes = await fetch(
+          `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdbKey}&language=es-MX`
+        );
+
+        let rawResults: any[] = [];
+
         if (trendingRes.ok) {
-          const trendingData = await trendingRes.json();
-          const liveTrendingList = trendingData.results ? trendingData.results.slice(0, 8) : [];
-
-          if (liveTrendingList.length > 0) {
-            const processedTrending = await Promise.all(
-              liveTrendingList.map(async (tmdbResult: any, idx: number) => {
-                const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
-                let videoRes = await fetch(
-                  `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}&language=es-MX`
-                );
-                let videoData = await videoRes.json();
-
-                if (!videoData.results || videoData.results.length === 0) {
-                  videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`);
-                  videoData = await videoRes.json();
-                }
-
-                let trailerKey = videoData.results
-                  ? (videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0])?.key
-                  : null;
-
-                const movieTitle = tmdbResult.title || tmdbResult.name || 'Película en Tendencia';
-                if (!trailerKey && youtubeKey) {
-                  try {
-                    const query = encodeURIComponent(`${movieTitle} trailer oficial espanol latino`);
-                    const ytRes = await fetch(
-                      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoEmbeddable=true&maxResults=1&key=${youtubeKey}`
-                    );
-                    if (ytRes.ok) {
-                      const ytData = await ytRes.json();
-                      if (ytData.items && ytData.items.length > 0 && ytData.items[0].id?.videoId) {
-                        trailerKey = ytData.items[0].id.videoId;
-                      }
-                    }
-                  } catch (e) {}
-                }
-
-                const platform = assignPlatformForMovie(movieTitle, tmdbResult.overview || '', idx);
-                const priceFormatted = formatCOP(platform.price);
-
-                return {
-                  id: `tmdb-trending-${tmdbResult.id}`,
-                  movieTitle,
-                  brand: platform.brand,
-                  icon: platform.icon,
-                  rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : 8.5,
-                  tagline: '🔥 Película en Tendencia Mundial',
-                  description: tmdbResult.overview || 'Sinopsis oficial no disponible.',
-                  price: platform.price,
-                  regularPrice: platform.regularPrice,
-                  productId: platform.productId,
-                  youtubeId: trailerKey || '',
-                  posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
-                  backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : undefined,
-                  whatsappMessage: `¡Hola! Vengo desde la web y quiero solicitar *${platform.brand}* para ver la película en tendencia *${movieTitle}* por *${priceFormatted}/mes*. ¿Me das los datos de pago?`,
-                } as FeaturedMovieItem;
-              })
-            );
-
-            if (processedTrending.length >= 3) {
-              setMovies(processedTrending);
-              return;
-            }
-          }
+          const data = await trendingRes.json();
+          if (data.results) rawResults.push(...data.results);
         }
-      } catch (err) {
-        // Fallback a lista inicial si falla la consulta de tendencias globales
-      }
 
-      // --- INTENTO B: Fallback actualizando lista inicial ---
-      try {
-        const updatedList = await Promise.all(
-          INITIAL_MOVIES.map(async (item) => {
-            try {
-              const searchRes = await fetch(
-                `https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${encodeURIComponent(item.movieTitle)}&language=es-MX`
-              );
-              if (!searchRes.ok) return item;
-              const searchData = await searchRes.json();
-              const tmdbResult = searchData.results && searchData.results[0];
-              if (!tmdbResult) return item;
+        if (nowPlayingRes.ok) {
+          const data = await nowPlayingRes.json();
+          if (data.results) rawResults.push(...data.results);
+        }
 
+        // Desduplicar películas por id de TMDB y seleccionar las 10 mejores
+        const uniqueTmdbItems = Array.from(
+          new Map(rawResults.map((item) => [item.id, item])).values()
+        ).slice(0, 10);
+
+        if (uniqueTmdbItems.length > 0) {
+          const processedMovies = await Promise.all(
+            uniqueTmdbItems.map(async (tmdbResult: any, idx: number) => {
               const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
+              
+              // Buscar tráiler oficial traducido a español latino
               let videoRes = await fetch(
                 `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}&language=es-MX`
               );
               let videoData = await videoRes.json();
 
+              // Fallback a tráiler original en inglés si no hay tráiler en español latino
               if (!videoData.results || videoData.results.length === 0) {
                 videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`);
                 videoData = await videoRes.json();
@@ -333,9 +185,12 @@ export const HeroCinematicShowcase: React.FC = () => {
                 ? (videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0])?.key
                 : null;
 
+              const movieTitle = tmdbResult.title || tmdbResult.name || 'Estreno en Tendencia';
+
+              // Respaldo con YouTube Data API v3 (videoEmbeddable=true) si no hay tráiler en TMDB
               if (!trailerKey && youtubeKey) {
                 try {
-                  const query = encodeURIComponent(`${item.movieTitle} trailer oficial espanol latino`);
+                  const query = encodeURIComponent(`${movieTitle} trailer oficial espanol latino`);
                   const ytRes = await fetch(
                     `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoEmbeddable=true&maxResults=1&key=${youtubeKey}`
                   );
@@ -345,25 +200,38 @@ export const HeroCinematicShowcase: React.FC = () => {
                       trailerKey = ytData.items[0].id.videoId;
                     }
                   }
-                } catch (ytErr) {}
+                } catch (e) {}
               }
 
+              const platform = assignPlatformForMovie(movieTitle, tmdbResult.overview || '', idx);
+              const priceFormatted = formatCOP(platform.price);
+
               return {
-                ...item,
-                movieTitle: tmdbResult.title || tmdbResult.name || item.movieTitle,
-                description: tmdbResult.overview || item.description,
-                rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : item.rating,
-                posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : item.posterUrl,
-                backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : item.backdropUrl,
-                youtubeId: trailerKey || item.youtubeId,
-              };
-            } catch (e) {
-              return item;
-            }
-          })
-        );
-        setMovies(updatedList);
-      } catch (e) {}
+                id: `tmdb-live-${tmdbResult.id}`,
+                movieTitle,
+                brand: platform.brand,
+                icon: platform.icon,
+                rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : 8.5,
+                tagline: tmdbResult.release_date ? `Estreno HD • TMDB (${new Date(tmdbResult.release_date).getFullYear()})` : '🔥 Estreno en Tendencia',
+                description: tmdbResult.overview || 'Sinopsis oficial obtenida en tiempo real desde la API de TMDB.',
+                price: platform.price,
+                regularPrice: platform.regularPrice,
+                productId: platform.productId,
+                youtubeId: trailerKey || '',
+                posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+                backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : undefined,
+                whatsappMessage: `¡Hola! Vengo desde la web y quiero solicitar *${platform.brand}* para ver la película *${movieTitle}* por *${priceFormatted}/mes*. ¿Me indicas el medio de pago?`,
+              } as FeaturedMovieItem;
+            })
+          );
+
+          setMovies(processedMovies);
+        }
+      } catch (error) {
+        console.error('Error cargando estrenos y tendencias en vivo desde TMDB:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchLiveTmdbTrailers();
@@ -371,7 +239,7 @@ export const HeroCinematicShowcase: React.FC = () => {
 
   // Auto-avance de tráileres (30 segundos por película)
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || movies.length === 0) return;
 
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % movies.length);
@@ -381,10 +249,12 @@ export const HeroCinematicShowcase: React.FC = () => {
   }, [isPaused, movies.length]);
 
   const handleNext = () => {
+    if (movies.length === 0) return;
     setActiveIndex((prev) => (prev + 1) % movies.length);
   };
 
   const handlePrev = () => {
+    if (movies.length === 0) return;
     setActiveIndex((prev) => (prev - 1 + movies.length) % movies.length);
   };
 
@@ -402,11 +272,13 @@ export const HeroCinematicShowcase: React.FC = () => {
   };
 
   const handleBuyWhatsApp = () => {
+    if (!activeMovie) return;
     const url = `https://wa.me/573214465418?text=${encodeURIComponent(activeMovie.whatsappMessage)}`;
     window.open(url, '_blank');
   };
 
   const handleAddToCart = () => {
+    if (!activeMovie) return;
     addItemToCart({
       cartItemId: `${activeMovie.productId}-${Date.now()}`,
       id: activeMovie.productId,
@@ -424,6 +296,38 @@ export const HeroCinematicShowcase: React.FC = () => {
       iconName: activeMovie.icon,
     });
   };
+
+  // Skeleton UI de carga durante la consulta inicial a la API
+  if (isLoading || movies.length === 0 || !activeMovie) {
+    return (
+      <div className="w-full max-w-7xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
+        <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2.5 sm:p-4 space-y-3">
+          <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[16/9] sm:aspect-[21/9] min-h-[260px] sm:min-h-[380px] flex flex-col items-center justify-center p-6 text-center animate-pulse">
+            <div className="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center mb-3">
+              <Film className="w-7 h-7 text-blue-400 animate-spin" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest text-slate-300">
+              Conectando con TMDB API en vivo...
+            </span>
+            <p className="text-xs text-slate-500 font-medium mt-1">
+              Obteniendo tráileres y estrenos cinematográficos en tiempo real
+            </p>
+          </div>
+          <div className="bg-slate-50 rounded-2xl border border-slate-200/90 p-4 sm:p-5 flex items-center justify-between gap-4 animate-pulse">
+            <div className="flex items-center gap-4 flex-1">
+              <div className="w-20 h-28 sm:w-24 sm:h-36 rounded-2xl bg-slate-200 shrink-0" />
+              <div className="space-y-2 flex-1">
+                <div className="h-6 bg-slate-200 rounded-md w-3/4" />
+                <div className="h-4 bg-slate-200 rounded-md w-1/2" />
+                <div className="h-3 bg-slate-200 rounded-md w-full" />
+              </div>
+            </div>
+            <div className="w-32 h-12 bg-slate-200 rounded-xl hidden sm:block" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
@@ -544,7 +448,7 @@ export const HeroCinematicShowcase: React.FC = () => {
           
           {/* Izquierda: Portada Grande + Título + Plataforma + Descripción */}
           <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1">
-            {/* Portada Destacada Obtenida de TMDB */}
+            {/* Portada Destacada Obtenida 100% en vivo de TMDB */}
             <div className="w-20 h-28 sm:w-24 sm:h-36 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md shrink-0 relative bg-slate-100 group transition-transform hover:scale-105 duration-300">
               <PosterImage
                 src={activeMovie.posterUrl}
