@@ -16,19 +16,22 @@ import {
   Sparkles
 } from 'lucide-react';
 import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { Product } from '../../domain/entities/Product';
 import { ProductRepository } from '../../infrastructure/productRepository';
 import { eventBus } from '@/core/bus/eventBus';
 import { toast } from '@/core/utils/toast';
 
 const AVAILABLE_PLATFORMS = [
-  { name: 'Netflix', icon: 'logos:netflix-icon', bg: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  { name: 'Disney+', icon: 'logos:disney-plus', bg: 'bg-sky-500/10 text-sky-400 border-sky-500/20' },
-  { name: 'Max', icon: 'simple-icons:max', bg: 'bg-blue-600/10 text-blue-500 border-blue-600/20' },
-  { name: 'Prime Video', icon: 'simple-icons:amazonprime', bg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' },
-  { name: 'Spotify', icon: 'logos:spotify-icon', bg: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
-  { name: 'Crunchyroll', icon: 'simple-icons:crunchyroll', bg: 'bg-orange-500/10 text-orange-500 border-orange-500/20' },
-  { name: 'YouTube Premium', icon: 'logos:youtube-icon', bg: 'bg-rose-500/10 text-rose-600 border-rose-500/20' },
+  { name: 'Netflix', icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png', bg: 'bg-red-500/10 text-red-500 border-red-500/20' },
+  { name: 'Disney+', icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png', bg: 'bg-sky-500/10 text-sky-400 border-sky-500/20' },
+  { name: 'Max', icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png', bg: 'bg-blue-600/10 text-blue-500 border-blue-600/20' },
+  { name: 'Prime Video', icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png', bg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' },
+  { name: 'Spotify', icon: '/icons/icons8-spotify-94.png', bg: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
+  { name: 'Crunchyroll', icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png', bg: 'bg-orange-500/10 text-orange-500 border-orange-500/20' },
+  { name: 'YouTube Premium', icon: '/icons/icons8-youtube-color/icons8-youtube-96.png', bg: 'bg-rose-500/10 text-rose-600 border-rose-500/20' },
+  { name: 'Canva Pro', icon: '/icons/icons8-canva-windows-11-color/icons8-canva-96.png', bg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' },
+  { name: 'Jellyfin', icon: '/icons/jellyfin.png', bg: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
   { name: 'Paramount+', icon: 'simple-icons:paramountplus', bg: 'bg-blue-800/10 text-blue-700 border-blue-800/20' },
   { name: 'Apple TV+', icon: 'logos:apple', bg: 'bg-slate-900/10 text-slate-800 border-slate-900/20' }
 ];
@@ -390,17 +393,13 @@ export const AdminProductModal: React.FC = () => {
                     {/* Product Info */}
                     <div className="flex items-center space-x-3.5">
                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl border shadow-sm ${prod.logoBg}`}>
-                        <Icon icon={prod.iconName} className="w-7 h-7" />
+                        <PlatformIcon icon={prod.iconName} name={prod.brand || prod.name} className="w-7 h-7" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <h4 className="font-extrabold text-slate-900 text-sm">{prod.name}</h4>
-                          <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${
-                            prod.available 
-                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
-                              : 'bg-rose-50 text-rose-700 border-rose-200'
-                          }`}>
-                            {prod.available ? 'Entrega Inmediata' : 'Agotado'}
+                          <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                            {prod.category}
                           </span>
                           {prod.category === 'combo' && (
                             <span className="text-[10px] font-extrabold bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-full">
@@ -585,7 +584,7 @@ export const AdminProductModal: React.FC = () => {
                             }`}
                           >
                             <div className="flex items-center gap-2">
-                              <Icon icon={plat.icon} className="w-5 h-5 shrink-0" />
+                              <PlatformIcon icon={plat.icon} name={plat.name} className="w-5 h-5 shrink-0" />
                               <span className="text-xs">{plat.name}</span>
                             </div>
                             {isSelected && <Check className="w-4 h-4 text-blue-700 shrink-0" />}
@@ -601,7 +600,7 @@ export const AdminProductModal: React.FC = () => {
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3 bg-blue-50/70 p-3.5 rounded-2xl border border-blue-200">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center border shadow-xs ${productForm.logoBg || 'bg-blue-500/10'}`}>
-                      <Icon icon={productForm.iconName || 'logos:netflix-icon'} className="w-6 h-6" />
+                      <PlatformIcon icon={productForm.iconName || 'logos:netflix-icon'} name={productForm.brand || productForm.name} className="w-6 h-6" />
                     </div>
                     <div>
                       <h4 className="font-black text-slate-900 text-sm">Detalles y Edición Completa: {editingProduct.name}</h4>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { Monitor, Sparkles, KeyRound, Flame, ShoppingCart, Info, MessageCircle, ShieldCheck, Check } from 'lucide-react';
 import { Product, ProductMode } from '../../domain/entities/Product';
 import { DurationKey } from '../../domain/value-objects/PlanDuration';
@@ -169,7 +169,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Encabezado Visual con Logo de Marca y Badges Alineados en Fila */}
         <div className="flex justify-between items-start mb-3 min-h-[48px]">
           <div className={`w-12 h-12 rounded-2xl border border-slate-900/[0.08] flex items-center justify-center p-2 shadow-sm ${product.logoBg}`}>
-            <Icon icon={product.iconName} className="w-7 h-7" />
+            <PlatformIcon icon={product.iconName} name={product.brand || product.name} className="w-7 h-7" />
           </div>
           <div className="flex flex-wrap items-center justify-end gap-1 max-w-[70%]">
             {product.bestseller && (

@@ -2,7 +2,7 @@ import { Product } from '../domain/entities/Product';
 import { eventBus } from '@/core/bus/eventBus';
 import excelData from './excelCatalogData.json';
 
-const PRODUCTS_STORAGE_KEY = 'cuentas_stream_products_v10';
+const PRODUCTS_STORAGE_KEY = 'cuentas_stream_products_v11';
 
 export const initialProductsData: Product[] = excelData as Product[];
 

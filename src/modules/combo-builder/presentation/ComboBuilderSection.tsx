@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { Sparkles, MessageCircle, Layers, Check } from 'lucide-react';
 import { useComboBuilder } from '../application/useComboBuilder';
 import { Button } from '@/shared/components/Button';
@@ -8,10 +8,14 @@ export const ComboBuilderSection: React.FC = () => {
   const { selectedItems, toggleItem, discountInfo, handleCheckoutCombo } = useComboBuilder();
 
   const platforms = [
-    { name: 'Netflix', icon: 'logos:netflix-icon' },
-    { name: 'Max (HBO)', icon: 'simple-icons:max' },
-    { name: 'Disney+', icon: 'logos:disney-plus' },
-    { name: 'Prime Video', icon: 'simple-icons:amazonprime' },
+    { name: 'Netflix', icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png' },
+    { name: 'Max (HBO)', icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png' },
+    { name: 'Disney+', icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png' },
+    { name: 'Prime Video', icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png' },
+    { name: 'Crunchyroll', icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png' },
+    { name: 'Canva Pro', icon: '/icons/icons8-canva-windows-11-color/icons8-canva-96.png' },
+    { name: 'Spotify', icon: '/icons/icons8-spotify-94.png' },
+    { name: 'YouTube', icon: '/icons/icons8-youtube-color/icons8-youtube-96.png' },
   ];
 
   return (
@@ -41,7 +45,7 @@ export const ComboBuilderSection: React.FC = () => {
                   </span>
                 )}
                 <div className="w-10 h-10 flex items-center justify-center group-hover:scale-110 transition">
-                  <Icon icon={plat.icon} className="w-8 h-8" />
+                  <PlatformIcon icon={plat.icon} name={plat.name} className="w-8 h-8" />
                 </div>
                 <span>{plat.name}</span>
               </button>

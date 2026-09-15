@@ -20,12 +20,13 @@ import {
   User
 } from 'lucide-react';
 import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { Product } from '../../catalog/domain/entities/Product';
 import { ProductRepository } from '../../catalog/infrastructure/productRepository';
 import { PaymentConfig } from '../domain/entities/AdminConfig';
 import { AdminRepository } from '../infrastructure/adminRepository';
-import { toast } from '@/core/utils/toast';
 import { eventBus } from '@/core/bus/eventBus';
+import { toast } from '@/core/utils/toast';
 
 interface AdminDashboardPageProps {
   onLogout: () => void;
@@ -49,13 +50,14 @@ interface FlatAdminItem {
 }
 
 const POPULAR_PLATFORMS = [
-  { name: 'Netflix', icon: 'logos:netflix-icon', bg: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  { name: 'Disney+', icon: 'logos:disney-plus', bg: 'bg-sky-500/10 text-sky-400 border-sky-500/20' },
-  { name: 'Max', icon: 'simple-icons:max', bg: 'bg-blue-600/10 text-blue-500 border-blue-600/20' },
-  { name: 'Prime Video', icon: 'simple-icons:amazonprime', bg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' },
-  { name: 'Spotify', icon: 'logos:spotify-icon', bg: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
-  { name: 'Crunchyroll', icon: 'simple-icons:crunchyroll', bg: 'bg-orange-500/10 text-orange-500 border-orange-500/20' },
-  { name: 'YouTube Premium', icon: 'logos:youtube-icon', bg: 'bg-rose-500/10 text-rose-600 border-rose-500/20' }
+  { name: 'Netflix', icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png', bg: 'bg-red-500/10 text-red-500 border-red-500/20' },
+  { name: 'Disney+', icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png', bg: 'bg-sky-500/10 text-sky-400 border-sky-500/20' },
+  { name: 'Max', icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png', bg: 'bg-blue-600/10 text-blue-500 border-blue-600/20' },
+  { name: 'Prime Video', icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png', bg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' },
+  { name: 'Spotify', icon: '/icons/icons8-spotify-94.png', bg: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
+  { name: 'Crunchyroll', icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png', bg: 'bg-orange-500/10 text-orange-500 border-orange-500/20' },
+  { name: 'YouTube Premium', icon: '/icons/icons8-youtube-color/icons8-youtube-96.png', bg: 'bg-rose-500/10 text-rose-600 border-rose-500/20' },
+  { name: 'Canva Pro', icon: '/icons/icons8-canva-windows-11-color/icons8-canva-96.png', bg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' }
 ];
 
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout, onGoToStore }) => {
@@ -656,7 +658,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-3">
                           <div className={`w-9 h-9 rounded-xl flex items-center justify-center border shadow-xs shrink-0 ${item.logoBg}`}>
-                            <Icon icon={item.iconName} className="w-5 h-5" />
+                            <PlatformIcon icon={item.iconName} name={item.brand || item.name} className="w-5 h-5" />
                           </div>
                           <div className="min-w-0">
                             <span className="font-extrabold text-slate-900 block text-xs truncate">{item.name}</span>
@@ -866,7 +868,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
                             : 'bg-slate-100 text-slate-600 border-slate-200'
                         }`}
                       >
-                        <Icon icon={plat.icon} className="w-3.5 h-3.5" />
+                        <PlatformIcon icon={plat.icon} name={plat.name} className="w-3.5 h-3.5" />
                         {plat.name}
                       </button>
                     );
@@ -898,7 +900,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ onLogout
             <div className="px-6 py-4 bg-teal-50 border-b border-teal-200/80 flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-sm">
-                  <Icon icon="simple-icons:canva" className="w-6 h-6" />
+                  <PlatformIcon icon="/icons/icons8-canva-windows-11-color/icons8-canva-96.png" name="Canva Pro" className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="font-extrabold text-teal-950 text-base leading-snug">

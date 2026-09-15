@@ -1,15 +1,18 @@
 import React, { useRef } from 'react';
-import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { TrendingEstrenos } from '@/modules/catalog/presentation/components/TrendingEstrenos';
 import videoSource from '../../../../resources/All Streaming Services Originals Intro Effects.mp4';
 
 const MARQUEE_BRANDS = [
-  { name: 'DISNEY+', color: 'text-sky-600', icon: 'logos:disney-plus' },
-  { name: 'PRIME VIDEO', color: 'text-cyan-600', icon: 'simple-icons:amazonprime' },
-  { name: 'CRUNCHYROLL', color: 'text-orange-500', icon: 'simple-icons:crunchyroll' },
-  { name: 'SPOTIFY', color: 'text-emerald-600', icon: 'logos:spotify-icon' },
-  { name: 'NETFLIX', color: 'text-red-600', icon: 'logos:netflix-icon' },
-  { name: 'MAX (HBO)', color: 'text-blue-600', icon: 'simple-icons:max' },
+  { name: 'DISNEY+', color: 'text-sky-600', icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png' },
+  { name: 'PRIME VIDEO', color: 'text-cyan-600', icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png' },
+  { name: 'CRUNCHYROLL', color: 'text-orange-500', icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png' },
+  { name: 'SPOTIFY', color: 'text-emerald-600', icon: '/icons/icons8-spotify-94.png' },
+  { name: 'NETFLIX', color: 'text-red-600', icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png' },
+  { name: 'MAX (HBO)', color: 'text-blue-600', icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png' },
+  { name: 'CANVA PRO', color: 'text-cyan-500', icon: '/icons/icons8-canva-windows-11-color/icons8-canva-96.png' },
+  { name: 'YOUTUBE', color: 'text-red-600', icon: '/icons/icons8-youtube-color/icons8-youtube-96.png' },
+  { name: 'JELLYFIN', color: 'text-purple-600', icon: '/icons/jellyfin.png' },
 ];
 
 export const HeroSection: React.FC = () => {
@@ -72,7 +75,7 @@ export const HeroSection: React.FC = () => {
             <div key={i} className="flex items-center gap-8 shrink-0">
               <span className="text-slate-300">•</span>
               <div className="flex items-center gap-2">
-                <Icon icon={brand.icon} className="w-4 h-4" />
+                <PlatformIcon icon={brand.icon} name={brand.name} className="w-5 h-5" />
                 <span className={brand.color}>{brand.name}</span>
               </div>
             </div>

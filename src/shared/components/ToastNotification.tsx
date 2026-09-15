@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { 
   ShoppingBag, 
   CheckCircle2, 
@@ -172,7 +172,7 @@ export const ToastNotification: React.FC = () => {
               {/* Icono del servicio o del estado */}
               <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${toastStyle.iconBg}`}>
                 {toast.iconName ? (
-                  <Icon icon={toast.iconName} className="w-6 h-6" />
+                  <PlatformIcon icon={toast.iconName} className="w-6 h-6" />
                 ) : (
                   <toastStyle.IconComponent className="w-5 h-5" />
                 )}

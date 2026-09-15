@@ -5,7 +5,7 @@
     "brand": "Netflix",
     "category": "cine",
     "brandGlow": "brand-glow-netflix",
-    "iconName": "logos:netflix-icon",
+    "iconName": "/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png",
     "logoBg": "bg-red-500/10 text-red-500 border-red-500/20",
     "available": true,
     "bestseller": true,
@@ -63,8 +63,20 @@
       "Licencia oficial activada con soporte y garantía total 30 días"
     ],
     "customPlans": [
-      { "id": "original", "label": "Netflix Original", "fullName": "Netflix Original", "price": 17000, "regularPrice": 27000 },
-      { "id": "unico", "label": "Netflix Único", "fullName": "Netflix Único", "price": 29000, "regularPrice": 39000 }
+      {
+        "id": "original",
+        "label": "Netflix Original",
+        "fullName": "Netflix Original",
+        "price": 17000,
+        "regularPrice": 27000
+      },
+      {
+        "id": "unico",
+        "label": "Netflix Único",
+        "fullName": "Netflix Único",
+        "price": 29000,
+        "regularPrice": 39000
+      }
     ]
   },
   {
@@ -73,7 +85,7 @@
     "brand": "Disney+",
     "category": "cine",
     "brandGlow": "brand-glow-disney",
-    "iconName": "logos:disney-plus",
+    "iconName": "/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png",
     "logoBg": "bg-sky-500/10 text-sky-400 border-sky-500/20",
     "available": true,
     "bestseller": true,
@@ -137,7 +149,7 @@
     "brand": "Max",
     "category": "cine",
     "brandGlow": "brand-glow-max",
-    "iconName": "simple-icons:max",
+    "iconName": "/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png",
     "logoBg": "bg-blue-600/10 text-blue-500 border-blue-600/20",
     "available": true,
     "bestseller": true,
@@ -201,7 +213,7 @@
     "brand": "Prime Video",
     "category": "cine",
     "brandGlow": "brand-glow-prime",
-    "iconName": "simple-icons:amazonprime",
+    "iconName": "/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png",
     "logoBg": "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
     "available": true,
     "bestseller": false,
@@ -329,7 +341,7 @@
     "brand": "Crunchyroll",
     "category": "cine",
     "brandGlow": "brand-glow-crunchyroll",
-    "iconName": "simple-icons:crunchyroll",
+    "iconName": "/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png",
     "logoBg": "bg-orange-500/10 text-orange-500 border-orange-500/20",
     "available": true,
     "bestseller": false,
@@ -393,7 +405,7 @@
     "brand": "IPTV & Media",
     "category": "cine",
     "brandGlow": "brand-glow-prime",
-    "iconName": "simple-icons:plex",
+    "iconName": "/icons/icons8-primordial-plus-doodle/icons8-primordial-plus-96.png",
     "logoBg": "bg-amber-500/10 text-amber-600 border-amber-500/20",
     "available": true,
     "bestseller": false,
@@ -521,7 +533,7 @@
     "brand": "Canva Pro",
     "category": "trabajo",
     "brandGlow": "brand-glow-prime",
-    "iconName": "simple-icons:canva",
+    "iconName": "/icons/icons8-canva-windows-11-color/icons8-canva-96.png",
     "logoBg": "bg-teal-500/10 text-teal-600 border-teal-500/20",
     "available": true,
     "bestseller": true,
@@ -579,10 +591,34 @@
       "Garantía total durante todo el periodo contratado"
     ],
     "customPlans": [
-      { "id": "1m-correo", "label": "Correo propio", "fullName": "Canva 1 mes con correo del cliente", "price": 18000, "regularPrice": 28000 },
-      { "id": "1m", "label": "1 Mes", "fullName": "Canva 1 mes", "price": 15000, "regularPrice": 25000 },
-      { "id": "6m", "label": "6 Meses", "fullName": "Canva 6 meses", "price": 50000, "regularPrice": 75000 },
-      { "id": "12m", "label": "12 Meses", "fullName": "Canva 12 meses", "price": 80000, "regularPrice": 110000 }
+      {
+        "id": "1m-correo",
+        "label": "Correo propio",
+        "fullName": "Canva 1 mes con correo del cliente",
+        "price": 18000,
+        "regularPrice": 28000
+      },
+      {
+        "id": "1m",
+        "label": "1 Mes",
+        "fullName": "Canva 1 mes",
+        "price": 15000,
+        "regularPrice": 25000
+      },
+      {
+        "id": "6m",
+        "label": "6 Meses",
+        "fullName": "Canva 6 meses",
+        "price": 50000,
+        "regularPrice": 75000
+      },
+      {
+        "id": "12m",
+        "label": "12 Meses",
+        "fullName": "Canva 12 meses",
+        "price": 80000,
+        "regularPrice": 110000
+      }
     ]
   },
   {
@@ -719,7 +755,7 @@
     "brand": "Jellyfin Media",
     "category": "cine",
     "brandGlow": "brand-glow-prime",
-    "iconName": "simple-icons:jellyfin",
+    "iconName": "/icons/jellyfin.png",
     "logoBg": "bg-purple-500/10 text-purple-600 border-purple-500/20",
     "available": true,
     "bestseller": false,
@@ -783,7 +819,7 @@
     "brand": "IPTV Latino",
     "category": "cine",
     "brandGlow": "brand-glow-prime",
-    "iconName": "heroicons:tv-20-solid",
+    "iconName": "/icons/icons8-primordial-plus-64.png",
     "logoBg": "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
     "available": true,
     "bestseller": false,
@@ -847,7 +883,7 @@
     "brand": "Spotify",
     "category": "musica",
     "brandGlow": "brand-glow-spotify",
-    "iconName": "logos:spotify-icon",
+    "iconName": "/icons/icons8-spotify-94.png",
     "logoBg": "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
     "available": true,
     "bestseller": true,
@@ -911,7 +947,7 @@
     "brand": "YouTube",
     "category": "cine",
     "brandGlow": "brand-glow-netflix",
-    "iconName": "logos:youtube-icon",
+    "iconName": "/icons/icons8-youtube-color/icons8-youtube-96.png",
     "logoBg": "bg-rose-500/10 text-rose-600 border-rose-500/20",
     "available": true,
     "bestseller": false,

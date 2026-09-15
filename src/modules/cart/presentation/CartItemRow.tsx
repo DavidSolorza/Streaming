@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { Trash2 } from 'lucide-react';
 import { CartItem } from '../domain/entities/CartItem';
 import { useCartStore } from '../application/useCartStore';
@@ -10,17 +10,12 @@ interface CartItemRowProps {
 
 export const CartItemRow: React.FC<CartItemRowProps> = ({ item }) => {
   const removeItem = useCartStore(state => state.removeItem);
-  const isIcon = item.image.includes(':');
 
   return (
     <div className="flex items-center justify-between bg-slate-50 p-3.5 rounded-2xl border border-slate-900/[0.08]">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-white border border-slate-900/[0.08] flex items-center justify-center p-1.5 shadow-sm">
-          {isIcon ? (
-            <Icon icon={item.image} className="w-6 h-6 text-slate-800" />
-          ) : (
-            <span className="text-sm font-bold">{item.image}</span>
-          )}
+        <div className="w-9 h-9 rounded-xl bg-white border border-slate-900/[0.08] flex items-center justify-center p-1.5 shadow-sm overflow-hidden">
+          <PlatformIcon icon={item.image} name={item.name} className="w-6 h-6" />
         </div>
         <div>
           <h4 className="text-xs font-extrabold text-slate-900">{item.name}</h4>

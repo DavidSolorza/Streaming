@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { Sparkles, Monitor, ShieldCheck, CheckCircle2, Tv, Smartphone, Laptop, Gamepad2, Tablet, KeyRound, AlertCircle, MessageCircle, ShoppingBag } from 'lucide-react';
 import { Product } from '../../domain/entities/Product';
 import { Modal } from '@/shared/components/Modal';
@@ -93,7 +93,7 @@ export const ProductDetailModal: React.FC = () => {
   const modalTitle = (
     <div className="flex items-center gap-4">
       <div className={`w-12 h-12 rounded-2xl border border-slate-900/[0.08] flex items-center justify-center p-2 shadow-sm ${product.logoBg}`}>
-        <Icon icon={product.iconName} className="w-8 h-8" />
+        <PlatformIcon icon={product.iconName} name={product.brand || product.name} className="w-8 h-8" />
       </div>
       <div>
         <h2 className="text-lg font-extrabold text-slate-900">{productName}</h2>
