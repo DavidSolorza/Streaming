@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { TrendingEstrenos } from '@/modules/catalog/presentation/components/TrendingEstrenos';
-import videoSource from '../../../../resources/All Streaming Services Originals Intro Effects.mp4';
+import { HeroCinematicShowcase } from './HeroCinematicShowcase';
 
 const MARQUEE_BRANDS = [
   { name: 'DISNEY+', color: 'text-sky-600', icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png' },
@@ -16,20 +16,12 @@ const MARQUEE_BRANDS = [
 ];
 
 export const HeroSection: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const handleTimeUpdate = () => {
-    if (videoRef.current && videoRef.current.currentTime >= 51) {
-      videoRef.current.currentTime = 0;
-    }
-  };
-
   return (
     <section className="relative pt-4 sm:pt-8 pb-0 overflow-hidden bg-[#F8FAFC]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Insignia de Marca & Título Principal */}
-        <div className="text-center max-w-4xl mx-auto mb-4 sm:mb-8 space-y-4">
+        <div className="text-center max-w-4xl mx-auto mb-2 sm:mb-4 space-y-3">
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white border border-blue-200 shadow-md shadow-blue-500/10">
             <div className="w-10 h-10 rounded-full overflow-hidden border border-blue-600 ring-2 ring-blue-500/20 shrink-0">
               <img src="/perfil.png" alt="Cuentas y plataformas de streaming JP" className="w-full h-full object-cover rounded-full" />
@@ -39,7 +31,7 @@ export const HeroSection: React.FC = () => {
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
             Todo lo que quieres ver,{' '}
             <span className="text-blue-600 block sm:inline">
               en un solo lugar y al instante.
@@ -47,21 +39,8 @@ export const HeroSection: React.FC = () => {
           </h1>
         </div>
 
-        {/* Widescreen Video Frame Limpio */}
-        <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden bg-black border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.12)]">
-          <div className="aspect-[21/9] w-full overflow-hidden relative bg-black rounded-3xl">
-            <video
-              ref={videoRef}
-              src={videoSource}
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              onTimeUpdate={handleTimeUpdate}
-              className="w-full h-full object-cover rounded-3xl bg-black"
-            />
-          </div>
-        </div>
+        {/* Componente Hero Cinemático Interactivo Estilo Steam / Epic Games / Apple TV+ */}
+        <HeroCinematicShowcase />
 
         {/* Carrusel "ESTRENOS DEL MES EN TENDENCIA" con Pósteres HD TMDb */}
         <TrendingEstrenos />
