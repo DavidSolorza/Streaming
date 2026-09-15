@@ -25,7 +25,7 @@ export interface FeaturedMovieItem {
   whatsappMessage: string;
 }
 
-// Catálogo de plataformas de streaming de la tienda para asignación de precios y pedidos
+// Catálogo de plataformas de la tienda para vincular marcas, precios y pedidos
 const CATALOG_PLATFORMS = [
   {
     brand: 'Netflix',
@@ -125,38 +125,35 @@ export const HeroCinematicShowcase: React.FC = () => {
 
   // Cargar 100% DINÁMICAMENTE películas en tendencia y estrenos en vivo desde TMDB API
   useEffect(() => {
+    let isMounted = true;
+
     const fetchLiveTmdbTrailers = async () => {
       const tmdbKey = ENV.TMDB_API_KEY;
       const youtubeKey = ENV.YOUTUBE_API_KEY;
 
       if (!tmdbKey) {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
         return;
       }
 
       try {
-        setIsLoading(true);
+        if (isMounted) setIsLoading(true);
 
-        // 1. Obtener películas en tendencia de la semana desde TMDB API
-        const trendingRes = await fetch(
-          `https://api.themoviedb.org/3/trending/movie/week?api_key=${tmdbKey}&language=es-MX`
-        );
-
-        // 2. Obtener estrenos recientes desde TMDB API
-        const nowPlayingRes = await fetch(
-          `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdbKey}&language=es-MX`
-        );
+        const [trendingRes, nowPlayingRes] = await Promise.allSettled([
+          fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${tmdbKey}&language=es-MX`),
+          fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdbKey}&language=es-MX`),
+        ]);
 
         let rawResults: any[] = [];
 
-        if (trendingRes.ok) {
-          const data = await trendingRes.json();
-          if (data.results) rawResults.push(...data.results);
+        if (trendingRes.status === 'fulfilled' && trendingRes.value.ok) {
+          const data = await trendingRes.value.json();
+          if (Array.isArray(data.results)) rawResults.push(...data.results);
         }
 
-        if (nowPlayingRes.ok) {
-          const data = await nowPlayingRes.json();
-          if (data.results) rawResults.push(...data.results);
+        if (nowPlayingRes.status === 'fulfilled' && nowPlayingRes.value.ok) {
+          const data = await nowPlayingRes.value.json();
+          if (Array.isArray(data.results)) rawResults.push(...data.results);
         }
 
         // Desduplicar películas por id de TMDB y seleccionar las 10 mejores
@@ -167,74 +164,110 @@ export const HeroCinematicShowcase: React.FC = () => {
         if (uniqueTmdbItems.length > 0) {
           const processedMovies = await Promise.all(
             uniqueTmdbItems.map(async (tmdbResult: any, idx: number) => {
-              const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
-              
-              // Buscar tráiler oficial traducido a español latino
-              let videoRes = await fetch(
-                `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}&language=es-MX`
-              );
-              let videoData = await videoRes.json();
+              try {
+                const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
+                let trailerKey = '';
 
-              // Fallback a tráiler original en inglés si no hay tráiler en español latino
-              if (!videoData.results || videoData.results.length === 0) {
-                videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`);
-                videoData = await videoRes.json();
-              }
-
-              let trailerKey = videoData.results
-                ? (videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0])?.key
-                : null;
-
-              const movieTitle = tmdbResult.title || tmdbResult.name || 'Estreno en Tendencia';
-
-              // Respaldo con YouTube Data API v3 (videoEmbeddable=true) si no hay tráiler en TMDB
-              if (!trailerKey && youtubeKey) {
+                // Buscar tráiler oficial traducido a español latino
                 try {
-                  const query = encodeURIComponent(`${movieTitle} trailer oficial espanol latino`);
-                  const ytRes = await fetch(
-                    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoEmbeddable=true&maxResults=1&key=${youtubeKey}`
+                  let videoRes = await fetch(
+                    `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}&language=es-MX`
                   );
-                  if (ytRes.ok) {
-                    const ytData = await ytRes.json();
-                    if (ytData.items && ytData.items.length > 0 && ytData.items[0].id?.videoId) {
-                      trailerKey = ytData.items[0].id.videoId;
+                  if (videoRes.ok) {
+                    let videoData = await videoRes.json();
+                    if (!videoData.results || videoData.results.length === 0) {
+                      videoRes = await fetch(
+                        `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`
+                      );
+                      if (videoRes.ok) {
+                        videoData = await videoRes.json();
+                      }
+                    }
+                    if (Array.isArray(videoData.results) && videoData.results.length > 0) {
+                      const found =
+                        videoData.results.find(
+                          (v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')
+                        ) || videoData.results[0];
+                      if (found && found.key) {
+                        trailerKey = found.key;
+                      }
                     }
                   }
-                } catch (e) {}
+                } catch (vErr) {}
+
+                const movieTitle = tmdbResult.title || tmdbResult.name || 'Estreno en Tendencia';
+
+                // Respaldo con YouTube Data API v3 si TMDB no entregó la clave del tráiler
+                if (!trailerKey && youtubeKey) {
+                  try {
+                    const query = encodeURIComponent(`${movieTitle} trailer oficial espanol latino`);
+                    const ytRes = await fetch(
+                      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoEmbeddable=true&maxResults=1&key=${youtubeKey}`
+                    );
+                    if (ytRes.ok) {
+                      const ytData = await ytRes.json();
+                      if (ytData.items && ytData.items.length > 0 && ytData.items[0].id?.videoId) {
+                        trailerKey = ytData.items[0].id.videoId;
+                      }
+                    }
+                  } catch (e) {}
+                }
+
+                const platform = assignPlatformForMovie(movieTitle, tmdbResult.overview || '', idx);
+                const priceFormatted = formatCOP(platform.price);
+
+                const rawDate = tmdbResult.release_date || tmdbResult.first_air_date;
+                const releaseYear = rawDate ? new Date(rawDate).getFullYear() : null;
+                const tagline =
+                  releaseYear && !isNaN(releaseYear)
+                    ? `Estreno HD • TMDB (${releaseYear})`
+                    : '🔥 Estreno en Tendencia';
+
+                return {
+                  id: `tmdb-live-${tmdbResult.id}`,
+                  movieTitle,
+                  brand: platform.brand,
+                  icon: platform.icon,
+                  rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : 8.5,
+                  tagline,
+                  description: tmdbResult.overview || 'Sinopsis oficial obtenida en tiempo real desde TMDB API.',
+                  price: platform.price,
+                  regularPrice: platform.regularPrice,
+                  productId: platform.productId,
+                  youtubeId: trailerKey,
+                  posterUrl: tmdbResult.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}`
+                    : 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+                  backdropUrl: tmdbResult.backdrop_path
+                    ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}`
+                    : undefined,
+                  whatsappMessage: `¡Hola! Vengo desde la web y quiero solicitar *${platform.brand}* para ver la película *${movieTitle}* por *${priceFormatted}/mes*. ¿Me indicas el medio de pago?`,
+                } as FeaturedMovieItem;
+              } catch (itemErr) {
+                return null;
               }
-
-              const platform = assignPlatformForMovie(movieTitle, tmdbResult.overview || '', idx);
-              const priceFormatted = formatCOP(platform.price);
-
-              return {
-                id: `tmdb-live-${tmdbResult.id}`,
-                movieTitle,
-                brand: platform.brand,
-                icon: platform.icon,
-                rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : 8.5,
-                tagline: tmdbResult.release_date ? `Estreno HD • TMDB (${new Date(tmdbResult.release_date).getFullYear()})` : '🔥 Estreno en Tendencia',
-                description: tmdbResult.overview || 'Sinopsis oficial obtenida en tiempo real desde la API de TMDB.',
-                price: platform.price,
-                regularPrice: platform.regularPrice,
-                productId: platform.productId,
-                youtubeId: trailerKey || '',
-                posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
-                backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : undefined,
-                whatsappMessage: `¡Hola! Vengo desde la web y quiero solicitar *${platform.brand}* para ver la película *${movieTitle}* por *${priceFormatted}/mes*. ¿Me indicas el medio de pago?`,
-              } as FeaturedMovieItem;
             })
           );
 
-          setMovies(processedMovies);
+          const validMovies = processedMovies.filter((m): m is FeaturedMovieItem => m !== null);
+          if (isMounted && validMovies.length > 0) {
+            setMovies(validMovies);
+          }
         }
       } catch (error) {
-        console.error('Error cargando estrenos y tendencias en vivo desde TMDB:', error);
+        console.error('Error cargando TMDB:', error);
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchLiveTmdbTrailers();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Auto-avance de tráileres (30 segundos por película)
