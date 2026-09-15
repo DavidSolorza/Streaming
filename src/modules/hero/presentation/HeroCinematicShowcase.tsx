@@ -25,6 +25,106 @@ export interface FeaturedMovieItem {
   whatsappMessage: string;
 }
 
+// Lista base inicial verificada para carga instantánea sin congelamientos
+const DEFAULT_FEATURED_MOVIES: FeaturedMovieItem[] = [
+  {
+    id: 'moana-2',
+    movieTitle: 'Moana 2',
+    brand: 'Disney+',
+    icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
+    rating: 7.0,
+    tagline: 'Estreno HD • Disney+ Premium',
+    description: 'Después de recibir una llamada inesperada de sus antepasados navegantes, Moana viajará a los lejanos mares de Oceanía en Disney+ Premium.',
+    price: 16000,
+    regularPrice: 26000,
+    productId: 3,
+    youtubeId: 'ZSlSfhHCc78',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/tE12181Gvy7B139707v7v.jpg',
+    whatsappMessage: '¡Hola! Vengo desde la web y quiero contratar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
+  },
+  {
+    id: 'house-dragon',
+    movieTitle: 'La Casa del Dragón',
+    brand: 'Max',
+    icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png',
+    rating: 8.4,
+    tagline: 'Serie Original 4K • Max',
+    description: 'La sangrienta guerra civil de la Casa Targaryen alcanza su clímax por el Trono de Hierro. Disponible en calidad Ultra HD en Max.',
+    price: 15000,
+    regularPrice: 25000,
+    productId: 4,
+    youtubeId: '339paLFRKlo',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/szyVpg9K3LL5s8VFAGkXzlxgZUk.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/etj8E2o0x2z23708940.jpg',
+    whatsappMessage: '¡Hola! Vengo desde la web y quiero contratar *Max (HBO)* para ver *La Casa del Dragón* por *$15.000 COP/mes*. ¿Me indicas cómo pagar?',
+  },
+  {
+    id: 'spiderman-spiderverse',
+    movieTitle: 'Spider-Man: A través del Spider-Verso',
+    brand: 'Disney+',
+    icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
+    rating: 8.3,
+    tagline: 'Estreno HD • IMAX Enhanced',
+    description: 'Miles Morales es catapultado a través del Multiverso en una aventura espectacular en IMAX Enhanced exclusivamente en Disney+.',
+    price: 16000,
+    regularPrice: 26000,
+    productId: 3,
+    youtubeId: 'E4noegsHPvM',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rXhgHQmtjTIQOEDU8E2TbUFMjWM.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/4H2239402.jpg',
+    whatsappMessage: '¡Hola! Me interesa la cuenta de *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
+  },
+  {
+    id: 'the-boys',
+    movieTitle: 'The Boys',
+    brand: 'Prime Video',
+    icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png',
+    rating: 8.4,
+    tagline: 'Amazon Original • Ultra HD',
+    description: 'Un grupo de vigilantes decide hacer todo lo posible por frenar a los superhéroes corruptos. Serie original de Amazon Prime Video.',
+    price: 14000,
+    regularPrice: 24000,
+    productId: 5,
+    youtubeId: 'eshJeoaDmtY',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lTb6v3ZRanWLWoOpofXrBHNo9s1.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/m9o0349.jpg',
+    whatsappMessage: '¡Hola! Deseo adquirir *Prime Video* por *$14.000 COP/mes*. ¿Me envías la información de cuenta?',
+  },
+  {
+    id: 'stranger-things',
+    movieTitle: 'Stranger Things',
+    brand: 'Netflix',
+    icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
+    rating: 8.6,
+    tagline: 'Netflix Original • 4K UHD',
+    description: 'Experimentos secretos, fuerzas sobrenaturales y la batalla final en Hawkins. Serie original de Netflix en Ultra HD 4K.',
+    price: 17000,
+    regularPrice: 27000,
+    productId: 2,
+    youtubeId: 'mnd7sFt5c3A',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/AsPD90QEQsIAtSxfSjV3fN7XFpt.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/560934.jpg',
+    whatsappMessage: '¡Hola! Vengo desde la web y quiero contratar *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Tienen entrega inmediata?',
+  },
+  {
+    id: 'demon-slayer',
+    movieTitle: 'Demon Slayer: Castillo Infinito',
+    brand: 'Crunchyroll',
+    icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png',
+    rating: 8.8,
+    tagline: 'Simulcast Anime • Crunchyroll',
+    description: 'La épica confrontación final contra las Lunas Superiores y Muzan Kibutsuji dentro del Castillo Infinito. Sin anuncios en Crunchyroll.',
+    price: 12000,
+    regularPrice: 22000,
+    productId: 7,
+    youtubeId: 'sqgSm8fWe1s',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/6N21gcFbhT4ocdTU4MGREAaM5Vz.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/4090234.jpg',
+    whatsappMessage: '¡Hola! Quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
+  }
+];
+
 // Catálogo de plataformas de la tienda para vincular marcas, precios y pedidos
 const CATALOG_PLATFORMS = [
   {
@@ -87,8 +187,7 @@ const assignPlatformForMovie = (title: string, overview: string, index: number) 
 const AUTO_SLIDE_DURATION = 30000;
 
 export const HeroCinematicShowcase: React.FC = () => {
-  const [movies, setMovies] = useState<FeaturedMovieItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [movies, setMovies] = useState<FeaturedMovieItem[]>(DEFAULT_FEATURED_MOVIES);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -123,7 +222,7 @@ export const HeroCinematicShowcase: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeIndex, isMuted]);
 
-  // Cargar 100% DINÁMICAMENTE películas en tendencia y estrenos en vivo desde TMDB API
+  // Cargar películas en tendencia y estrenos en vivo desde TMDB API en segundo plano sin congelar la UI
   useEffect(() => {
     let isMounted = true;
 
@@ -131,14 +230,9 @@ export const HeroCinematicShowcase: React.FC = () => {
       const tmdbKey = ENV.TMDB_API_KEY;
       const youtubeKey = ENV.YOUTUBE_API_KEY;
 
-      if (!tmdbKey) {
-        if (isMounted) setIsLoading(false);
-        return;
-      }
+      if (!tmdbKey) return;
 
       try {
-        if (isMounted) setIsLoading(true);
-
         const [trendingRes, nowPlayingRes] = await Promise.allSettled([
           fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${tmdbKey}&language=es-MX`),
           fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdbKey}&language=es-MX`),
@@ -255,11 +349,7 @@ export const HeroCinematicShowcase: React.FC = () => {
           }
         }
       } catch (error) {
-        console.error('Error cargando TMDB:', error);
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+        console.error('Error cargando TMDB en vivo:', error);
       }
     };
 
@@ -330,37 +420,7 @@ export const HeroCinematicShowcase: React.FC = () => {
     });
   };
 
-  // Skeleton UI de carga durante la consulta inicial a la API
-  if (isLoading || movies.length === 0 || !activeMovie) {
-    return (
-      <div className="w-full max-w-7xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
-        <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2.5 sm:p-4 space-y-3">
-          <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[16/9] sm:aspect-[21/9] min-h-[260px] sm:min-h-[380px] flex flex-col items-center justify-center p-6 text-center animate-pulse">
-            <div className="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center mb-3">
-              <Film className="w-7 h-7 text-blue-400 animate-spin" />
-            </div>
-            <span className="text-xs font-black uppercase tracking-widest text-slate-300">
-              Conectando con TMDB API en vivo...
-            </span>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              Obteniendo tráileres y estrenos cinematográficos en tiempo real
-            </p>
-          </div>
-          <div className="bg-slate-50 rounded-2xl border border-slate-200/90 p-4 sm:p-5 flex items-center justify-between gap-4 animate-pulse">
-            <div className="flex items-center gap-4 flex-1">
-              <div className="w-20 h-28 sm:w-24 sm:h-36 rounded-2xl bg-slate-200 shrink-0" />
-              <div className="space-y-2 flex-1">
-                <div className="h-6 bg-slate-200 rounded-md w-3/4" />
-                <div className="h-4 bg-slate-200 rounded-md w-1/2" />
-                <div className="h-3 bg-slate-200 rounded-md w-full" />
-              </div>
-            </div>
-            <div className="w-32 h-12 bg-slate-200 rounded-xl hidden sm:block" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (!activeMovie) return null;
 
   return (
     <div className="w-full max-w-7xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
@@ -481,7 +541,7 @@ export const HeroCinematicShowcase: React.FC = () => {
           
           {/* Izquierda: Portada Grande + Título + Plataforma + Descripción */}
           <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1">
-            {/* Portada Destacada Obtenida 100% en vivo de TMDB */}
+            {/* Portada Destacada */}
             <div className="w-20 h-28 sm:w-24 sm:h-36 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md shrink-0 relative bg-slate-100 group transition-transform hover:scale-105 duration-300">
               <PosterImage
                 src={activeMovie.posterUrl}
