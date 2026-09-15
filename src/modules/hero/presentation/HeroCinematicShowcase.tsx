@@ -163,18 +163,21 @@ export const HeroCinematicShowcase: React.FC = () => {
     return () => clearTimeout(timer);
   }, [activeIndex, isMuted]);
 
-  // Cargar tráileres oficiales y portadas en español desde TMDB API
+  // Cargar tráileres oficiales y portadas en español con estrategia de respaldo de 3 capas (TMDB -> YouTube Data API v3 -> Fallback)
   useEffect(() => {
     const fetchLiveTmdbTrailers = async () => {
-      const apiKey = ENV.TMDB_API_KEY;
-      if (!apiKey) return;
+      const tmdbKey = ENV.TMDB_API_KEY;
+      const youtubeKey = ENV.YOUTUBE_API_KEY;
+
+      if (!tmdbKey) return;
 
       try {
         const updatedList = await Promise.all(
           INITIAL_MOVIES.map(async (item) => {
             try {
+              // --- PASO 1: Intentar obtener metadata y tráiler con TMDB API ---
               const searchRes = await fetch(
-                `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${encodeURIComponent(item.movieTitle)}&language=es-MX`
+                `https://api.themoviedb.org/3/search/multi?api_key=${tmdbKey}&query=${encodeURIComponent(item.movieTitle)}&language=es-MX`
               );
               if (!searchRes.ok) return item;
               const searchData = await searchRes.json();
@@ -183,19 +186,37 @@ export const HeroCinematicShowcase: React.FC = () => {
 
               const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
               let videoRes = await fetch(
-                `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${apiKey}&language=es-MX`
+                `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}&language=es-MX`
               );
               let videoData = await videoRes.json();
 
-              // Fallback a tráiler en inglés si no hay tráiler traducido a español
+              // Fallback a tráiler en inglés si no hay tráiler traducido a español en TMDB
               if (!videoData.results || videoData.results.length === 0) {
-                videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${apiKey}`);
+                videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${tmdbKey}`);
                 videoData = await videoRes.json();
               }
 
-              const trailer = videoData.results
-                ? videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0]
+              let trailerKey = videoData.results
+                ? (videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0])?.key
                 : null;
+
+              // --- PASO 2: Respaldo con YouTube Data API v3 (Si TMDB no devolvió tráiler y existe YOUTUBE_API_KEY) ---
+              if (!trailerKey && youtubeKey) {
+                try {
+                  const query = encodeURIComponent(`${item.movieTitle} trailer oficial espanol latino`);
+                  const ytRes = await fetch(
+                    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoEmbeddable=true&maxResults=1&key=${youtubeKey}`
+                  );
+                  if (ytRes.ok) {
+                    const ytData = await ytRes.json();
+                    if (ytData.items && ytData.items.length > 0 && ytData.items[0].id?.videoId) {
+                      trailerKey = ytData.items[0].id.videoId;
+                    }
+                  }
+                } catch (ytErr) {
+                  // Continuar con el siguiente paso en caso de error de red
+                }
+              }
 
               return {
                 ...item,
@@ -204,7 +225,7 @@ export const HeroCinematicShowcase: React.FC = () => {
                 rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : item.rating,
                 posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : item.posterUrl,
                 backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : item.backdropUrl,
-                youtubeId: trailer && trailer.key ? trailer.key : item.youtubeId,
+                youtubeId: trailerKey || item.youtubeId,
               };
             } catch (e) {
               return item;
@@ -315,10 +336,16 @@ export const HeroCinematicShowcase: React.FC = () => {
                   {activeMovie.tagline}
                 </p>
 
-                <div className="pt-2 flex items-center justify-center gap-2">
-                  <span className="text-xs text-slate-400 font-bold">
-                    Usa las flechas laterales para explorar el siguiente tráiler
-                  </span>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+                  <a
+                    href={activeMovie.youtubeId ? `https://www.youtube.com/watch?v=${activeMovie.youtubeId}` : `https://www.youtube.com/results?search_query=${encodeURIComponent(activeMovie.movieTitle + ' trailer oficial espanol latino')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600/90 hover:bg-red-600 text-white font-extrabold text-xs transition shadow-lg border border-red-500/30 cursor-pointer backdrop-blur-md"
+                  >
+                    <Film className="w-4 h-4 text-white" />
+                    Ver tráiler directamente en YouTube ↗
+                  </a>
                 </div>
               </div>
             </div>
