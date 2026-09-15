@@ -193,6 +193,7 @@ export const HeroCinematicShowcase: React.FC = () => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [hasVideoError, setHasVideoError] = useState<boolean>(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const fallbackVideoRef = useRef<HTMLVideoElement>(null);
   const addItemToCart = useCartStore((state) => state.addItem);
 
   const activeMovie = movies[activeIndex] || movies[0];
@@ -202,8 +203,26 @@ export const HeroCinematicShowcase: React.FC = () => {
     setHasVideoError(false);
   }, [activeIndex]);
 
-  // Función robusta para sincronizar el estado del volumen (mute / unMute + setVolume 100) con YouTube API
+  // Sincronizar pausa/reproducción del video MP4 de respaldo al pasar el cursor
+  useEffect(() => {
+    if (fallbackVideoRef.current) {
+      if (isPaused) {
+        fallbackVideoRef.current.pause();
+      } else {
+        fallbackVideoRef.current.play().catch(() => {});
+      }
+    }
+  }, [isPaused]);
+
+  // Función robusta para sincronizar el estado del volumen (mute / unMute + setVolume 100) con YouTube API y el Video MP4
   const applyVolumeState = () => {
+    if (fallbackVideoRef.current) {
+      fallbackVideoRef.current.muted = isMuted;
+      if (!isMuted) {
+        fallbackVideoRef.current.volume = 1.0;
+      }
+    }
+
     if (!iframeRef.current || !iframeRef.current.contentWindow) return;
     try {
       if (isMuted) {
@@ -458,45 +477,21 @@ export const HeroCinematicShowcase: React.FC = () => {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Fallback Cinemático en Caso de Video no Disponible o Error */}
+          {/* Fallback Cinemático en Video MP4 cuando el Tráiler no esté disponible o sea bloqueado */}
           {hasVideoError || !activeMovie.youtubeId ? (
-            <div className="absolute inset-0 w-full h-full bg-slate-950 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
-              <img
-                src={activeMovie.backdropUrl || activeMovie.posterUrl}
-                alt={activeMovie.movieTitle}
-                className="absolute inset-0 w-full h-full object-cover opacity-35 filter blur-xs scale-105"
+            <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none select-none">
+              <video
+                ref={fallbackVideoRef}
+                key={`fallback-${activeMovie.id}`}
+                src="/videos/streaming-intro.mp4"
+                autoPlay
+                loop
+                playsInline
+                muted={isMuted}
+                className="w-full h-full object-cover scale-[1.02] border-0 pointer-events-none"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
-
-              <div className="relative z-10 max-w-lg space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/40 backdrop-blur-md flex items-center justify-center mx-auto shadow-xl">
-                  <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-8 h-8" />
-                </div>
-
-                <span className="inline-block text-[11px] font-black uppercase tracking-widest text-amber-400 bg-amber-500/10 px-3.5 py-1 rounded-full border border-amber-500/20">
-                  Vista Previa HD • {activeMovie.brand}
-                </span>
-
-                <h3 className="text-xl sm:text-3xl font-black text-white tracking-tight drop-shadow-md">
-                  {activeMovie.movieTitle}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed max-w-md mx-auto line-clamp-2">
-                  {activeMovie.tagline}
-                </p>
-
-                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
-                  <a
-                    href={activeMovie.youtubeId ? `https://www.youtube.com/watch?v=${activeMovie.youtubeId}` : `https://www.youtube.com/results?search_query=${encodeURIComponent(activeMovie.movieTitle + ' trailer oficial espanol latino')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600/90 hover:bg-red-600 text-white font-extrabold text-xs transition shadow-lg border border-red-500/30 cursor-pointer backdrop-blur-md"
-                  >
-                    <Film className="w-4 h-4 text-white" />
-                    Ver tráiler directamente en YouTube ↗
-                  </a>
-                </div>
-              </div>
+              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-950/60 to-transparent pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/60 to-transparent pointer-events-none" />
             </div>
           ) : (
             <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none select-none">
