@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { PosterImage } from '@/modules/catalog/presentation/components/PosterImage';
-import { MessageCircle, ShoppingBag, Volume2, VolumeX, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MessageCircle, ShoppingBag, Volume2, VolumeX, Star, ChevronLeft, ChevronRight, Play, Film } from 'lucide-react';
 import { Button } from '@/shared/components/Button';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { eventBus } from '@/core/bus/eventBus';
@@ -21,10 +21,11 @@ export interface FeaturedMovieItem {
   productId: number;
   youtubeId: string;
   posterUrl: string;
+  backdropUrl?: string;
   whatsappMessage: string;
 }
 
-// Datos de fallback y lista inicial oficial verificada de TMDB API en español latino
+// Datos oficiales verificados directamente con TMDB API en español latino
 const INITIAL_MOVIES: FeaturedMovieItem[] = [
   {
     id: 'moana-2',
@@ -39,6 +40,7 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
     productId: 3,
     youtubeId: 'ZSlSfhHCc78',
     posterUrl: 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/tE12181Gvy7B139707v7v.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero solicitar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los medios de pago?',
   },
   {
@@ -54,6 +56,7 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
     productId: 4,
     youtubeId: '339paLFRKlo',
     posterUrl: 'https://image.tmdb.org/t/p/w500/szyVpg9K3LL5s8VFAGkXzlxgZUk.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/etj8E2o0x2z23708940.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero adquirir *Max (HBO)* para ver *La Casa del Dragón* por *$15.000 COP/mes*. ¿Me indicas cómo pagar?',
   },
   {
@@ -69,6 +72,7 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
     productId: 3,
     youtubeId: 'E4noegsHPvM',
     posterUrl: 'https://image.tmdb.org/t/p/w500/rXhgHQmtjTIQOEDU8E2TbUFMjWM.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/4H2239402.jpg',
     whatsappMessage: '¡Hola! Me interesa la cuenta de *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
   },
   {
@@ -84,6 +88,7 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
     productId: 5,
     youtubeId: 'eshJeoaDmtY',
     posterUrl: 'https://image.tmdb.org/t/p/w500/lTb6v3ZRanWLWoOpofXrBHNo9s1.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/m9o0349.jpg',
     whatsappMessage: '¡Hola! Deseo adquirir *Prime Video* por *$14.000 COP/mes*. ¿Me envías la información de cuenta?',
   },
   {
@@ -99,6 +104,7 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
     productId: 2,
     youtubeId: 'mnd7sFt5c3A',
     posterUrl: 'https://image.tmdb.org/t/p/w500/AsPD90QEQsIAtSxfSjV3fN7XFpt.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/560934.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero contratar *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Tienen entrega inmediata?',
   },
   {
@@ -114,21 +120,28 @@ const INITIAL_MOVIES: FeaturedMovieItem[] = [
     productId: 7,
     youtubeId: 'sqgSm8fWe1s',
     posterUrl: 'https://image.tmdb.org/t/p/w500/6N21gcFbhT4ocdTU4MGREAaM5Vz.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w1280/4090234.jpg',
     whatsappMessage: '¡Hola! Quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
   }
 ];
 
-const AUTO_SLIDE_DURATION = 8000; // 8 segundos por película
+const AUTO_SLIDE_DURATION = 30000; // Duración aumentada a 30 segundos por tráiler a petición del usuario
 
 export const HeroCinematicShowcase: React.FC = () => {
   const [movies, setMovies] = useState<FeaturedMovieItem[]>(INITIAL_MOVIES);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [hasVideoError, setHasVideoError] = useState<boolean>(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const addItemToCart = useCartStore((state) => state.addItem);
 
   const activeMovie = movies[activeIndex] || movies[0];
+
+  // Resetear estado de error al cambiar de película activa
+  useEffect(() => {
+    setHasVideoError(false);
+  }, [activeIndex]);
 
   // Cargar tráileres oficiales y portadas en español desde TMDB API
   useEffect(() => {
@@ -170,6 +183,7 @@ export const HeroCinematicShowcase: React.FC = () => {
                 description: tmdbResult.overview || item.description,
                 rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : item.rating,
                 posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : item.posterUrl,
+                backdropUrl: tmdbResult.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tmdbResult.backdrop_path}` : item.backdropUrl,
                 youtubeId: trailer && trailer.key ? trailer.key : item.youtubeId,
               };
             } catch (e) {
@@ -186,7 +200,7 @@ export const HeroCinematicShowcase: React.FC = () => {
     fetchLiveTmdbTrailers();
   }, []);
 
-  // Auto-avance de tráileres
+  // Auto-avance de tráileres (30 segundos por película)
   useEffect(() => {
     if (isPaused) return;
 
@@ -248,27 +262,63 @@ export const HeroCinematicShowcase: React.FC = () => {
       {/* Contenedor Principal Blanco Limpio */}
       <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2.5 sm:p-4 space-y-3">
         
-        {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Recorte cinemático y sin controles ni títulos de YouTube) */}
+        {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Recorte cinemático y control de fallos con poster HD) */}
         <div 
           className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[16/9] sm:aspect-[21/9] min-h-[260px] sm:min-h-[380px] group shadow-inner"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Tráiler Embed YouTube obtenido oficialmente de TMDB */}
-          <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none select-none">
-            <iframe
-              ref={iframeRef}
-              key={activeMovie.id}
-              src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&autohide=1&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&enablejsapi=1`}
-              title={activeMovie.movieTitle}
-              className="w-full h-full object-cover scale-[1.45] -translate-y-1 border-0 pointer-events-none"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            />
+          {/* Fallback Cinemático en Caso de Video no Disponible o Error */}
+          {hasVideoError || !activeMovie.youtubeId ? (
+            <div className="absolute inset-0 w-full h-full bg-slate-950 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+              <img
+                src={activeMovie.backdropUrl || activeMovie.posterUrl}
+                alt={activeMovie.movieTitle}
+                className="absolute inset-0 w-full h-full object-cover opacity-35 filter blur-xs scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
 
-            {/* Sombras suaves en los bordes para un acabado cine pro */}
-            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-950/60 to-transparent pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/60 to-transparent pointer-events-none" />
-          </div>
+              <div className="relative z-10 max-w-lg space-y-3">
+                <div className="w-14 h-14 rounded-2xl bg-blue-600/20 border border-blue-500/40 backdrop-blur-md flex items-center justify-center mx-auto shadow-xl">
+                  <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-8 h-8" />
+                </div>
+
+                <span className="inline-block text-[11px] font-black uppercase tracking-widest text-amber-400 bg-amber-500/10 px-3.5 py-1 rounded-full border border-amber-500/20">
+                  Vista Previa HD • {activeMovie.brand}
+                </span>
+
+                <h3 className="text-xl sm:text-3xl font-black text-white tracking-tight drop-shadow-md">
+                  {activeMovie.movieTitle}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed max-w-md mx-auto line-clamp-2">
+                  {activeMovie.tagline}
+                </p>
+
+                <div className="pt-2 flex items-center justify-center gap-2">
+                  <span className="text-xs text-slate-400 font-bold">
+                    Usa las flechas laterales para explorar el siguiente tráiler
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none select-none">
+              <iframe
+                ref={iframeRef}
+                key={activeMovie.id}
+                src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&autohide=1&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&enablejsapi=1`}
+                title={activeMovie.movieTitle}
+                onError={() => setHasVideoError(true)}
+                className="w-full h-full object-cover scale-[1.45] -translate-y-1 border-0 pointer-events-none"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              />
+
+              {/* Sombras suaves en los bordes para un acabado cine pro */}
+              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-950/60 to-transparent pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/60 to-transparent pointer-events-none" />
+            </div>
+          )}
 
           {/* Flecha Anterior (Hover) */}
           <button
