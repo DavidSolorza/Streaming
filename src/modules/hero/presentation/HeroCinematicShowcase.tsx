@@ -143,6 +143,26 @@ export const HeroCinematicShowcase: React.FC = () => {
     setHasVideoError(false);
   }, [activeIndex]);
 
+  // Mantener el estado del volumen (silenciado o con sonido) constante al cambiar de tráiler
+  useEffect(() => {
+    if (!iframeRef.current) return;
+
+    const applyVolumeState = () => {
+      if (iframeRef.current && iframeRef.current.contentWindow) {
+        const command = isMuted ? 'mute' : 'unMute';
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: command, args: [] }),
+          '*'
+        );
+      }
+    };
+
+    applyVolumeState();
+    const timer = setTimeout(applyVolumeState, 400);
+
+    return () => clearTimeout(timer);
+  }, [activeIndex, isMuted]);
+
   // Cargar tráileres oficiales y portadas en español desde TMDB API
   useEffect(() => {
     const fetchLiveTmdbTrailers = async () => {
@@ -307,7 +327,7 @@ export const HeroCinematicShowcase: React.FC = () => {
               <iframe
                 ref={iframeRef}
                 key={activeMovie.id}
-                src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&autohide=1&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&enablejsapi=1`}
+                src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&autohide=1&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&enablejsapi=1`}
                 title={activeMovie.movieTitle}
                 onError={() => setHasVideoError(true)}
                 className="w-full h-full object-cover scale-[1.45] -translate-y-1 border-0 pointer-events-none"
