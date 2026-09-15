@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
 import { PosterImage } from '@/modules/catalog/presentation/components/PosterImage';
 import { MessageCircle, ShoppingBag, Volume2, VolumeX, Star, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -115,6 +115,7 @@ export const HeroCinematicShowcase: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const addItemToCart = useCartStore((state) => state.addItem);
 
   const activeMovie = FEATURED_MOVIES[activeIndex];
@@ -136,6 +137,20 @@ export const HeroCinematicShowcase: React.FC = () => {
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + FEATURED_MOVIES.length) % FEATURED_MOVIES.length);
+  };
+
+  const toggleMute = () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+
+    // Mandar mensaje postMessage a YouTube JS API para silenciar/activar sonido SIN reiniciar el video
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      const command = nextMuted ? 'mute' : 'unMute';
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: command, args: [] }),
+        '*'
+      );
+    }
   };
 
   const handleBuyWhatsApp = () => {
@@ -167,28 +182,32 @@ export const HeroCinematicShowcase: React.FC = () => {
       {/* Contenedor Principal Blanco Limpio */}
       <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2 sm:p-3 space-y-3">
         
-        {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Sin textos ni botones obstruyendo el video) */}
+        {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Con recorte cinemático y sin controles ni títulos de YouTube) */}
         <div 
           className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[16/9] sm:aspect-[21/9] min-h-[260px] sm:min-h-[380px] group shadow-inner"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Tráiler Embed YouTube */}
-          <iframe
-            key={activeMovie.id}
-            src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`}
-            title={activeMovie.movieTitle}
-            className="w-full h-full object-cover scale-135 border-0 pointer-events-none"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          />
+          {/* Contenedor con escala para recortar títulos superiores y marcas de YouTube */}
+          <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none select-none">
+            <iframe
+              ref={iframeRef}
+              key={activeMovie.id}
+              src={`https://www.youtube.com/embed/${activeMovie.youtubeId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&autohide=1&loop=1&playlist=${activeMovie.youtubeId}&playsinline=1&enablejsapi=1`}
+              title={activeMovie.movieTitle}
+              className="w-full h-full object-cover scale-[1.45] -translate-y-1 border-0 pointer-events-none"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
 
-          {/* Sombra sutil superior para botones flotantes */}
-          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-950/60 to-transparent pointer-events-none" />
+            {/* Sombras suaves en los bordes para un acabado cine pro */}
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-950/60 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/60 to-transparent pointer-events-none" />
+          </div>
 
           {/* Flecha Anterior (Hover) */}
           <button
             onClick={handlePrev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer"
             title="Tráiler anterior"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -197,14 +216,14 @@ export const HeroCinematicShowcase: React.FC = () => {
           {/* Flecha Siguiente (Hover) */}
           <button
             onClick={handleNext}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-slate-950/70 backdrop-blur-md text-white/80 hover:text-white hover:bg-slate-900 transition border border-white/10 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer"
             title="Siguiente tráiler"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
 
           {/* Controles Superiores Flotantes (Plataforma, Rating y Mute) */}
-          <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between">
+          <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-auto">
             <div className="flex items-center gap-2">
               <span className="bg-slate-950/80 backdrop-blur-md text-white text-xs font-black px-3 py-1 rounded-full border border-white/10 flex items-center gap-1.5 shadow-md">
                 <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-4 h-4" />
@@ -216,10 +235,10 @@ export const HeroCinematicShowcase: React.FC = () => {
               </span>
             </div>
 
-            {/* Botón Silenciar / Sonido */}
+            {/* Botón Silenciar / Sonido SIN reiniciar el video */}
             <button
-              onClick={() => setIsMuted(!isMuted)}
-              className="p-2.5 rounded-full bg-slate-950/80 backdrop-blur-md text-slate-200 hover:text-white transition border border-white/10 shadow-md"
+              onClick={toggleMute}
+              className="p-2.5 rounded-full bg-slate-950/80 backdrop-blur-md text-slate-200 hover:text-white transition border border-white/10 shadow-md cursor-pointer"
               title={isMuted ? 'Activar sonido del tráiler' : 'Silenciar'}
             >
               {isMuted ? <VolumeX className="w-4 h-4 text-slate-300" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
@@ -232,7 +251,7 @@ export const HeroCinematicShowcase: React.FC = () => {
           
           {/* Portada de la película + Título + Plataforma */}
           <div className="flex items-center gap-3.5 min-w-0">
-            {/* Poster de la Película en lugar del icono cuadrado de la plataforma */}
+            {/* Poster de la Película */}
             <div className="w-14 h-20 sm:w-16 sm:h-22 rounded-xl overflow-hidden border border-slate-200 shadow-md shrink-0 relative bg-slate-100">
               <PosterImage
                 src={activeMovie.posterUrl}
@@ -257,7 +276,7 @@ export const HeroCinematicShowcase: React.FC = () => {
             </div>
           </div>
 
-          {/* Precios e Invocación WhatsApp (Sin puntitos de selección) */}
+          {/* Precios e Invocación WhatsApp */}
           <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
             
             {/* Precio */}
