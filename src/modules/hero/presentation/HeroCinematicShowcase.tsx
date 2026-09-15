@@ -38,7 +38,7 @@ const DEFAULT_FEATURED_MOVIES: FeaturedMovieItem[] = [
     price: 16000,
     regularPrice: 26000,
     productId: 3,
-    youtubeId: 'ZSlSfhHCc78',
+    youtubeId: 'Bk1Hf0FtR7k',
     posterUrl: 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/w1280/tE12181Gvy7B139707v7v.jpg',
     whatsappMessage: '¡Hola! Vengo desde la web y quiero contratar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
@@ -184,6 +184,28 @@ const assignPlatformForMovie = (title: string, overview: string, index: number) 
   return CATALOG_PLATFORMS[index % CATALOG_PLATFORMS.length];
 };
 
+const findBestTrailerKey = (videoResults: any[]) => {
+  if (!Array.isArray(videoResults) || videoResults.length === 0) return null;
+  const official = videoResults.find(
+    (v: any) =>
+      v.site === 'YouTube' &&
+      v.type === 'Trailer' &&
+      (v.name.toLowerCase().includes('tráiler') ||
+        v.name.toLowerCase().includes('trailer') ||
+        v.name.toLowerCase().includes('oficial'))
+  );
+  if (official && official.key) return official.key;
+
+  const generic = videoResults.find((v: any) => v.site === 'YouTube' && v.type === 'Trailer');
+  if (generic && generic.key) return generic.key;
+
+  const teaser = videoResults.find((v: any) => v.site === 'YouTube' && v.type === 'Teaser');
+  if (teaser && teaser.key) return teaser.key;
+
+  const anyYt = videoResults.find((v: any) => v.site === 'YouTube' && v.key);
+  return anyYt ? anyYt.key : null;
+};
+
 const AUTO_SLIDE_DURATION = 30000;
 
 export const HeroCinematicShowcase: React.FC = () => {
@@ -202,6 +224,29 @@ export const HeroCinematicShowcase: React.FC = () => {
   useEffect(() => {
     setHasVideoError(false);
   }, [activeIndex]);
+
+  // Capturar eventos de error de reproducción emitidos por la API interna de YouTube en el iframe
+  useEffect(() => {
+    const handleWindowMessage = (event: MessageEvent) => {
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        if (
+          data &&
+          (data.event === 'onError' ||
+            data.info === 101 ||
+            data.info === 150 ||
+            data.info === 2 ||
+            data.info === 5 ||
+            data.info === 100)
+        ) {
+          setHasVideoError(true);
+        }
+      } catch (e) {}
+    };
+
+    window.addEventListener('message', handleWindowMessage);
+    return () => window.removeEventListener('message', handleWindowMessage);
+  }, []);
 
   // Sincronizar pausa/reproducción del video MP4 de respaldo al pasar el cursor
   useEffect(() => {
@@ -322,12 +367,9 @@ export const HeroCinematicShowcase: React.FC = () => {
                       }
                     }
                     if (Array.isArray(videoData.results) && videoData.results.length > 0) {
-                      const found =
-                        videoData.results.find(
-                          (v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')
-                        ) || videoData.results[0];
-                      if (found && found.key) {
-                        trailerKey = found.key;
+                      const bestKey = findBestTrailerKey(videoData.results);
+                      if (bestKey) {
+                        trailerKey = bestKey;
                       }
                     }
                   }
