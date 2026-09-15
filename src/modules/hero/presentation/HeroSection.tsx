@@ -1,6 +1,5 @@
 import React from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
-import { TrendingEstrenos } from '@/modules/catalog/presentation/components/TrendingEstrenos';
 import { HeroCinematicShowcase } from './HeroCinematicShowcase';
 
 const MARQUEE_BRANDS = [
@@ -41,9 +40,6 @@ export const HeroSection: React.FC = () => {
 
         {/* Componente Hero Cinemático Interactivo Estilo Steam / Epic Games / Apple TV+ */}
         <HeroCinematicShowcase />
-
-        {/* Carrusel "ESTRENOS DEL MES EN TENDENCIA" con Pósteres HD TMDb */}
-        <TrendingEstrenos />
 
       </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PlatformIcon } from '@/shared/components/PlatformIcon';
+import { PosterImage } from '@/modules/catalog/presentation/components/PosterImage';
 import { MessageCircle, ShoppingBag, Volume2, VolumeX, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/shared/components/Button';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
@@ -17,6 +18,7 @@ export interface FeaturedMovieItem {
   regularPrice: number;
   productId: number;
   youtubeId: string;
+  posterUrl: string;
   whatsappMessage: string;
 }
 
@@ -32,6 +34,7 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 26000,
     productId: 3,
     youtubeId: 'hDZ7y8RP5HE',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/a2av1WqRi5PFiV21yY3bWy2F7v7.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero solicitar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los medios de pago?',
   },
   {
@@ -45,6 +48,7 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 25000,
     productId: 4,
     youtubeId: 'DotnJ7tTA34',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7E24viD235vC6Eshv2uC4h3p56.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero adquirir *Max (HBO)* para ver *La Casa del Dragón* por *$15.000 COP/mes*. ¿Me indicas cómo pagar?',
   },
   {
@@ -58,6 +62,7 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 26000,
     productId: 3,
     youtubeId: 'cqGjhVJWtEg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg',
     whatsappMessage: '¡Hola! Me interesa la cuenta de *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
   },
   {
@@ -71,6 +76,7 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 24000,
     productId: 5,
     youtubeId: '06c1a_p-vO0',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/775D48khP0d4qV1vD54593p6y.jpg',
     whatsappMessage: '¡Hola! Deseo adquirir *Prime Video* por *$14.000 COP/mes*. ¿Me envías la información de cuenta?',
   },
   {
@@ -84,6 +90,7 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 27000,
     productId: 2,
     youtubeId: 'b9EkMc79ZSU',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn88qbuYh9C.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero contratar *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Tienen entrega inmediata?',
   },
   {
@@ -97,6 +104,7 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 22000,
     productId: 7,
     youtubeId: 'WY682855T20',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/xUfVCoCn2y9jI2q6mG4bN6.jpg',
     whatsappMessage: '¡Hola! Quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
   }
 ];
@@ -157,7 +165,7 @@ export const HeroCinematicShowcase: React.FC = () => {
   return (
     <div className="w-full max-w-5xl mx-auto my-3 sm:my-5 px-2 sm:px-4">
       {/* Contenedor Principal Blanco Limpio */}
-      <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2 sm:p-3 space-y-2">
+      <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2 sm:p-3 space-y-3">
         
         {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Sin textos ni botones obstruyendo el video) */}
         <div 
@@ -219,49 +227,42 @@ export const HeroCinematicShowcase: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. PEQUEÑO PANEL BLANCO DE INFORMACIÓN Y BOTONES (Ubicado debajo del video) */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 shadow-xs">
+        {/* 2. PANEL BLANCO DE INFORMACIÓN CON PORTADA DE LA PELÍCULA */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 shadow-xs">
           
-          {/* Nombre de la película y Tagline */}
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-slate-50 border border-slate-200/90 p-2 flex items-center justify-center shrink-0 shadow-xs">
-              <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-6 h-6 sm:w-7 sm:h-7" />
+          {/* Portada de la película + Título + Plataforma */}
+          <div className="flex items-center gap-3.5 min-w-0">
+            {/* Poster de la Película en lugar del icono cuadrado de la plataforma */}
+            <div className="w-14 h-20 sm:w-16 sm:h-22 rounded-xl overflow-hidden border border-slate-200 shadow-md shrink-0 relative bg-slate-100">
+              <PosterImage
+                src={activeMovie.posterUrl}
+                alt={activeMovie.movieTitle}
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
+
+            <div className="min-w-0 space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-base sm:text-xl font-black text-slate-900 tracking-tight truncate">
                   {activeMovie.movieTitle}
                 </h3>
-                <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 shrink-0">
+                <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 shrink-0">
+                  <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-3.5 h-3.5" />
                   {activeMovie.brand}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 font-medium truncate mt-0.5">
+              <p className="text-xs text-slate-500 font-medium line-clamp-1">
                 {activeMovie.tagline}
               </p>
             </div>
           </div>
 
-          {/* Precios, Paginación e Invocación WhatsApp */}
-          <div className="flex flex-wrap items-center justify-between md:justify-end gap-2.5 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
+          {/* Precios e Invocación WhatsApp (Sin puntitos de selección) */}
+          <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
             
-            {/* Indicadores Limpios de Paginación de Tráileres */}
-            <div className="flex items-center gap-1.5 mr-1 sm:mr-2">
-              {FEATURED_MOVIES.map((movie, idx) => (
-                <button
-                  key={movie.id}
-                  onClick={() => setActiveIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    idx === activeIndex ? 'w-5 sm:w-6 bg-blue-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
-                  }`}
-                  title={movie.movieTitle}
-                />
-              ))}
-            </div>
-
             {/* Precio */}
-            <div className="bg-slate-50 px-3 py-1 rounded-xl border border-slate-200/90 text-right">
-              <span className="text-base sm:text-lg font-black text-emerald-600 block leading-none">
+            <div className="bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200/90 text-right">
+              <span className="text-base sm:text-xl font-black text-emerald-600 block leading-none">
                 {formatCOP(activeMovie.price)}
               </span>
               <span className="text-[9px] text-slate-400 font-bold block uppercase">/ mes</span>
