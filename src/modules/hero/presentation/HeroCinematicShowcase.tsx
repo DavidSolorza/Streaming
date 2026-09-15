@@ -6,6 +6,7 @@ import { Button } from '@/shared/components/Button';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { eventBus } from '@/core/bus/eventBus';
 import { formatCOP } from '@/core/utils/currency';
+import { ENV } from '@/core/config/env';
 
 export interface FeaturedMovieItem {
   id: string;
@@ -23,20 +24,21 @@ export interface FeaturedMovieItem {
   whatsappMessage: string;
 }
 
-const FEATURED_MOVIES: FeaturedMovieItem[] = [
+// Datos de fallback y lista inicial oficial verificada de TMDB API en español latino
+const INITIAL_MOVIES: FeaturedMovieItem[] = [
   {
     id: 'moana-2',
     movieTitle: 'Moana 2',
     brand: 'Disney+',
     icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
-    rating: 7.2,
-    tagline: 'Una nueva aventura épica en los océanos',
-    description: 'Moana y Maui se reúnen para una nueva travesía junto a una tripulación de marineros insólitos a través de las aguas de Oceanía en Disney+ Premium.',
+    rating: 7.0,
+    tagline: 'Una nueva aventura épica en los mares de Oceanía',
+    description: 'Después de recibir una llamada inesperada de sus antepasados navegantes, Moana viajará a los lejanos mares de Oceanía en Disney+ Premium.',
     price: 16000,
     regularPrice: 26000,
     productId: 3,
-    youtubeId: 'hDZ7y8RP5HE',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/a2av1WqRi5PFiV21yY3bWy2F7v7.jpg',
+    youtubeId: 'ZSlSfhHCc78',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero solicitar *Disney+ Premium* para ver *Moana 2* por *$16.000 COP/mes*. ¿Me das los medios de pago?',
   },
   {
@@ -44,59 +46,59 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     movieTitle: 'La Casa del Dragón',
     brand: 'Max',
     icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png',
-    rating: 8.5,
+    rating: 8.4,
     tagline: 'Fuego y Sangre en máxima calidad 4K',
-    description: 'La sangrienta guerra civil entre los Verdes y los Negros por el Trono de Hierro alcanza su punto máximo. Disponible en calidad 4K en Max.',
+    description: 'La sangrienta guerra civil de la Casa Targaryen alcanza su clímax por el Trono de Hierro. Disponible en calidad Ultra HD en Max.',
     price: 15000,
     regularPrice: 25000,
     productId: 4,
-    youtubeId: 'DotnJ7tTA34',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/7E24viD235vC6Eshv2uC4h3p56.jpg',
+    youtubeId: '339paLFRKlo',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/szyVpg9K3LL5s8VFAGkXzlxgZUk.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero adquirir *Max (HBO)* para ver *La Casa del Dragón* por *$15.000 COP/mes*. ¿Me indicas cómo pagar?',
   },
   {
     id: 'spiderman-spiderverse',
-    movieTitle: 'Spider-Man: Un Nuevo Día',
+    movieTitle: 'Spider-Man: A través del Spider-Verso',
     brand: 'Disney+',
     icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png',
-    rating: 7.9,
-    tagline: 'El multiverso completo en Ultra HD',
-    description: 'El multiverso arácnido completo, acción sin límites y animación espectacular en IMAX Enhanced exclusivamente en Disney+.',
+    rating: 8.3,
+    tagline: 'El multiverso arácnido completo en Ultra HD',
+    description: 'Miles Morales es catapultado a través del Multiverso en una aventura espectacular en IMAX Enhanced exclusivamente en Disney+.',
     price: 16000,
     regularPrice: 26000,
     productId: 3,
-    youtubeId: 'cqGjhVJWtEg',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg',
+    youtubeId: 'E4noegsHPvM',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rXhgHQmtjTIQOEDU8E2TbUFMjWM.jpg',
     whatsappMessage: '¡Hola! Me interesa la cuenta de *Disney+ Premium* por *$16.000 COP/mes*. ¿Me das los datos de pago?',
   },
   {
     id: 'the-boys',
-    movieTitle: 'The Boys / Carrera contra el tiempo',
+    movieTitle: 'The Boys',
     brand: 'Prime Video',
     icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png',
-    rating: 8.7,
+    rating: 8.4,
     tagline: 'Acción sin censura y Amazon Originals',
-    description: 'Suspenso, héroes fuera de control y las mejores producciones de acción y drama original en Amazon Prime Video.',
+    description: 'Un grupo de vigilantes decide hacer todo lo posible por frenar a los superhéroes corruptos. Serie original de Amazon Prime Video.',
     price: 14000,
     regularPrice: 24000,
     productId: 5,
-    youtubeId: '06c1a_p-vO0',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/775D48khP0d4qV1vD54593p6y.jpg',
+    youtubeId: 'eshJeoaDmtY',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lTb6v3ZRanWLWoOpofXrBHNo9s1.jpg',
     whatsappMessage: '¡Hola! Deseo adquirir *Prime Video* por *$14.000 COP/mes*. ¿Me envías la información de cuenta?',
   },
   {
     id: 'stranger-things',
-    movieTitle: 'Stranger Things 5',
+    movieTitle: 'Stranger Things',
     brand: 'Netflix',
     icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png',
-    rating: 8.7,
-    tagline: 'La temporada final en Ultra HD 4K',
-    description: 'Hawkins enfrenta la batalla final contra el Upside Down en la temporada más esperada de Netflix Original con audio espacial 4K.',
+    rating: 8.6,
+    tagline: 'La gran producción original en Ultra HD 4K',
+    description: 'Experimentos secretos, fuerzas sobrenaturales y la batalla final en Hawkins. Serie original de Netflix en Ultra HD 4K.',
     price: 17000,
     regularPrice: 27000,
     productId: 2,
-    youtubeId: 'b9EkMc79ZSU',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn88qbuYh9C.jpg',
+    youtubeId: 'mnd7sFt5c3A',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/AsPD90QEQsIAtSxfSjV3fN7XFpt.jpg',
     whatsappMessage: '¡Hola! Vengo desde el Hero de la web y quiero contratar *Netflix Original 4K UHD* por *$17.000 COP/mes*. ¿Tienen entrega inmediata?',
   },
   {
@@ -104,14 +106,14 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
     movieTitle: 'Demon Slayer: Castillo Infinito',
     brand: 'Crunchyroll',
     icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png',
-    rating: 8.9,
+    rating: 8.8,
     tagline: 'Simulcast Anime directo de Japón',
-    description: 'La épica confrontación final contra las Lunas Superiores y Muzan Kibutsuji sin interrupciones ni anuncios en Crunchyroll.',
+    description: 'La épica confrontación final contra las Lunas Superiores y Muzan Kibutsuji dentro del Castillo Infinito. Sin anuncios en Crunchyroll.',
     price: 12000,
     regularPrice: 22000,
     productId: 7,
-    youtubeId: 'WY682855T20',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/xUfVCoCn2y9jI2q6mG4bN6.jpg',
+    youtubeId: 'sqgSm8fWe1s',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/6N21gcFbhT4ocdTU4MGREAaM5Vz.jpg',
     whatsappMessage: '¡Hola! Quiero contratar *Crunchyroll Mega Fan* por *$12.000 COP/mes*. ¿Me envías los datos?',
   }
 ];
@@ -119,38 +121,95 @@ const FEATURED_MOVIES: FeaturedMovieItem[] = [
 const AUTO_SLIDE_DURATION = 8000; // 8 segundos por película
 
 export const HeroCinematicShowcase: React.FC = () => {
+  const [movies, setMovies] = useState<FeaturedMovieItem[]>(INITIAL_MOVIES);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const addItemToCart = useCartStore((state) => state.addItem);
 
-  const activeMovie = FEATURED_MOVIES[activeIndex];
+  const activeMovie = movies[activeIndex] || movies[0];
+
+  // Cargar tráileres oficiales y portadas en español desde TMDB API
+  useEffect(() => {
+    const fetchLiveTmdbTrailers = async () => {
+      const apiKey = ENV.TMDB_API_KEY;
+      if (!apiKey) return;
+
+      try {
+        const updatedList = await Promise.all(
+          INITIAL_MOVIES.map(async (item) => {
+            try {
+              const searchRes = await fetch(
+                `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${encodeURIComponent(item.movieTitle)}&language=es-MX`
+              );
+              if (!searchRes.ok) return item;
+              const searchData = await searchRes.json();
+              const tmdbResult = searchData.results && searchData.results[0];
+              if (!tmdbResult) return item;
+
+              const mediaType = tmdbResult.media_type === 'tv' ? 'tv' : 'movie';
+              let videoRes = await fetch(
+                `https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${apiKey}&language=es-MX`
+              );
+              let videoData = await videoRes.json();
+
+              // Fallback a tráiler en inglés si no hay tráiler traducido a español
+              if (!videoData.results || videoData.results.length === 0) {
+                videoRes = await fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbResult.id}/videos?api_key=${apiKey}`);
+                videoData = await videoRes.json();
+              }
+
+              const trailer = videoData.results
+                ? videoData.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || videoData.results[0]
+                : null;
+
+              return {
+                ...item,
+                movieTitle: tmdbResult.title || tmdbResult.name || item.movieTitle,
+                description: tmdbResult.overview || item.description,
+                rating: tmdbResult.vote_average ? Number(tmdbResult.vote_average.toFixed(1)) : item.rating,
+                posterUrl: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : item.posterUrl,
+                youtubeId: trailer && trailer.key ? trailer.key : item.youtubeId,
+              };
+            } catch (e) {
+              return item;
+            }
+          })
+        );
+        setMovies(updatedList);
+      } catch (e) {
+        // En caso de fallo de red, se mantienen los tráileres iniciales verificados
+      }
+    };
+
+    fetchLiveTmdbTrailers();
+  }, []);
 
   // Auto-avance de tráileres
   useEffect(() => {
     if (isPaused) return;
 
     const timer = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % FEATURED_MOVIES.length);
+      setActiveIndex((current) => (current + 1) % movies.length);
     }, AUTO_SLIDE_DURATION);
 
     return () => clearInterval(timer);
-  }, [isPaused, activeIndex]);
+  }, [isPaused, movies.length]);
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % FEATURED_MOVIES.length);
+    setActiveIndex((prev) => (prev + 1) % movies.length);
   };
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + FEATURED_MOVIES.length) % FEATURED_MOVIES.length);
+    setActiveIndex((prev) => (prev - 1 + movies.length) % movies.length);
   };
 
   const toggleMute = () => {
     const nextMuted = !isMuted;
     setIsMuted(nextMuted);
 
-    // Mandar mensaje postMessage a YouTube JS API para silenciar/activar sonido SIN reiniciar el video
+    // Mandar mensaje postMessage a la API de YouTube para silenciar/activar sonido SIN reiniciar la reproducción
     if (iframeRef.current && iframeRef.current.contentWindow) {
       const command = nextMuted ? 'mute' : 'unMute';
       iframeRef.current.contentWindow.postMessage(
@@ -189,13 +248,13 @@ export const HeroCinematicShowcase: React.FC = () => {
       {/* Contenedor Principal Blanco Limpio */}
       <div className="bg-white rounded-3xl border border-slate-900/[0.08] shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] overflow-hidden p-2.5 sm:p-4 space-y-3">
         
-        {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Con recorte cinemático y sin controles ni títulos de YouTube) */}
+        {/* 1. REPRODUCTOR DE TRÁILERS 100% LIMPIO (Recorte cinemático y sin controles ni títulos de YouTube) */}
         <div 
           className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[16/9] sm:aspect-[21/9] min-h-[260px] sm:min-h-[380px] group shadow-inner"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Tráiler Embed YouTube */}
+          {/* Tráiler Embed YouTube obtenido oficialmente de TMDB */}
           <div className="absolute inset-0 w-full h-full bg-slate-950 overflow-hidden pointer-events-none select-none">
             <iframe
               ref={iframeRef}
@@ -253,12 +312,12 @@ export const HeroCinematicShowcase: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. PANEL BLANCO AMPLIADO CON PORTADA DE PELÍCULA GRANDE Y SINOPSIS COMPLETA */}
+        {/* 2. PANEL BLANCO AMPLIADO CON PORTADA DE PELÍCULA TMDB Y SINOPSIS OFICIAL */}
         <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 shadow-xs">
           
           {/* Izquierda: Portada Grande + Título + Plataforma + Descripción */}
           <div className="flex items-start sm:items-center gap-4 min-w-0 flex-1">
-            {/* Portada Destacada de Mayor Tamaño */}
+            {/* Portada Destacada Obtenida de TMDB */}
             <div className="w-20 h-28 sm:w-24 sm:h-36 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md shrink-0 relative bg-slate-100 group transition-transform hover:scale-105 duration-300">
               <PosterImage
                 src={activeMovie.posterUrl}
