@@ -14,18 +14,23 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({ onSuccess, onBac
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const clean = password.trim();
+    if (!clean) {
+      setError('Por favor ingresa la contraseña.');
+      return;
+    }
     setIsLoading(true);
     setError(null);
 
     try {
-      const ok = await AdminRepository.loginWithApi(password);
+      const ok = await AdminRepository.loginWithApi(clean);
       if (ok) {
         onSuccess();
       } else {
-        setError('Contraseña incorrecta o no autorizada.');
+        setError('Contraseña no válida. La clave predeterminada es admin123');
       }
     } catch {
-      setError('Error al conectar con el servidor.');
+      setError('Error al procesar la autenticación.');
     } finally {
       setIsLoading(false);
     }
@@ -74,9 +79,16 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({ onSuccess, onBac
               />
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             </div>
-            <p className="text-[10px] text-slate-400 font-medium mt-1">
-              * Contraseña inicial de respaldo: <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-700 font-bold">admin123</code>
-            </p>
+            <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium mt-2">
+              <span>Clave por defecto:</span>
+              <button
+                type="button"
+                onClick={() => setPassword('admin123')}
+                className="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-lg font-bold transition cursor-pointer"
+              >
+                admin123 (clic para autollenar)
+              </button>
+            </div>
           </div>
 
           <button
