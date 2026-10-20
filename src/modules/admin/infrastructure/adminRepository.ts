@@ -1,9 +1,9 @@
 import { PaymentConfig } from '../domain/entities/AdminConfig';
 import { eventBus } from '@/core/bus/eventBus';
+import { ApiHttpClient } from '@/core/http/apiHttpClient';
+import { AdminRouteGuard } from '@/core/guardians/adminRouteGuard';
 
 const PAYMENT_CONFIG_KEY = 'cuentas_stream_payment_config_v1';
-const ADMIN_PASS_KEY = 'cuentas_stream_admin_pass_v1';
-const ADMIN_SESSION_KEY = 'cuentas_stream_admin_session';
 
 export const defaultPaymentConfig: PaymentConfig = {
   storeName: 'Cuentas y plataformas de streaming JP',
@@ -19,89 +19,65 @@ export const defaultPaymentConfig: PaymentConfig = {
   paymentNote: 'Recuerda enviar el comprobante con tu número de pedido para entrega en menos de 5 minutos.'
 };
 
-const DEFAULT_ADMIN_PASS = 'admin123';
-
 export class AdminRepository {
   private static cachedConfig: PaymentConfig | null = null;
 
-  /**
-   * Obtiene la configuración de pago y contacto actual (con localStorage)
-   */
   static getPaymentConfig(): PaymentConfig {
-    if (this.cachedConfig) return this.cachedConfig;
-
+    const cached = this.cachedConfig;
+    if (cached) return cached;
     try {
       const stored = localStorage.getItem(PAYMENT_CONFIG_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        // Si el localStorage conserva el nombre viejo o 'Multiplataformas', migrarlo automáticamente
-        if (!parsed.storeName || parsed.storeName === 'Cuentas Stream' || !parsed.storeName.includes('JP')) {
-          parsed.storeName = 'Cuentas y plataformas de streaming JP';
-        }
-        if (!parsed.storeSubtitle || parsed.storeSubtitle === 'Multiplataformas') {
-          parsed.storeSubtitle = 'Entretenimiento & Licencias Premium';
-        }
-        this.cachedConfig = { ...defaultPaymentConfig, ...parsed };
-        this.savePaymentConfig(this.cachedConfig!);
-        return this.cachedConfig!;
+        const parsed = { ...defaultPaymentConfig, ...JSON.parse(stored) };
+        this.cachedConfig = parsed;
+        return parsed;
       }
-    } catch (e) {
-      console.warn('Error al leer configuración de pago en localStorage:', e);
-    }
-
+    } catch {}
     this.cachedConfig = { ...defaultPaymentConfig };
-    this.savePaymentConfig(this.cachedConfig);
     return this.cachedConfig;
   }
 
-  /**
-   * Guarda y sincroniza cambios en la configuración de pago y contacto
-   */
+  static async fetchRemoteConfig(): Promise<PaymentConfig> {
+    const res = await ApiHttpClient.get<any>('/admin/config');
+    if (res.success && res.data) {
+      const conf: PaymentConfig = {
+        ...this.getPaymentConfig(),
+        whatsappNumber: res.data.whatsappNumber,
+        nequiNumber: res.data.nequiNumber,
+        nequiHolder: res.data.nequiHolder,
+        bancolombiaAccount: res.data.bancolombiaAccount,
+        bancolombiaHolder: res.data.bancolombiaHolder,
+        daviplataNumber: res.data.daviplataNumber,
+        daviplataHolder: res.data.daviplataHolder,
+      };
+      this.savePaymentConfig(conf);
+      return conf;
+    }
+    return this.getPaymentConfig();
+  }
+
   static savePaymentConfig(newConfig: PaymentConfig): PaymentConfig {
     this.cachedConfig = newConfig;
-    try {
-      localStorage.setItem(PAYMENT_CONFIG_KEY, JSON.stringify(newConfig));
-    } catch (e) {
-      console.warn('Error al guardar configuración de pago:', e);
-    }
+    try { localStorage.setItem(PAYMENT_CONFIG_KEY, JSON.stringify(newConfig)); } catch {}
     eventBus.emit('ADMIN:CONFIG_CHANGED', newConfig);
+    ApiHttpClient.post('/admin/config', newConfig).catch(() => {});
     return newConfig;
   }
 
-  /**
-   * Obtiene la contraseña actual de administración
-   */
-  static getAdminPassword(): string {
-    return localStorage.getItem(ADMIN_PASS_KEY) || DEFAULT_ADMIN_PASS;
+  static async loginWithApi(password: string): Promise<boolean> {
+    const res = await ApiHttpClient.post<{ token: string }>('/admin/login', { password });
+    if (res.success && res.data?.token) {
+      AdminRouteGuard.setToken(res.data.token);
+      return true;
+    }
+    return false;
   }
 
-  /**
-   * Cambia la contraseña de administración
-   */
-  static setAdminPassword(newPass: string): void {
-    localStorage.setItem(ADMIN_PASS_KEY, newPass);
-  }
-
-  /**
-   * Verifica la contraseña de administración
-   */
-  static verifyPassword(passInput: string): boolean {
-    const currentPass = this.getAdminPassword();
-    return passInput.trim() === currentPass.trim();
-  }
-
-  /**
-   * Manejo de Sesión Admin
-   */
   static isAuthenticated(): boolean {
-    return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
-  }
-
-  static login(): void {
-    sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+    return AdminRouteGuard.canActivate();
   }
 
   static logout(): void {
-    sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    AdminRouteGuard.clearToken();
   }
 }

@@ -34,7 +34,8 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
     eventBus.emit('NOTIFICATION:SHOW', { message: 'Obteniendo últimos estrenos en vivo...', type: 'info' });
   };
 
-  const handleItemClick = (platform: string) => {
+  const handleItemClick = (platform?: string) => {
+    if (!platform) return;
     if (onSelectPlatform) onSelectPlatform(platform);
     eventBus.emit('CATALOG:HIGHLIGHT_PLATFORM', platform);
   };

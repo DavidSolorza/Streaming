@@ -6,6 +6,7 @@ const links = [
   { href: '#premieres', label: 'Estrenos del Mes' },
   { href: '#testimonios', label: 'Testimonios de Clientes' },
   { href: '#faq', label: 'Preguntas Frecuentes' },
+  { href: '#admin', label: '🔐 Panel Administrador' },
 ];
 
 export const FooterNavLinks: React.FC = () => (

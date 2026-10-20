@@ -25,7 +25,7 @@ export interface Product {
   brand: string;
   category: 'cine' | 'musica' | 'deportes' | 'combo' | 'trabajo';
   brandGlow: string;
-  iconName: string; // Nombre del icono oficial en Iconify (ej: "logos:netflix-icon")
+  iconName: string;
   logoText?: string;
   logoBg: string;
   available: boolean;
@@ -35,4 +35,6 @@ export interface Product {
   modes: Record<ProductMode, ModeDetails>;
   includes: string[];
   customPlans?: ProductCustomPlan[];
+  directWhatsAppUrl?: string;
+  priceFormatted?: string;
 }

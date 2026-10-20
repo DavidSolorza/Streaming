@@ -23,10 +23,12 @@ export const HeroContentOverlay: React.FC<HeroContentOverlayProps> = ({
       <div className="min-w-0 space-y-1.5 flex-1 pr-1">
         <div className="flex flex-wrap items-center gap-2">
           <h3 className="text-lg sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">{activeMovie.movieTitle}</h3>
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100/80 shrink-0">
-            <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-4 h-4" />
-            {activeMovie.brand}
-          </span>
+          {activeMovie.brand && (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100/80 shrink-0">
+              {activeMovie.icon && <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-4 h-4" />}
+              {activeMovie.brand}
+            </span>
+          )}
           <span className="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200/80 shrink-0">
             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
             {activeMovie.rating}
@@ -37,20 +39,29 @@ export const HeroContentOverlay: React.FC<HeroContentOverlayProps> = ({
       </div>
     </div>
     <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-3 shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
-      <div className="bg-slate-50 px-4 py-2 rounded-xl border border-slate-200/90 text-left lg:text-right">
-        <span className="text-xl sm:text-2xl font-black text-emerald-600 block leading-none">{formatCOP(activeMovie.price)}</span>
-        <span className="text-[10px] text-slate-400 font-extrabold block uppercase mt-0.5">/ mes</span>
-      </div>
+      {activeMovie.price ? (
+        <div className="bg-slate-50 px-4 py-2 rounded-xl border border-slate-200/90 text-left lg:text-right">
+          <span className="text-xl sm:text-2xl font-black text-emerald-600 block leading-none">{formatCOP(activeMovie.price)}</span>
+          <span className="text-[10px] text-slate-400 font-extrabold block uppercase mt-0.5">/ mes</span>
+        </div>
+      ) : (
+        <div className="bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200/90 text-left lg:text-right">
+          <span className="text-xs font-black text-slate-700 block">Estreno Cartelera</span>
+          <span className="text-[10px] text-slate-400 font-extrabold block uppercase">HD Oficial</span>
+        </div>
+      )}
       <div className="flex items-center gap-2">
         <Button variant="mint" size="md" onClick={onBuyWhatsApp} className="shadow-xs">
           <span className="flex items-center justify-center gap-2 font-black text-xs sm:text-sm whitespace-nowrap px-1">
             <MessageCircle className="w-4 h-4 text-emerald-700" />
-            Pedir por WhatsApp
+            {activeMovie.brand ? 'Pedir por WhatsApp' : 'Consultar en WhatsApp'}
           </span>
         </Button>
-        <Button variant="secondary" size="md" onClick={onAddToCart} className="bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200 px-3">
-          <ShoppingBag className="w-4 h-4 text-slate-700" />
-        </Button>
+        {activeMovie.productId && (
+          <Button variant="secondary" size="md" onClick={onAddToCart} className="bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200 px-3">
+            <ShoppingBag className="w-4 h-4 text-slate-700" />
+          </Button>
+        )}
       </div>
     </div>
   </div>

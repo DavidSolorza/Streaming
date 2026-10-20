@@ -15,7 +15,11 @@ export class EnvironmentConfig {
   }
 
   static get tmdbApiKey(): string {
-    return import.meta.env.VITE_TMDB_API_KEY || '4e44d9029b1270a757cddc766a1bcb63';
+    return import.meta.env.VITE_TMDB_API_KEY || 'feb96c98fcc13714f71e40fba2ec74ed';
+  }
+
+  static get tmdbReadAccessToken(): string {
+    return import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN || '';
   }
 
   static get youtubeApiKey(): string {
@@ -48,5 +52,13 @@ export class EnvironmentConfig {
 
   static get appEnv(): string {
     return import.meta.env.VITE_APP_ENV || 'development';
+  }
+
+  static get supabaseUrl(): string {
+    return import.meta.env.VITE_SUPABASE_URL || '';
+  }
+
+  static get supabaseAnonKey(): string {
+    return import.meta.env.VITE_SUPABASE_ANON_KEY || '';
   }
 }

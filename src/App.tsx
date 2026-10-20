@@ -12,6 +12,7 @@ import { FaqAccordion } from './modules/faq/presentation/FaqAccordion';
 import { TestimonialsSection } from './modules/testimonials/presentation/TestimonialsSection';
 import { CartDrawer } from './modules/cart/presentation/CartDrawer';
 import { PaymentModal } from './modules/checkout/presentation/PaymentModal';
+import { CustomerNameModal } from './modules/customer/presentation/CustomerNameModal';
 import { Footer } from './shared/components/Footer';
 import { MobileBottomDock } from './shared/components/MobileBottomDock';
 import { ToastNotification } from './shared/components/ToastNotification';
@@ -21,51 +22,29 @@ export const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => AdminRepository.isAuthenticated());
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentHash(window.location.hash);
-    };
-
+    const handleHashChange = () => setCurrentHash(window.location.hash);
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Vista Independiente: Mundo Administrador
   if (currentHash === '#admin') {
     if (!isAuthenticated) {
-      return (
-        <AdminLoginForm
-          onSuccess={() => setIsAuthenticated(true)}
-          onBackToStore={() => {
-            window.location.hash = '';
-          }}
-        />
-      );
+      return <AdminLoginForm onSuccess={() => setIsAuthenticated(true)} onBackToStore={() => { window.location.hash = ''; }} />;
     }
-
     return (
       <AdminDashboardPage
-        onLogout={() => {
-          AdminRepository.logout();
-          setIsAuthenticated(false);
-        }}
-        onGoToStore={() => {
-          window.location.hash = '';
-        }}
+        onLogout={() => { AdminRepository.logout(); setIsAuthenticated(false); }}
+        onGoToStore={() => { window.location.hash = ''; }}
       />
     );
   }
 
-  // Vista Pública: Tienda y Catálogo
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 pb-20 md:pb-0">
-      {/* Top Banner & Header */}
       <AnnouncementBanner />
       <Navbar />
-
-      {/* Hero Section con Video Requerido */}
       <HeroSection />
 
-      {/* Catálogo Principal */}
       <main id="catalog" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-black uppercase text-blue-700 tracking-wider">Servicios Individuales y Cuentas Completa</span>
@@ -74,24 +53,19 @@ export const App: React.FC = () => {
             Selecciona tu servicio favorito. Elige entre pantalla individual o cuenta completa de 1 mes hasta 12 meses.
           </p>
         </div>
-
         <CatalogGrid />
       </main>
 
-      {/* Testimonios & Opiniones de Clientes */}
       <TestimonialsSection />
-
-      {/* Preguntas Frecuentes */}
       <FaqAccordion />
-
-      {/* Footer Pro Rediseñado */}
       <Footer />
 
-      {/* Modales, Drawers y Toast Flotante Global */}
+      {/* Modales, Drawers y Notificaciones */}
       <ProductDetailModal />
       <AdminProductModal />
       <CartDrawer />
       <PaymentModal />
+      <CustomerNameModal />
       <MobileBottomDock />
       <ToastNotification />
     </div>

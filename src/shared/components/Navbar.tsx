@@ -58,7 +58,6 @@ export const Navbar: React.FC = () => {
           <a href="#premieres" className="hover:text-blue-700 transition">Estrenos</a>
           <a href="#testimonios" className="hover:text-blue-700 transition flex items-center gap-1">
             <span>Clientes</span>
-            <span className="bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.5 rounded-full font-black">NUEVO</span>
           </a>
           <a href="#faq" className="hover:text-blue-700 transition">Garantía & FAQ</a>
         </nav>

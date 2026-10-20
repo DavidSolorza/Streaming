@@ -1,0 +1,62 @@
+import React from 'react';
+import { PlatformIcon } from '@/shared/components/PlatformIcon';
+import { HeroCinematicShowcase } from './HeroCinematicShowcase';
+
+const MARQUEE_BRANDS = [
+  { name: 'DISNEY+', color: 'text-sky-600', icon: '/icons/icons8-disney-plus-windows-11-color/icons8-disney-plus-96.png' },
+  { name: 'PRIME VIDEO', color: 'text-cyan-600', icon: '/icons/icons8-amazon-prime-video-color/icons8-amazon-prime-video-96.png' },
+  { name: 'CRUNCHYROLL', color: 'text-orange-500', icon: '/icons/icons8-crunchyroll-windows-11-color/icons8-crunchyroll-96.png' },
+  { name: 'SPOTIFY', color: 'text-emerald-600', icon: '/icons/icons8-spotify-94.png' },
+  { name: 'NETFLIX', color: 'text-red-600', icon: '/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png' },
+  { name: 'MAX (HBO)', color: 'text-blue-600', icon: '/icons/icons8-hbo-max-ios-27-outlined/icons8-hbo-max-100.png' },
+  { name: 'CANVA PRO', color: 'text-cyan-500', icon: '/icons/icons8-canva-windows-11-color/icons8-canva-96.png' },
+  { name: 'YOUTUBE', color: 'text-red-600', icon: '/icons/icons8-youtube-color/icons8-youtube-96.png' },
+  { name: 'JELLYFIN', color: 'text-purple-600', icon: '/icons/jellyfin.png' },
+];
+
+export const HeroSection: React.FC = () => {
+  return (
+    <section className="relative pt-4 sm:pt-8 pb-0 overflow-hidden bg-[#F8FAFC]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Insignia de Marca & Título Principal */}
+        <div className="text-center max-w-4xl mx-auto mb-2 sm:mb-4 space-y-3">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white border border-blue-200 shadow-md shadow-blue-500/10">
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-blue-600 ring-2 ring-blue-500/20 shrink-0">
+              <img src="/perfil.png" alt="Cuentas y plataformas de streaming JP" className="w-full h-full object-cover rounded-full" />
+            </div>
+            <span className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
+              Cuentas y plataformas de streaming <span className="text-blue-700">JP</span>
+            </span>
+          </div>
+
+          <h1 className="text-2xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Todo lo que quieres ver,{' '}
+            <span className="text-blue-600 block sm:inline">
+              en un solo lugar y al instante.
+            </span>
+          </h1>
+        </div>
+
+        {/* Componente Hero Cinemático Interactivo Estilo Steam / Epic Games / Apple TV+ */}
+        <HeroCinematicShowcase />
+
+      </div>
+
+      {/* Ticker Infinito de Marcas (Full Width al Fondo del Hero) */}
+      <div className="w-full bg-white border-y border-slate-900/[0.08] py-4 overflow-hidden shadow-xs mt-6">
+        <div className="animate-marquee flex items-center gap-8 text-xs font-black uppercase tracking-widest whitespace-nowrap">
+          {[...MARQUEE_BRANDS, ...MARQUEE_BRANDS, ...MARQUEE_BRANDS, ...MARQUEE_BRANDS].map((brand, i) => (
+            <div key={i} className="flex items-center gap-8 shrink-0">
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-2">
+                <PlatformIcon icon={brand.icon} name={brand.name} className="w-5 h-5" />
+                <span className={brand.color}>{brand.name}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};

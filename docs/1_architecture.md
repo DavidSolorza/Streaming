@@ -1,36 +1,38 @@
-# Documento 1: Arquitectura del Sistema Fullstack (Cloudflare Pages + D1 SQLite)
+# Documento 1: Arquitectura del Sistema Fullstack (Supabase PostgREST & Cloudflare Edge)
 
 ## Resumen Ejecutivo
 
-Este documento define la arquitectura técnica y los patrones de diseño para la plataforma **Cuentas Stream Multiplataforma** desplegada en **Cloudflare Pages**, respaldada por funciones serverless (**Cloudflare Pages Functions**) y una base de datos SQLite relacional distribuida (**Cloudflare D1**).
+Este documento define la arquitectura técnica y los patrones de diseño para la plataforma **Cuentas Stream Multiplataforma** con persistencia distribuida y relacional en **Supabase (PostgreSQL 15+)** y compatibilidad con **Cloudflare D1 / Local Storage**.
 
-El sistema está diseñado bajo los principios de **Clean Architecture**, **Domain-Driven Design (DDD)**, **Vertical Slicing (Feature-Sliced Design)** y persistencia ligera de alto rendimiento.
+El sistema está estructurado bajo **Clean Architecture**, **Domain-Driven Design (DDD)**, **Vertical Slicing (Feature-Sliced Design)** y la **Regla de Gobernanza de Cero SDKs Comerciales**, interactuando con la base de datos a través de peticiones HTTP nativas REST/PostgREST.
 
 ---
 
-## 1. Mapeo de Capas (Fullstack Serverless Edge)
+## 1. Mapeo de Capas de la Solución
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  CAPA DE PRESENTACIÓN (UI / React 18 + Tailwind CSS)        │
-│  - Renderizado adaptativo, Modales de Administración.       │
-└─────────────────────────────┬───────────────────────────────┘
-                              │ Invocación del servicio API
-┌─────────────────────────────▼───────────────────────────────┐
-│  CAPA DE SERVICIOS FRONTEND (src/shared/services/apiService)│
-│  - Cliente HTTP nativo (fetch), Tipado estricto TypeScript  │
-└─────────────────────────────┬───────────────────────────────┘
-                              │ Peticiones REST HTTP / JSON
-┌─────────────────────────────▼───────────────────────────────┐
-│  BACKEND SERVERLESS (Cloudflare Pages Functions /api/*)     │
-│  - /api/plataformas.js, /api/combos.js                      │
-│  - Validación de esquemas, CORS, Manejo de HTTP Status      │
-└─────────────────────────────┬───────────────────────────────┘
-                              │ Binding nativo env.DB
-┌─────────────────────────────▼───────────────────────────────┐
-│  CAPA DE PERSISTENCIA (Cloudflare D1 / SQLite Engine)       │
-│  - Tablas: `plataformas`, `combos`                          │
-└─────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│  CAPA DE PRESENTACIÓN (UI / React 18 + Tailwind CSS)                   │
+│  - Catálogo, Carrito de Compras, Panel de Control Admin, Testimonios   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Invocación de casos de uso y repositorios
+┌───────────────────────────────────▼────────────────────────────────────┐
+│  CAPA DE APLICACIÓN Y DOMINIO (src/modules/*/{domain,application})    │
+│  - Entidades puras: SaleOrder, Review, Product, AdminConfig            │
+│  - Validaciones de negocio, cálculo de métricas financieras del mes    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Consumo de clientes HTTP nativos
+┌───────────────────────────────────▼────────────────────────────────────┐
+│  CAPA DE INFRAESTRUCTURA (src/core/http/ & src/modules/*/infra)        │
+│  - SupabaseHttpClient (fetch nativo, sin dependencias @supabase/sdk)   │
+│  - PostgREST REST API (/rest/v1/{sales_orders, reviews, products})     │
+│  - Estrategia de degradación suave y caché de respaldo LocalStorage   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ TLS / HTTPS nativo
+┌───────────────────────────────────▼────────────────────────────────────┐
+│  BASE DE DATOS RELACIONAL (Supabase / PostgreSQL 15 Engine)            │
+│  - Tablas: `products`, `sales_orders`, `reviews`, `store_settings`    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -39,73 +41,69 @@ El sistema está diseñado bajo los principios de **Clean Architecture**, **Doma
 
 ```mermaid
 graph TD
-    subgraph Frontend ["Frontend (Cloudflare Pages Static Assets)"]
-        UI["React 18 UI Components"]
-        AdminModal["AdminProductModal"]
-        APIService["apiService.ts (fetch nativo)"]
+    subgraph Client ["Frontend Cliente & Admin (React + TypeScript)"]
+        HomeUI["Catálogo & Checkout"]
+        AdminDashboard["AdminDashboardPage (4 Pestañas)"]
+        StatsSection["AdminMonthlyStatsSection"]
+        ReviewsSection["AdminReviewsSection"]
+        TestimonialsUI["TestimonialsSection"]
     end
 
-    subgraph Serverless ["Cloudflare Pages Functions Edge API"]
-        PlatEndpoint["/api/plataformas.js (GET, PUT, POST)"]
-        CombosEndpoint["/api/combos.js (GET, PUT, POST)"]
+    subgraph CoreHTTP ["Core HTTP Puro (Zero SDKs)"]
+        SupaClient["SupabaseHttpClient (fetch nativo)"]
+        EnvConfig["EnvironmentConfig (VITE_SUPABASE_URL, ANON_KEY)"]
     end
 
-    subgraph Database ["Persistencia Cloudflare D1 (SQLite)"]
-        D1Binding["DB (env.DB Binding)"]
-        PlatTable[("Tabla: plataformas")]
-        CombosTable[("Tabla: combos")]
+    subgraph Repositories ["Repositorios de Infraestructura"]
+        SalesRepo["SalesRepository"]
+        ReviewRepo["ReviewRepository"]
+        ProductRepo["ProductRepository"]
     end
 
-    UI -->|"Consulta catálogo"| APIService
-    AdminModal -->|"Actualiza precio y estado"| APIService
-    APIService -->|"GET /api/plataformas"| PlatEndpoint
-    APIService -->|"PUT /api/plataformas"| PlatEndpoint
-    APIService -->|"GET /api/combos"| CombosEndpoint
-    APIService -->|"PUT /api/combos"| CombosEndpoint
-    PlatEndpoint -->|"SQL Query / Execute"| D1Binding
-    CombosEndpoint -->|"SQL Query / Execute"| D1Binding
-    D1Binding --> PlatTable
-    D1Binding --> CombosTable
+    subgraph SupabaseDB ["Supabase PostgreSQL Relacional"]
+        TOrders[("sales_orders")]
+        TReviews[("reviews")]
+        TProducts[("products")]
+        TSettings[("store_settings")]
+    end
+
+    HomeUI -->|"Registra pedido"| SalesRepo
+    TestimonialsUI -->|"Lee y añade opiniones"| ReviewRepo
+    AdminDashboard --> StatsSection
+    AdminDashboard --> ReviewsSection
+    StatsSection --> SalesRepo
+    ReviewsSection --> ReviewRepo
+
+    SalesRepo --> SupaClient
+    ReviewRepo --> SupaClient
+    ProductRepo --> SupaClient
+    SupaClient --> EnvConfig
+
+    SupaClient -->|"POST / GET / PATCH / DELETE"| TOrders
+    SupaClient -->|"POST / GET / PATCH / DELETE"| TReviews
+    SupaClient -->|"POST / GET / PATCH / DELETE"| TProducts
+    SupaClient -->|"POST / GET / PATCH / DELETE"| TSettings
 ```
 
 ---
 
-## 3. Diagrama de Secuencia de Actualización en Administración (Mermaid)
+## 3. Registro de Decisiones de Arquitectura (ADR)
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Admin as Administrador
-    participant Modal as AdminProductModal (UI)
-    participant Service as apiService.ts
-    participant Function as /api/plataformas.js (Function)
-    participant D1 as Cloudflare D1 (SQLite)
+### ADR-001: Implementación de Supabase mediante PostgREST Nativo (Sin SDK)
+- **Contexto:** La regla de gobernanza 4.2 prohíbe terminantemente la instalación de SDKs comerciales empaquetados (`@supabase/supabase-js`, `firebase`, `stripe`).
+- **Decisión:** Implementar un cliente HTTP nativo basado en la API Fetch del estándar web (`src/core/http/supabaseHttpClient.ts`). Este cliente interactúa con la interfaz PostgREST de Supabase enviando encabezados `apikey`, `Authorization: Bearer <anon_key>` y `Prefer: return=representation`.
+- **Consecuencias Positivas:**
+  1. Cero dependencias externas adicionales en `package.json`.
+  2. Reducción drástica del tamaño del bundle JavaScript.
+  3. Total interoperabilidad con navegadores modernos y Cloudflare Pages.
+  4. Resiliencia automática: si no hay credenciales de Supabase configuradas, el cliente activa inmediatamente una capa de respaldo basada en `localStorage` sin interrumpir la experiencia del usuario.
 
-    Admin->>Modal: Modifica Precio ($22.000) y activa "Entrega Inmediata"
-    Admin->>Modal: Presiona "Guardar Cambios"
-    Modal->>Service: actualizarPlataforma('disney', 22000, 1)
-    Service->>Function: PUT /api/plataformas JSON { id, precio, entrega_inmediata }
-    Function->>Function: Valida tipos y presencia de campos (400 / 422)
-    Function->>D1: UPDATE plataformas SET precio = ?, entrega_inmediata = ? WHERE id = ?
-    D1-->>Function: Retorna resultado { meta: { changes: 1 } }
-    Function->>D1: SELECT * FROM plataformas WHERE id = ?
-    D1-->>Function: Retorna fila de la plataforma actualizada
-    Function-->>Service: HTTP 200 OK + Payload JSON { success: true, data: {...} }
-    Service-->>Modal: Retorna confirmación de éxito
-    Modal->>Admin: Muestra notificación Toast "¡Plataforma actualizada correctamente!"
-```
-
----
-
-## 4. Registro de Decisiones de Arquitectura (ADR)
-
-### ADR 001: Migración a Cloudflare D1 (SQLite en el Edge)
-- **Estatus:** ACEPTADO
-- **Contexto:** Se requiere una base de datos relacional ligera, económica y ultra-rápida sin servidores dedicada a una tienda web de cuentas en Colombia.
-- **Decisión:** Implementar Cloudflare D1 como motor SQLite nativo vinculado directamente a Cloudflare Pages Functions vía `env.DB`.
-- **Consecuencias:** Latencia mínima en lectura (<20ms global), costo cero en capa gratuita y simplicidad de mantenimiento.
-
-### ADR 002: Cero SDKs Comerciales de Terceros
-- **Estatus:** ACEPTADO
-- **Contexto:** Mantener cero dependencias comerciales pesadas (ej. Supabase SDK, Firebase SDK).
-- **Decisión:** Consumir los endpoints de Cloudflare Pages Functions usando el cliente `fetch` nativo de JavaScript/TypeScript (`apiService.ts`).
+### ADR-002: Modularización Estricta del Panel de Administración
+- **Contexto:** La regla de gobernanza exige que ningún archivo supere las 100 líneas de código fuente.
+- **Decisión:** Descomponer el panel administrativo en subcomponentes atómicos con pestañas dedicadas:
+  1. `AdminDashboardPage.tsx`: Enrutador de pestañas y contenedor principal (<100 líneas).
+  2. `AdminMonthlyStatsSection.tsx`: Métricas financieras y KPIs mensuales (<80 líneas).
+  3. `AdminOrdersTable.tsx`: Tabla de pedidos recientes y conciliación (<50 líneas).
+  4. `AdminReviewsSection.tsx`: Gestor de reseñas y aprobación (<95 líneas).
+  5. `AdminReviewCard.tsx`: Tarjeta interactiva de testimonio (<35 líneas).
+  6. `AdminStoreConfigSection.tsx`: Formulario de configuración de cuentas bancarias.

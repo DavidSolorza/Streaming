@@ -9,6 +9,7 @@ import { eventBus } from '@/core/bus/eventBus';
 import { useCartStore } from '@/modules/cart/application/useCartStore';
 import { formatCOP } from '@/core/utils/currency';
 import { ProductDetailTabs } from './ProductDetailTabs';
+import { useCustomerProfile } from '@/modules/customer/application/useCustomerProfile';
 
 export const ProductDetailModal: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -33,9 +34,31 @@ export const ProductDetailModal: React.FC = () => {
     handleClose();
   };
 
-  const handleBuyWhatsApp = () => {
-    const message = `¡Hola! Deseo comprar inmediatamente *${product.name}* por un valor de *${formatCOP(currentPrice)}*. ¿Me das los medios de pago?`;
+  const requireName = useCustomerProfile((state) => state.requireName);
+
+  const proceedBuyWhatsApp = (customerName: string) => {
+    let message = '';
+    if (customerName && customerName.trim()) {
+      message += `¡Hola equipo JP! Mi nombre es *${customerName.trim()}*, un gusto saludarlos.\n\n`;
+    }
+    message += 
+      `*SOLICITUD DE COMPRA DIRECTA*\n` +
+      `──────────────────────────\n` +
+      `*Servicio:* ${product.name}\n` +
+      `   • Modalidad: 1 Pantalla con PIN\n` +
+      `   • Duración: 1 Mes\n` +
+      `   • Precio: *${formatCOP(currentPrice)} COP*\n` +
+      `──────────────────────────\n` +
+      `Deseo adquirir este servicio. ¿Me compartes los medios de pago para entrega inmediata? ¡Muchas gracias!`;
     window.open(`https://wa.me/573214465418?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
+  const handleBuyWhatsApp = () => {
+    requireName(
+      (name) => proceedBuyWhatsApp(name),
+      '¿Cómo te llamas?',
+      `Queremos saludarte por tu nombre al consultar por ${product.name}.`
+    );
   };
 
   const modalTitle = (

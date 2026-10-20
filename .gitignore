@@ -2,3 +2,6 @@ node_modules
 dist
 .DS_Store
 *.local
+*.db-shm
+*.db-wal
+.aider-desk/

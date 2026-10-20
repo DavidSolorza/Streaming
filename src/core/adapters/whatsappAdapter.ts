@@ -17,16 +17,23 @@ export class WhatsAppAdapter {
   /**
    * Genera la URL codificada directa de WhatsApp para consultar o solicitar un producto específico.
    */
-  static generateProductUrl(params: WhatsAppProductParams, phoneNumber: string = ENV.WHATSAPP_NUMBER): string {
+  static generateProductUrl(params: WhatsAppProductParams, phoneNumber: string = ENV.WHATSAPP_NUMBER, customerName?: string): string {
     const { productName, modeLabel, durationLabel, price } = params;
 
-    const mensaje = 
-      `*¡Hola! Me interesa contratar el siguiente servicio:*\n\n` +
-      `• *Servicio:* ${productName}\n` +
-      `• *Modalidad:* ${modeLabel}\n` +
-      `• *Duración:* ${durationLabel}\n` +
-      `• *Precio:* ${formatCOP(price)} / mes\n\n` +
-      `¿Está disponible para entrega inmediata?`;
+    let mensaje = '';
+    if (customerName && customerName.trim()) {
+      mensaje += `¡Hola equipo JP! Mi nombre es *${customerName.trim()}*, un gusto saludarlos.\n\n`;
+    }
+
+    mensaje += 
+      `*CONSULTA DE SERVICIO*\n` +
+      `──────────────────────────\n` +
+      `*Servicio:* ${productName}\n` +
+      `   • Modalidad: ${modeLabel}\n` +
+      `   • Duración: ${durationLabel}\n` +
+      `   • Precio: *${formatCOP(price)} / mes*\n` +
+      `──────────────────────────\n` +
+      `¿Se encuentra disponible para entrega inmediata? Quedo atento, ¡muchas gracias!`;
 
     // Limpiar caracteres no numéricos del teléfono
     const cleanPhone = phoneNumber.replace(/\D/g, '');

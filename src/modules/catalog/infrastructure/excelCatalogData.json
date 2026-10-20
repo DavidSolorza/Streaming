@@ -1,5 +1,73 @@
 [
   {
+    "id": 1,
+    "name": "Cuenta Demo / Prueba ($1.000 COP)",
+    "brand": "Cuenta Demo",
+    "category": "cine",
+    "brandGlow": "brand-glow-netflix",
+    "iconName": "/icons/icons8-netflix-desktop-app-windows-11-color/icons8-netflix-desktop-app-96.png",
+    "logoBg": "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+    "available": true,
+    "bestseller": true,
+    "badges": [
+      "Prueba $1.000 COP",
+      "Demo Entrega Inmediata",
+      "1 Dispositivo"
+    ],
+    "searchTags": [
+      "prueba",
+      "demo",
+      "1000",
+      "test"
+    ],
+    "modes": {
+      "pantalla": {
+        "label": "1 Pantalla de Prueba",
+        "devices": "1 Dispositivo de prueba",
+        "quality": "Ultra HD 4K Test",
+        "access": "Acceso inmediato de prueba",
+        "prices": {
+          "1m": 1000,
+          "3m": 2000,
+          "6m": 3000,
+          "12m": 5000
+        },
+        "regularPrices": {
+          "1m": 5000,
+          "3m": 10000,
+          "6m": 15000,
+          "12m": 20000
+        }
+      },
+      "cuenta": {
+        "label": "Cuenta Completa de Prueba",
+        "devices": "Todos los dispositivos",
+        "quality": "Versión VIP Test",
+        "access": "Prueba instantánea",
+        "prices": {
+          "1m": 1000,
+          "3m": 2000,
+          "6m": 3000,
+          "12m": 5000
+        },
+        "regularPrices": {
+          "1m": 5000,
+          "3m": 10000,
+          "6m": 15000,
+          "12m": 20000
+        }
+      }
+    },
+    "includes": [
+      "1 Mes de servicio para pruebas reales de pago",
+      "Valor exacto de $1.000 COP",
+      "Entrega inmediata vía WhatsApp"
+    ],
+    "rating": 5.0,
+    "reviewsCount": 99,
+    "deliveryTime": "< 1 minuto"
+  },
+  {
     "id": 2,
     "name": "Netflix",
     "brand": "Netflix",

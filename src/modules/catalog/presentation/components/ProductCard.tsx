@@ -45,7 +45,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => setIsAdded(false), 1500);
   };
 
-  const whatsAppUrl = WhatsAppAdapter.generateProductUrl({ productName: product.name, modeLabel, durationLabel: '1 Mes', price: currentPrice });
+  const customerName = useCartStore((state) => state.customerName);
+  const whatsAppUrl = product.directWhatsAppUrl || WhatsAppAdapter.generateProductUrl(
+    { productName: product.name, modeLabel, durationLabel: '1 Mes', price: currentPrice },
+    undefined,
+    customerName
+  );
 
   return (
     <div id={`product-card-${product.id}`} className={`bg-white border ${isHighlighted ? 'border-blue-600 ring-4 ring-blue-500/50 scale-[1.03] shadow-2xl z-20' : !product.available ? 'border-slate-900/[0.05] opacity-60' : 'border-slate-900/[0.08]'} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 relative group shadow-luxury hover:shadow-luxury-hover`}>

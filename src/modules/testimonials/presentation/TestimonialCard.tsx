@@ -11,6 +11,7 @@ export interface Testimonial {
   date: string;
   avatarBg: string;
   initials: string;
+  isUserCreated?: boolean;
 }
 
 interface TestimonialCardProps {
@@ -18,7 +19,9 @@ interface TestimonialCardProps {
 }
 
 export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial: t }) => (
-  <div className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 group hover:border-blue-300">
+  <div className={`bg-white p-6 rounded-3xl border shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 group hover:border-blue-300 ${
+    t.isUserCreated ? 'border-blue-300/80 ring-2 ring-blue-500/10' : 'border-slate-200/90'
+  }`}>
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-1">
@@ -26,7 +29,14 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial: t
             <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
           ))}
         </div>
-        <span className="text-[10px] text-slate-400 font-extrabold">{t.date}</span>
+        <div className="flex items-center space-x-2">
+          {t.isUserCreated && (
+            <span className="text-[9px] font-black uppercase bg-blue-600 text-white px-2 py-0.5 rounded-full tracking-wider animate-pulse">
+              Nuevo
+            </span>
+          )}
+          <span className="text-[10px] text-slate-400 font-extrabold">{t.date}</span>
+        </div>
       </div>
       <p className="text-xs font-semibold text-slate-700 leading-relaxed italic">"{t.comment}"</p>
     </div>

@@ -1,46 +1,51 @@
 import { Product } from '../domain/entities/Product';
 import { eventBus } from '@/core/bus/eventBus';
 import excelData from './excelCatalogData.json';
-import { obtenerCatalogo, actualizarPlataforma } from '@/shared/services/apiService';
+import { ApiHttpClient } from '@/core/http/apiHttpClient';
 import { getD1PlatformId } from './productD1Sync';
 
-const PRODUCTS_STORAGE_KEY = 'cuentas_stream_products_v11';
+const STORAGE_KEY = 'cuentas_stream_products_v12';
 export const initialProductsData: Product[] = excelData as Product[];
 
 export class ProductRepository {
-  private static cachedProducts: Product[] | null = null;
+  private static cached: Product[] | null = null;
 
   static getProducts(): Product[] {
-    if (this.cachedProducts) return this.cachedProducts;
+    if (this.cached) return this.cached;
     try {
-      const stored = localStorage.getItem(PRODUCTS_STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return (this.cachedProducts = parsed);
-      }
-    } catch (e) {}
-    this.cachedProducts = [...initialProductsData];
-    this.persist(this.cachedProducts);
-    return this.cachedProducts;
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (s) { const p = JSON.parse(s); if (Array.isArray(p) && p.length) return (this.cached = p); }
+    } catch {}
+    this.cached = [...initialProductsData];
+    this.persist(this.cached);
+    return this.cached;
   }
 
   static async fetchProductsAsync(): Promise<Product[]> {
     const local = this.getProducts();
     try {
-      const d1Data = await obtenerCatalogo();
-      if (d1Data?.plataformas?.length) {
+      const res = await ApiHttpClient.get<any[]>('/plataformas');
+      if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         const updated = local.map((prod) => {
-          const d1Id = getD1PlatformId(prod.brand || prod.name);
-          const match = d1Id ? d1Data.plataformas.find((p) => p.id === d1Id) : null;
-          if (!match) return prod;
-          return { ...prod, available: match.entrega_inmediata === 1, modes: prod.modes?.pantalla ? { ...prod.modes, pantalla: { ...prod.modes.pantalla, prices: { ...prod.modes.pantalla.prices, '1m': match.precio } } } : prod.modes };
+          const m = res.data!.find((p: any) => p.id === getD1PlatformId(prod.brand || prod.name));
+          if (!m) return prod;
+          const p = prod.modes?.pantalla;
+          return {
+            ...prod,
+            available: m.activo === 1,
+            directWhatsAppUrl: m.directWhatsAppUrl,
+            priceFormatted: m.priceFormatted,
+            modes: p ? { ...prod.modes, pantalla: { ...p, prices: { ...p.prices, '1m': m.precio } } } : prod.modes
+          };
         });
-        this.cachedProducts = updated;
+        this.cached = updated;
         this.persist(updated);
         eventBus.emit('CATALOG:PRODUCTS_CHANGED', updated);
         return updated;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn('[ProductRepository] Error al sincronizar con backend SQLite:', e);
+    }
     return local;
   }
 
@@ -50,10 +55,10 @@ export class ProductRepository {
 
   static addProduct(newProd: Omit<Product, 'id'>): Product {
     const prods = this.getProducts();
-    const created = { ...newProd, id: prods.length > 0 ? Math.max(...prods.map((p) => p.id)) + 1 : 1 };
-    this.cachedProducts = [created, ...prods];
-    this.persist(this.cachedProducts);
-    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cachedProducts);
+    const created = { ...newProd, id: prods.length ? Math.max(...prods.map((p) => p.id)) + 1 : 1 };
+    this.cached = [created, ...prods];
+    this.persist(this.cached);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cached);
     return created;
   }
 
@@ -63,35 +68,38 @@ export class ProductRepository {
     if (idx === -1) return undefined;
     const updated = { ...prods[idx], ...fields };
     prods[idx] = updated;
-    this.cachedProducts = [...prods];
-    this.persist(this.cachedProducts);
-    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cachedProducts);
-    const d1Id = getD1PlatformId(updated.brand || updated.name);
-    if (d1Id) actualizarPlataforma(d1Id, updated.modes?.pantalla?.prices?.['1m'] || 15000, updated.available).catch(() => {});
+    this.cached = [...prods];
+    this.persist(this.cached);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cached);
+
+    const platId = getD1PlatformId(updated.brand || updated.name);
+    if (platId) {
+      const price = updated.modes?.pantalla?.prices?.['1m'] || 15000;
+      ApiHttpClient.put('/plataformas', { id: platId, precio: price, activo: updated.available !== false }).catch(() => {});
+    }
     return updated;
   }
 
   static deleteProduct(id: number): boolean {
-    const filtered = this.getProducts().filter((p) => p.id !== id);
-    this.cachedProducts = filtered;
-    this.persist(filtered);
-    eventBus.emit('CATALOG:PRODUCTS_CHANGED', filtered);
+    this.cached = this.getProducts().filter((p) => p.id !== id);
+    this.persist(this.cached);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cached);
     return true;
   }
 
   static toggleAvailability(id: number): Product | undefined {
-    const product = this.getProductById(id);
-    return product ? this.updateProduct(id, { available: !product.available }) : undefined;
+    const p = this.getProductById(id);
+    return p ? this.updateProduct(id, { available: !p.available }) : undefined;
   }
 
   static resetToDefaults(): Product[] {
-    this.cachedProducts = [...initialProductsData];
-    this.persist(this.cachedProducts);
-    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cachedProducts);
-    return this.cachedProducts;
+    this.cached = [...initialProductsData];
+    this.persist(this.cached);
+    eventBus.emit('CATALOG:PRODUCTS_CHANGED', this.cached);
+    return this.cached;
   }
 
   private static persist(products: Product[]): void {
-    try { localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products)); } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(products)); } catch {}
   }
 }

@@ -40,10 +40,12 @@ export const HeroBackdropVideo: React.FC<HeroBackdropVideoProps> = ({
     </button>
     <div className="absolute top-3 left-3 right-3 z-30 flex items-center justify-between pointer-events-auto">
       <div className="flex items-center gap-2">
-        <span className="bg-slate-950/80 backdrop-blur-md text-white text-xs font-black px-3 py-1 rounded-full border border-white/10 flex items-center gap-1.5 shadow-md">
-          <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-4 h-4" />
-          {activeMovie.brand}
-        </span>
+        {activeMovie.brand && (
+          <span className="bg-slate-950/80 backdrop-blur-md text-white text-xs font-black px-3 py-1 rounded-full border border-white/10 flex items-center gap-1.5 shadow-md">
+            {activeMovie.icon && <PlatformIcon icon={activeMovie.icon} name={activeMovie.brand} className="w-4 h-4" />}
+            {activeMovie.brand}
+          </span>
+        )}
         <span className="bg-slate-950/80 backdrop-blur-md text-amber-400 text-xs font-extrabold px-3 py-1 rounded-full border border-amber-500/30 flex items-center gap-1 shadow-md">
           <Star className="w-3.5 h-3.5 fill-amber-400" />
           {activeMovie.rating}

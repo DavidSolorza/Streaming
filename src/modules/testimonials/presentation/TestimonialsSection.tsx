@@ -1,29 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TestimonialsHeader } from './TestimonialsHeader';
-import { TestimonialCard, Testimonial } from './TestimonialCard';
+import { TestimonialCard } from './TestimonialCard';
 import { TestimonialsCTA } from './TestimonialsCTA';
-
-const TESTIMONIALS: Testimonial[] = [
-  { id: '1', name: 'Camila Torres', city: 'Bogotá D.C.', product: 'Canva Pro (12 Meses)', comment: '¡Excelente servicio! Pagué por Nequi mi suscripción de Canva Pro y en menos de 3 minutos ya la tenía activada en mi correo personal.', rating: 5, date: 'Hace 2 días', avatarBg: 'bg-teal-500/20 text-teal-700 border-teal-300', initials: 'CT' },
-  { id: '2', name: 'Mateo Bermúdez', city: 'Medellín', product: 'Netflix Original & Disney+', comment: 'Llevo 8 meses renovando mis pantallas con JP. La atención por WhatsApp es súper rápida y amigable. Nunca he tenido caídas.', rating: 5, date: 'Hace 4 días', avatarBg: 'bg-red-500/20 text-red-700 border-red-300', initials: 'MB' },
-  { id: '3', name: 'Daniela Morales', city: 'Cali', product: 'Combo VIP (Max + Crunchyroll)', comment: 'Compré el combo para ver mis series y animes favoritos. El ahorro frente a pagar las plataformas por separado es gigante.', rating: 5, date: 'Hace 1 semana', avatarBg: 'bg-purple-500/20 text-purple-700 border-purple-300', initials: 'DM' },
-  { id: '4', name: 'Santiago Ríos', city: 'Bucaramanga', product: 'CapCut Pro & Gemini AI', comment: 'Trabajo creando contenido y necesitaba CapCut sin marca de agua e inteligencia artificial. Me activaron ambas herramientas el mismo día.', rating: 5, date: 'Hace 1 semana', avatarBg: 'bg-blue-500/20 text-blue-700 border-blue-300', initials: 'SR' },
-  { id: '5', name: 'Valentina Gómez', city: 'Barranquilla', product: 'Netflix Único (Código)', comment: 'Me explicaron paso a paso con amabilidad cómo ingresar el código de acceso. Es súper fácil y seguro.', rating: 5, date: 'Hace 2 semanas', avatarBg: 'bg-amber-500/20 text-amber-700 border-amber-300', initials: 'VG' },
-  { id: '6', name: 'Andrés Felipe Ruiz', city: 'Pereira', product: 'IPTV Latino & Spotify', comment: 'Los canales de fútbol en vivo se ven nítidos sin cortes. Ya le recomendé Cuentas JP a todos mis compañeros.', rating: 5, date: 'Hace 2 semanas', avatarBg: 'bg-emerald-500/20 text-emerald-700 border-emerald-300', initials: 'AR' }
-];
+import { TestimonialsFilterBar } from './TestimonialsFilterBar';
+import { NewCommentModal } from './NewCommentModal';
+import { Review } from '../domain/entities/Review';
+import { ReviewRepository } from '../infrastructure/reviewRepository';
 
 export const TestimonialsSection: React.FC = () => {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<'all' | 'user' | '5stars'>('all');
+  const [sortBy, setSortBy] = useState<'recent' | 'rating'>('recent');
+
+  const loadData = async () => {
+    const data = await ReviewRepository.getReviews();
+    setReviews(data.filter(r => r.isApproved !== false));
+  };
+
+  useEffect(() => { loadData(); }, []);
+
+  const handleAddComment = async (comment: any) => {
+    await ReviewRepository.addReview({
+      name: comment.name,
+      city: comment.city,
+      product: comment.product,
+      comment: comment.comment,
+      rating: comment.rating,
+      avatarBg: comment.avatarBg || 'bg-teal-500/20 text-teal-700 border-teal-300',
+      initials: comment.initials || 'JP',
+      isApproved: true,
+      isUserCreated: true,
+    });
+    await loadData();
+    setActiveFilter('all');
+    setSortBy('recent');
+  };
+
+  const filtered = reviews.filter(t => {
+    if (activeFilter === 'user') return t.isUserCreated;
+    if (activeFilter === '5stars') return t.rating === 5;
+    return true;
+  });
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === 'rating') return b.rating - a.rating;
+    return 0;
+  });
+
+  const userCommentsCount = reviews.filter(t => t.isUserCreated).length;
+
   return (
     <section id="testimonios" className="py-14 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-y border-slate-200/80">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <TestimonialsHeader />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <TestimonialsHeader onOpenNewCommentModal={() => setIsModalOpen(true)} totalCommentsCount={reviews.length} />
+
+        <TestimonialsFilterBar
+          activeFilter={activeFilter}
+          setActiveFilter={setActiveFilter}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          totalCount={reviews.length}
+          userCommentsCount={userCommentsCount}
+          onOpenModal={() => setIsModalOpen(true)}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {TESTIMONIALS.map((t) => (
-            <TestimonialCard key={t.id} testimonial={t} />
+          {sorted.map(t => (
+            <TestimonialCard key={t.id} testimonial={t as any} />
           ))}
         </div>
+
         <TestimonialsCTA />
       </div>
+
+      <NewCommentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddComment={handleAddComment} />
     </section>
   );
 };
