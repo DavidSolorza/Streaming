@@ -71,7 +71,7 @@ export const TestimonialsSection: React.FC = () => {
           ))}
         </div>
 
-        <TestimonialsCTA />
+        <TestimonialsCTA onOpenNewCommentModal={() => setIsModalOpen(true)} />
       </div>
 
       <NewCommentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddComment={handleAddComment} />

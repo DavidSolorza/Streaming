@@ -73,13 +73,26 @@ export class ServerRouter {
         return this.sendJson(res, 200, { success: true, data });
       }
       if (path === '/api/reviews' && method === 'GET') {
-        const data = await this.reviews.getAllReviews();
+        const onlyApproved = url.searchParams.get('all') !== 'true';
+        const data = await this.reviews.getAllReviews(onlyApproved);
         return this.sendJson(res, 200, { success: true, data });
       }
       if (path === '/api/reviews' && method === 'POST') {
         const body = await this.readJsonBody(req);
         const data = await this.reviews.createReview(body);
         return this.sendJson(res, 201, { success: true, data });
+      }
+      if (path.startsWith('/api/reviews/') && (method === 'PUT' || method === 'PATCH')) {
+        const id = parseInt(path.replace('/api/reviews/', ''), 10);
+        const body = await this.readJsonBody(req);
+        const isApproved = body.isApproved !== false;
+        const data = await this.reviews.toggleVisibility(id, isApproved);
+        return this.sendJson(res, 200, { success: true, data });
+      }
+      if (path.startsWith('/api/reviews/') && method === 'DELETE') {
+        const id = parseInt(path.replace('/api/reviews/', ''), 10);
+        const data = await this.reviews.deleteReview(id);
+        return this.sendJson(res, 200, { success: true, data });
       }
       if (path === '/api/admin/login' && method === 'POST') {
         const body = await this.readJsonBody(req);

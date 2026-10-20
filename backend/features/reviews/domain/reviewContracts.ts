@@ -5,6 +5,7 @@ export interface ReviewDTO {
   comment: string;
   rating: number;
   verified: number;
+  is_approved: number;
   created_at: string;
 }
 
@@ -16,7 +17,8 @@ export interface CreateReviewInput {
 }
 
 export interface IReviewRepository {
-  getAllReviews(): ReviewDTO[];
+  getAllReviews(onlyApproved?: boolean): ReviewDTO[];
   createReview(input: CreateReviewInput): ReviewDTO;
+  toggleVisibility(id: number, isApproved: boolean): boolean;
   deleteReview(id: number): boolean;
 }

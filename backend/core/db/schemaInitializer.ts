@@ -48,6 +48,7 @@ export class SchemaInitializer {
         comment TEXT NOT NULL,
         rating INTEGER NOT NULL,
         verified INTEGER DEFAULT 1,
+        is_approved INTEGER DEFAULT 1,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
