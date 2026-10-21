@@ -28,7 +28,8 @@ export const DEFAULT_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 26000,
     productId: 3,
     youtubeId: 'Bk1Hf0FtR7k',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w342/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w780/hHPIefotew38oJm3YCJPAzpi26c.jpg',
     whatsappMessage: '*SOLICITUD DE STREAMING*\n──────────────────────────\n*Película:* Moana 2\n*Plataforma:* Disney+ Premium\n*Precio:* $16.000 COP / mes\n──────────────────────────\nDeseo contratar este servicio. ¿Me compartes los datos de pago para entrega inmediata?',
   },
   {
@@ -43,7 +44,8 @@ export const DEFAULT_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 25000,
     productId: 4,
     youtubeId: '339paLFRKlo',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/szyVpg9K3LL5s8VFAGkXzlxgZUk.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w342/szyVpg9K3LL5s8VFAGkXzlxgZUk.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w780/etj5CuMuamjhGj1p1c2P5f3F4p6.jpg',
     whatsappMessage: '*SOLICITUD DE STREAMING*\n──────────────────────────\n*Película:* La Casa del Dragón\n*Plataforma:* Max (HBO)\n*Precio:* $15.000 COP / mes\n──────────────────────────\nDeseo contratar este servicio. ¿Me compartes los datos de pago para entrega inmediata?',
   },
   {
@@ -58,7 +60,8 @@ export const DEFAULT_MOVIES: FeaturedMovieItem[] = [
     regularPrice: 27000,
     productId: 2,
     youtubeId: 'mnd7sFt5c3A',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/AsPD90QEQsIAtSxfSjV3fN7XFpt.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w342/AsPD90QEQsIAtSxfSjV3fN7XFpt.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/w780/56v2ox9huwvJCu9Vz0ywOtYo8q8.jpg',
     whatsappMessage: '*SOLICITUD DE STREAMING*\n──────────────────────────\n*Película:* Stranger Things\n*Plataforma:* Netflix Original 4K\n*Precio:* $17.000 COP / mes\n──────────────────────────\nDeseo contratar este servicio. ¿Me compartes los datos de pago para entrega inmediata?',
   },
 ];

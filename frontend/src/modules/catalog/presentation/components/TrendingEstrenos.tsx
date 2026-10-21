@@ -24,7 +24,9 @@ export const TrendingEstrenos: React.FC<TrendingEstrenosProps> = ({ onSelectPlat
   };
 
   useEffect(() => {
-    fetchTrendingData(false);
+    if (estrenos.length === 0) {
+      fetchTrendingData(false);
+    }
     const unsub = eventBus.on('CATALOG:REFRESH_TRENDING', () => fetchTrendingData(true));
     return () => { unsub(); };
   }, []);

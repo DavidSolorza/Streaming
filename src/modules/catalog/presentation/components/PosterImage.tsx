@@ -33,6 +33,8 @@ export const PosterImage: React.FC<PosterImageProps> = ({
     );
   }
 
+  const optimizedSrc = src ? src.replace('/t/p/w500/', '/t/p/w342/') : src;
+
   return (
     <div className="relative w-full h-full bg-slate-900 overflow-hidden">
       {!isLoaded && (
@@ -42,8 +44,10 @@ export const PosterImage: React.FC<PosterImageProps> = ({
       )}
       <img
         ref={handleImageRef}
-        src={src}
+        src={optimizedSrc}
         alt={alt}
+        width="155"
+        height="235"
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         loading="lazy"

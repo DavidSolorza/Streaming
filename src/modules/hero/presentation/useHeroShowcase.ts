@@ -20,9 +20,12 @@ export function useHeroShowcase() {
   const activeMovie = movies[activeIndex] || movies[0];
 
   useEffect(() => {
-    HeroMovieRepository.fetchLiveMovies().then((live) => {
-      if (live && live.length > 0) setMovies(live);
-    });
+    const timer = setTimeout(() => {
+      HeroMovieRepository.fetchLiveMovies().then((live) => {
+        if (live && live.length > 0) setMovies(live);
+      });
+    }, 6000);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => { setHasVideoError(false); }, [activeIndex]);
