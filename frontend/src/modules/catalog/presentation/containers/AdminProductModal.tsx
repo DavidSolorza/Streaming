@@ -47,7 +47,7 @@ export const AdminProductModal: React.FC = () => {
             <div className="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center shadow-sm"><ShieldCheck className="w-5 h-5" /></div>
             <div><h3 className="font-extrabold text-slate-900 text-lg">Panel de Administración Express</h3><p className="text-xs text-slate-500 font-medium">Gestión de catálogo y precios</p></div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="w-9 h-9 rounded-xl bg-white hover:bg-slate-200/60 text-slate-500 transition flex items-center justify-center border border-slate-200"><X className="w-5 h-5" /></button>
+          <button onClick={() => setIsOpen(false)} aria-label="Cerrar panel de administración express" className="w-9 h-9 rounded-xl bg-white hover:bg-slate-200/60 text-slate-500 transition flex items-center justify-center border border-slate-200"><X className="w-5 h-5" /></button>
         </div>
         <div className="px-6 py-3 bg-white border-b border-slate-100 flex items-center justify-between">
           <div className="flex space-x-2">

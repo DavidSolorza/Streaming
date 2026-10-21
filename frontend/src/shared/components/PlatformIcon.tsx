@@ -86,6 +86,7 @@ export const PlatformIcon: React.FC<PlatformIconProps> = ({
         alt={alt || name || 'icono de plataforma'}
         className={`${className} object-contain inline-block shrink-0`}
         loading="lazy"
+        decoding="async"
       />
     );
   }

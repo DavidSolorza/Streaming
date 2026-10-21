@@ -11,7 +11,7 @@ const links = [
 
 export const FooterNavLinks: React.FC = () => (
   <div>
-    <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Explorar</h4>
+    <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Explorar</h3>
     <ul className="space-y-2.5 text-xs">
       {links.map((link) => (
         <li key={link.href}>

@@ -20,7 +20,7 @@ export const MobileBottomDock: React.FC = () => {
         <HelpCircle className="w-4 h-4 text-slate-600" />
         <span>Garantía</span>
       </a>
-      <button onClick={handleOpenCart} className="flex flex-col items-center gap-1 relative hover:text-slate-900">
+      <button onClick={handleOpenCart} aria-label="Abrir carrito de compras" className="flex flex-col items-center gap-1 relative hover:text-slate-900">
         <ShoppingBag className="w-4 h-4 text-slate-600" />
         <span>Carrito</span>
         <span className="absolute -top-1 right-1 bg-rose-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">

@@ -27,7 +27,7 @@ export const TrendingCard: React.FC<TrendingCardProps> = ({ item, onClick }) => 
       </span>
     </div>
     <div className="absolute bottom-2.5 inset-x-2.5 z-10">
-      <h4 className="font-extrabold text-white text-xs sm:text-sm line-clamp-2 leading-snug drop-shadow-md mb-0.5">{item.title}</h4>
+      <h3 className="font-extrabold text-white text-xs sm:text-sm line-clamp-2 leading-snug drop-shadow-md mb-0.5">{item.title}</h3>
       {item.platform ? (
         <p className="text-[10px] text-slate-300 font-bold flex items-center gap-1 group-hover:text-blue-300 transition-colors">
           <span>Ver en {item.platform}</span>

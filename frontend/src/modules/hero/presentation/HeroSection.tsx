@@ -23,7 +23,7 @@ export const HeroSection: React.FC = () => {
         <div className="text-center max-w-4xl mx-auto mb-2 sm:mb-4 space-y-3">
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white border border-blue-200 shadow-md shadow-blue-500/10">
             <div className="w-10 h-10 rounded-full overflow-hidden border border-blue-600 ring-2 ring-blue-500/20 shrink-0">
-              <img src="/perfil.png" alt="Cuentas y plataformas de streaming JP" className="w-full h-full object-cover rounded-full" />
+              <img src="/perfil.png" alt="Cuentas y plataformas de streaming JP" width="40" height="40" decoding="async" className="w-full h-full object-cover rounded-full" />
             </div>
             <span className="font-black text-xs sm:text-sm text-slate-900 tracking-tight">
               Cuentas y plataformas de streaming <span className="text-blue-700">JP</span>

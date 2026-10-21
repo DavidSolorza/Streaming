@@ -4,7 +4,7 @@ import { Clock, Zap, MessageCircle, ShieldCheck } from 'lucide-react';
 export const FooterSupport: React.FC = () => (
   <>
     <div className="space-y-3">
-      <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Atención al Cliente</h4>
+      <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Atención al Cliente</h3>
       <a
         href="https://wa.me/573214465418?text=Hola%20Quiero%20mas%20informacion"
         target="_blank"
@@ -32,7 +32,7 @@ export const FooterSupport: React.FC = () => (
       </div>
     </div>
     <div>
-      <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Respaldo & Compromiso</h4>
+      <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Respaldo & Compromiso</h3>
       <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2">
         <div className="flex items-center gap-2 text-white font-medium text-xs">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />

@@ -23,7 +23,7 @@ export const CartDrawer: React.FC = () => {
             <h2 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-blue-700" /> Tu Carrito Express
             </h2>
-            <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-slate-900 p-1 transition rounded-lg hover:bg-slate-100">
+            <button onClick={() => setIsOpen(false)} aria-label="Cerrar carrito de compras" className="text-slate-400 hover:text-slate-900 p-1 transition rounded-lg hover:bg-slate-100">
               <X className="w-5 h-5" />
             </button>
           </div>

@@ -11,7 +11,7 @@ const SEED_REVIEWS: Review[] = [
 ];
 
 export class ReviewRepository {
-  static async getReviews(): Promise<Review[]> {
+  static async getReviews(_all?: boolean): Promise<Review[]> {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {

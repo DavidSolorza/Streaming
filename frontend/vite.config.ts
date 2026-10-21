@@ -10,7 +10,24 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(import.meta.dirname, './src')
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id: string) {
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/lucide-react/') || id.includes('node_modules/@iconify/')) {
+            return 'vendor-icons';
+          }
+          if (id.includes('node_modules/zustand/')) {
+            return 'vendor-state';
+          }
+        }
+      }
     }
   },
   server: {

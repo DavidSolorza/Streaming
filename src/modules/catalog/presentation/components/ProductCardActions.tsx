@@ -32,11 +32,11 @@ export const ProductCardActions: React.FC<ProductCardActionsProps> = ({
       </button>
     )}
     <div className="grid grid-cols-2 gap-2 text-slate-600 text-xs font-bold">
-      <button onClick={onOpenDetails} className="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg flex items-center justify-center gap-1 transition">
+      <button onClick={onOpenDetails} aria-label="Ver detalles del producto" className="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg flex items-center justify-center gap-1 transition">
         <Info className="w-3.5 h-3.5" />
         <span>Detalles</span>
       </button>
-      <button disabled={!available} onClick={onAddToCart} className={`py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border transition disabled:opacity-50 ${isAdded ? 'bg-emerald-50 text-emerald-700 border-emerald-200 font-bold' : 'bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border-transparent hover:border-blue-200'}`}>
+      <button disabled={!available} onClick={onAddToCart} aria-label="Añadir producto al carrito" className={`py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 border transition disabled:opacity-50 ${isAdded ? 'bg-emerald-50 text-emerald-700 border-emerald-200 font-bold' : 'bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border-transparent hover:border-blue-200'}`}>
         {isAdded ? (
           <>
             <Check className="w-3.5 h-3.5 text-emerald-600" />

@@ -49,9 +49,11 @@ export const TestimonialsFilterBar: React.FC<Props> = ({
 
     <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
       <div className="flex items-center gap-2">
-        <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
-        <span className="text-xs font-extrabold text-slate-500">Ordenar:</span>
+        <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+        <label htmlFor="testimonials-sort" className="text-xs font-extrabold text-slate-600">Ordenar:</label>
         <select
+          id="testimonials-sort"
+          aria-label="Ordenar testimonios"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as any)}
           className="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-800"
@@ -60,7 +62,11 @@ export const TestimonialsFilterBar: React.FC<Props> = ({
           <option value="rating">Mejor Calificados</option>
         </select>
       </div>
-      <button onClick={onOpenModal} className="sm:hidden px-3.5 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-extrabold flex items-center gap-1">
+      <button
+        onClick={onOpenModal}
+        aria-label="Dejar una opinión o comentario"
+        className="sm:hidden px-3.5 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-extrabold flex items-center gap-1"
+      >
         <MessageSquarePlus className="w-3.5 h-3.5" /> Opinar
       </button>
     </div>

@@ -53,6 +53,7 @@ export const Modal: React.FC<ModalProps> = ({
             </div>
             <button
               onClick={onClose}
+              aria-label="Cerrar ventana modal"
               className="text-slate-500 hover:text-slate-900 text-2xl font-bold w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition"
             >
               &times;

@@ -77,7 +77,7 @@ export const NewCommentModal: React.FC<NewCommentModalProps> = ({ isOpen, onClos
               <p className="text-xs text-slate-300 font-medium">Comparte tu experiencia con Cuentas JP</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-all">
+          <button onClick={onClose} aria-label="Cerrar modal de comentario" className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-all">
             <X className="w-4 h-4" />
           </button>
         </div>

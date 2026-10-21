@@ -1,0 +1,6 @@
+# robots.txt para Cuentas y Pantallas de Streaming JP
+User-agent: *
+Allow: /
+Disallow: /#admin
+
+Sitemap: https://streaming-brown-rho.vercel.app/sitemap.xml

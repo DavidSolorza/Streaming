@@ -22,7 +22,8 @@ export const AnnouncementBanner: React.FC = () => {
       <span>{announcement}</span>
       <button
         onClick={() => setIsVisible(false)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 transition p-1"
+        aria-label="Cerrar aviso promocional"
+        className="absolute right-3 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 transition p-1 cursor-pointer"
         title="Cerrar aviso"
       >
         <X className="w-4 h-4 text-white" />

@@ -40,7 +40,7 @@ export const RecursiveFaqNode: React.FC<RecursiveFaqNodeProps> = ({ item, isOpen
           <div className="flex items-center gap-3">
             <div className="p-2 bg-slate-100 rounded-xl shrink-0">{item.icon}</div>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">{item.category}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 block mb-0.5">{item.category}</span>
               <span className="text-slate-900 leading-snug">{item.question}</span>
             </div>
           </div>

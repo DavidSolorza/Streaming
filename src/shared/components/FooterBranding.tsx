@@ -5,7 +5,7 @@ export const FooterBranding: React.FC = () => (
   <div className="space-y-4">
     <div className="flex items-center gap-3">
       <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 ring-2 ring-blue-500/20 shadow-md flex items-center justify-center bg-white shrink-0 p-0.5">
-        <img src="/perfil.png" alt="Cuentas y plataformas de streaming JP" className="w-full h-full object-cover rounded-full" />
+        <img src="/perfil.png" alt="Cuentas y plataformas de streaming JP" width="48" height="48" loading="lazy" decoding="async" className="w-full h-full object-cover rounded-full" />
       </div>
       <div>
         <span className="font-black text-sm text-white tracking-wide block leading-tight">

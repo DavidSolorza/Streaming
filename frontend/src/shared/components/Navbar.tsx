@@ -41,12 +41,12 @@ export const Navbar: React.FC = () => {
           }}
         >
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-3 border-blue-600 ring-4 ring-blue-500/25 shadow-2xl shadow-blue-600/30 flex items-center justify-center bg-white shrink-0 p-0.5 transition-all duration-300 group-hover:scale-105 group-hover:ring-blue-500/50">
-            <img src="/perfil.png" alt={config.storeName} className="w-full h-full object-cover rounded-full" />
+            <img src="/perfil.png" alt={config.storeName} width="80" height="80" decoding="async" className="w-full h-full object-cover rounded-full" />
           </div>
           <div className="min-w-0">
-            <h1 className="font-black text-sm sm:text-base md:text-lg tracking-tight text-slate-900 leading-tight">
+            <span className="font-black text-sm sm:text-base md:text-lg tracking-tight text-slate-900 leading-tight block">
               {config.storeName && config.storeName.includes('JP') ? config.storeName : 'Cuentas y plataformas de streaming JP'}
-            </h1>
+            </span>
             <span className="text-[10px] sm:text-[11px] text-blue-700 font-black uppercase tracking-wider block mt-0.5">
               {config.storeSubtitle && config.storeSubtitle !== 'Multiplataformas' ? config.storeSubtitle : 'Entretenimiento & Licencias Premium'}
             </span>
@@ -66,6 +66,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center space-x-2.5">
           <button
             onClick={handleOpenAdmin}
+            aria-label="Panel Administrador"
             className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300/60 px-3 py-2 rounded-xl transition font-extrabold flex items-center gap-1.5"
             title="Panel Administrador (Mundo Independiente)"
           >
@@ -76,6 +77,7 @@ export const Navbar: React.FC = () => {
             href={`https://wa.me/${cleanPhone}?text=Hola%20Quiero%20mas%20informacion`}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Contactar soporte por WhatsApp"
             className="hidden sm:flex text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-500/20 px-3.5 py-2 rounded-xl transition font-extrabold items-center gap-1.5"
           >
             <MessageCircle className="w-4 h-4 text-emerald-600" />
@@ -83,6 +85,7 @@ export const Navbar: React.FC = () => {
           </a>
           <button
             onClick={handleOpenCart}
+            aria-label="Ver Carrito Express"
             className="hidden sm:flex relative bg-blue-700 hover:bg-blue-800 text-white p-2.5 rounded-xl transition shadow-lg shadow-blue-600/20 items-center justify-center"
             title="Ver Carrito Express"
           >
